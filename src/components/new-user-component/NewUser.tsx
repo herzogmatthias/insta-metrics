@@ -9,12 +9,13 @@ import {
   DialogActions,
   Button
 } from "@material-ui/core";
-import { RootState } from "../redux/reducer";
+import { RootState } from "../../redux/reducer";
 import { bindActionCreators } from "redux";
 import {
-  close_new_user_modal,
-  change_username_input
-} from "../redux/actions/newUserAction";
+  changeUsernameInput,
+  closeNewUserModal,
+  addUser
+} from "../../redux/actions/newUserAction";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -47,8 +48,11 @@ export function NewUser(props: Props) {
         <Button onClick={props.closeModal} color="primary">
           Cancel
         </Button>
-        <Button onClick={props.closeModal} color="primary">
-          Subscribe
+        <Button
+          onClick={() => props.addUserWithUsername(props.username)}
+          color="primary"
+        >
+          Add
         </Button>
       </DialogActions>
     </Dialog>
@@ -65,8 +69,9 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
-      closeModal: close_new_user_modal,
-      onChangeUsername: (t: string) => change_username_input(t)
+      closeModal: closeNewUserModal,
+      onChangeUsername: (t: string) => changeUsernameInput(t),
+      addUserWithUsername: (username: string) => addUser(username)
     },
     dispatch
   );

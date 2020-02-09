@@ -29,7 +29,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MenuIcon from "@material-ui/icons/Menu";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { Skeleton } from "@material-ui/lab";
-import { open_new_user_modal } from "../../redux/actions/newUserAction";
+import { openNewUserModal } from "../../redux/actions/newUserAction";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -42,6 +42,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     skeletonBackground: {
       backgroundColor: "lightgrey"
+    },
+    listItemTextOverflow: {
+      overflow: "hidden",
+      wordBreak: "break-word",
+      textOverflow: "ellipsis"
     },
     skeletonCircle: {
       height: "40px",
@@ -122,8 +127,9 @@ export function DoubleNavigation(props: Props) {
               <Avatar src={val.avatar}></Avatar>
             </ListItemAvatar>
             <ListItemText
-              secondary={"@" + val.username}
-              primary={val.name}
+              className={classes.listItemTextOverflow}
+              secondary={<span title={val.username}>"@" + val.username</span>}
+              primary={<span title={val.name}>val.name</span>}
             ></ListItemText>
             {open ? (
               <ListItemSecondaryAction>
@@ -255,7 +261,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   initData: getBasicInformation,
-  openModal: open_new_user_modal
+  openModal: openNewUserModal
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connect(mapStateToProps, mapDispatchToProps)(DoubleNavigation);

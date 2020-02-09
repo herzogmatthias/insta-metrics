@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { HomeState, ADD_TODO } from "../../redux/types/homeTypes";
 import { RootState } from "../../redux/reducer";
 import DoubleNavigation from "../../components/sidebar-component/DoubleNavigation";
-import NewUser from "../../new-user-component/NewUser";
+import NewUser from "../../components/new-user-component/NewUser";
 
 type Props = ConnectedProps<typeof connector>;
 

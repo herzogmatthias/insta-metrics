@@ -1,9 +1,15 @@
-import { newUserState, NewUserActionTypes } from "../types/newUserTypes";
+import {
+  newUserState,
+  NewUserActionTypes,
+  addUserError
+} from "../types/newUserTypes";
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
-  open_new_user_modal,
-  close_new_user_modal,
-  change_username_input
+  openNewUserModal,
+  closeNewUserModal,
+  changeUsernameInput,
+  usernameHasError,
+  usernameHasNoError
 } from "../actions/newUserAction";
 
 const initialState: newUserState = {
@@ -14,13 +20,20 @@ const initialState: newUserState = {
 };
 
 export const newUserReducer = createReducer(initialState, {
-  [open_new_user_modal.type]: (state, action) => {
+  [openNewUserModal.type]: (state, action) => {
     state.open = true;
   },
-  [close_new_user_modal.type]: (state, action) => {
+  [closeNewUserModal.type]: (state, action) => {
     state.open = false;
   },
-  [change_username_input.type]: (state, action: PayloadAction<string>) => {
+  [changeUsernameInput.type]: (state, action: PayloadAction<string>) => {
     state.username = action.payload;
+  },
+  [usernameHasError.type]: (state, action: PayloadAction<addUserError>) => {
+    state.hasError = action.payload.error;
+    state.error = action.payload.text;
+  },
+  [usernameHasNoError.type]: (state, action) => {
+    state = initialState;
   }
 });
