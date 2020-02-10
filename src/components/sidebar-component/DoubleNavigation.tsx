@@ -128,8 +128,8 @@ export function DoubleNavigation(props: Props) {
             </ListItemAvatar>
             <ListItemText
               className={classes.listItemTextOverflow}
-              secondary={<span title={val.username}>"@" + val.username</span>}
-              primary={<span title={val.name}>val.name</span>}
+              secondary={<span title={val.username}>@{val.username}</span>}
+              primary={<span title={val.name}>{val.name}</span>}
             ></ListItemText>
             {open ? (
               <ListItemSecondaryAction>
@@ -240,7 +240,7 @@ export function DoubleNavigation(props: Props) {
         <List>{renderList()}</List>
         <Divider></Divider>
         <List>
-          <ListItem onClick={props.openModal}>
+          <ListItem button onClick={props.openModal}>
             <ListItemAvatar>
               <Avatar>
                 <PersonAddIcon></PersonAddIcon>

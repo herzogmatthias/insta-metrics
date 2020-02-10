@@ -5,7 +5,7 @@ import {
   NewUserActionTypes,
   CHANGE_USERNAME_INPUT,
   USERNAME_HAS_ERROR,
-  addUserError,
+  AddUserError,
   USERNAME_HAS_NO_ERROR
 } from "../types/newUserTypes";
 import { withPayloadType } from "./genericActionPayloadType";
@@ -21,7 +21,7 @@ export const changeUsernameInput = createAction(
 );
 export const usernameHasError = createAction(
   USERNAME_HAS_ERROR,
-  withPayloadType<addUserError>()
+  withPayloadType<AddUserError>()
 );
 export const usernameHasNoError = createAction(USERNAME_HAS_NO_ERROR);
 
@@ -36,7 +36,7 @@ export function addUser(username: string) {
         });
       })
       .catch(error => {
-        const usernameError: addUserError = {
+        const usernameError: AddUserError = {
           error: error.response.data.error,
           text: error.response.data.text
         };

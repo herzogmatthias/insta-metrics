@@ -21,7 +21,7 @@ interface closeNewUserModal {
   payload: boolean;
 }
 
-export interface addUserError {
+export interface AddUserError {
   error: boolean;
   text: string;
 }

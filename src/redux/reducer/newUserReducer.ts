@@ -1,7 +1,7 @@
 import {
   newUserState,
   NewUserActionTypes,
-  addUserError
+  AddUserError
 } from "../types/newUserTypes";
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
@@ -29,7 +29,7 @@ export const newUserReducer = createReducer(initialState, {
   [changeUsernameInput.type]: (state, action: PayloadAction<string>) => {
     state.username = action.payload;
   },
-  [usernameHasError.type]: (state, action: PayloadAction<addUserError>) => {
+  [usernameHasError.type]: (state, action: PayloadAction<AddUserError>) => {
     state.hasError = action.payload.error;
     state.error = action.payload.text;
   },
