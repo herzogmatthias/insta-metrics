@@ -2,7 +2,8 @@ import { createAction } from "@reduxjs/toolkit";
 import {
   FETCH_BASIC_INFORMATION,
   USERNAME_IS_VALID,
-  BasicUserInformation
+  BasicUserInformation,
+  SELECT_USER
 } from "../types/sidebarTypes";
 import axios from "axios";
 import { withPayloadType } from "./genericActionPayloadType";
@@ -17,10 +18,15 @@ export const usernameIsValid = createAction(
   withPayloadType<BasicUserInformation>()
 );
 
+export const selectUser = createAction(SELECT_USER, withPayloadType<string>());
+
 export function getBasicInformation() {
   return (dispatch: any) => {
     axios.get(URI + "basic-information").then(res => {
       dispatch({ type: FETCH_BASIC_INFORMATION, payload: res.data });
+      if (res.data.length != 0) {
+        dispatch({ type: SELECT_USER, payload: res.data[0].username });
+      }
     });
   };
 }

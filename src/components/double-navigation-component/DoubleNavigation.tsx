@@ -1,7 +1,10 @@
 import React, { Component, useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../redux/reducer";
-import { getBasicInformation } from "../../redux/actions/sidebarActions";
+import {
+  getBasicInformation,
+  selectUser
+} from "../../redux/actions/sidebarActions";
 import clsx from "clsx";
 import {
   makeStyles,
@@ -30,8 +33,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { Skeleton } from "@material-ui/lab";
 import { openNewUserModal } from "../../redux/actions/newUserAction";
+import { RouteComponentProps } from "react-router-dom";
 
-type Props = ConnectedProps<typeof connector>;
+interface IDoubleNavigationProps extends RouteComponentProps<void> {}
+
+type Props = ConnectedProps<typeof connector> & IDoubleNavigationProps;
 
 const drawerWidth = 240;
 
@@ -103,6 +109,13 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(0, 1),
       ...theme.mixins.toolbar
     },
+    textColor: {
+      backgroundImage:
+        "linear-gradient(45deg,#FFDC80,#FCAF45,#F77737,#F56040, #FD1D1D, #E1306C, #C13584, #833AB4, #5851DB, #405DE6)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      fontFamily: "Yellowtail"
+    },
     content: {
       flexGrow: 1,
       padding: theme.spacing(3)
@@ -122,7 +135,16 @@ export function DoubleNavigation(props: Props) {
     if (props.loaded) {
       return props.users.map((val, ind) => {
         return (
-          <ListItem key={ind}>
+          <ListItem
+            selected={val.username === props.selectedUser?.username}
+            onClick={() => {
+              props.selectUser(val.username);
+              props.history.replace("dashboard/" + val.username);
+              console.log(props.location);
+            }}
+            button
+            key={ind}
+          >
             <ListItemAvatar>
               <Avatar src={val.avatar}></Avatar>
             </ListItemAvatar>
@@ -184,13 +206,11 @@ export function DoubleNavigation(props: Props) {
   useEffect(() => {
     async function init() {
       props.initData();
-      console.log(props.users);
     }
     init();
   }, []);
   return (
     <div>
-      <CssBaseline />
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -209,8 +229,8 @@ export function DoubleNavigation(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Mini variant drawer
+          <Typography className={classes.textColor} variant="h4" noWrap>
+            Insta-Metrics
           </Typography>
         </Toolbar>
       </AppBar>
@@ -237,9 +257,9 @@ export function DoubleNavigation(props: Props) {
           </IconButton>
         </div>
         <Divider />
-        <List>{renderList()}</List>
+        <List disablePadding>{renderList()}</List>
         <Divider></Divider>
-        <List>
+        <List disablePadding>
           <ListItem button onClick={props.openModal}>
             <ListItemAvatar>
               <Avatar>
@@ -256,12 +276,14 @@ export function DoubleNavigation(props: Props) {
 
 const mapStateToProps = (state: RootState) => ({
   loaded: state.sidebar.loaded,
-  users: state.sidebar.users
+  users: state.sidebar.users,
+  selectedUser: state.sidebar.selectedUser
 });
 
 const mapDispatchToProps = {
   initData: getBasicInformation,
-  openModal: openNewUserModal
+  openModal: openNewUserModal,
+  selectUser: selectUser
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connect(mapStateToProps, mapDispatchToProps)(DoubleNavigation);

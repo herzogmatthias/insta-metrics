@@ -2,10 +2,14 @@ import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { HomeState, ADD_TODO } from "../../redux/types/homeTypes";
 import { RootState } from "../../redux/reducer";
-import DoubleNavigation from "../../components/sidebar-component/DoubleNavigation";
+import DoubleNavigation from "../../components/double-navigation-component/DoubleNavigation";
 import NewUser from "../../components/new-user-component/NewUser";
+import { Switch, RouteComponentProps } from "react-router-dom";
+import { ProtectedRoute } from "../../router/Router";
+import UserDetails from "../../components/user-details-component/UserDetails";
+import { CssBaseline } from "@material-ui/core";
 
-type Props = ConnectedProps<typeof connector>;
+type Props = ConnectedProps<typeof connector> & RouteComponentProps<void>;
 
 class Home extends React.Component<Props> {
   constructor(props: Props) {
@@ -14,8 +18,18 @@ class Home extends React.Component<Props> {
   public render() {
     return (
       <div>
-        <DoubleNavigation></DoubleNavigation>
+        <CssBaseline />
+        <DoubleNavigation {...this.props}></DoubleNavigation>
         <NewUser></NewUser>
+        <main>
+          <Switch>
+            <ProtectedRoute
+              path="dashboard
+              /:name"
+              component={UserDetails}
+            ></ProtectedRoute>
+          </Switch>
+        </main>
       </div>
     );
   }

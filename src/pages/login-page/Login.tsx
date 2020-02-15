@@ -17,8 +17,13 @@ import { RootState } from "../../redux/reducer/index";
 import { connect, ConnectedProps } from "react-redux";
 import { onPasswordChange, login } from "../../redux/actions/loginAction";
 import { bindActionCreators } from "redux";
+import { RouteComponentProps } from "react-router-dom";
 
-type Props = ConnectedProps<typeof connector>;
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+interface ILoginProps extends RouteComponentProps<void> {}
+
+type Props = PropsFromRedux & ILoginProps;
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -56,7 +61,7 @@ function Login(props: Props) {
         <form
           onSubmit={e => {
             e.preventDefault();
-            props.submitPassword(props.password);
+            props.submitPassword(props.password, props.history);
           }}
           className={classes.form}
         >
@@ -99,7 +104,7 @@ const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
       onChangePassword: (t: string) => onPasswordChange(t),
-      submitPassword: (password: string) => login(password)
+      submitPassword: (password: string, history) => login(password, history)
     },
     dispatch
   );

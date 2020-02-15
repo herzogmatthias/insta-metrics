@@ -2,12 +2,14 @@ import { SidebarState, BasicUserInformation } from "../types/sidebarTypes";
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
   fetchBasicInformation,
-  usernameIsValid
+  usernameIsValid,
+  selectUser
 } from "../actions/sidebarActions";
 
 const initialState: SidebarState = {
   users: [],
-  loaded: false
+  loaded: false,
+  selectedUser: undefined
 };
 
 export const sidebarReducer = createReducer(initialState, {
@@ -23,5 +25,8 @@ export const sidebarReducer = createReducer(initialState, {
     action: PayloadAction<BasicUserInformation>
   ) => {
     state.users = [...state.users, action.payload];
+  },
+  [selectUser.type]: (state, action: PayloadAction<string>) => {
+    state.selectedUser = state.users.find(u => u.username === action.payload);
   }
 });

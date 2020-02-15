@@ -7,6 +7,7 @@ import {
 import { withPayloadType } from "./genericActionPayloadType";
 import Axios from "axios";
 import { URI } from "../config";
+import AuthService from "../../services/AuthService";
 
 export const onPasswordChange = createAction(
   ON_PASSWORD_CHANGE,
@@ -18,10 +19,13 @@ export const passwordIsInvalid = createAction(
   withPayloadType<PasswordError>()
 );
 
-export function login(password: string) {
+export function login(password: string, history: any) {
   return (dispatch: any) => {
     Axios.post(URI + "login", { password: password })
-      .then(value => {})
+      .then(value => {
+        AuthService.setToken(value.data.token);
+        history.push("dashboard");
+      })
       .catch(error => {
         const usernameError: PasswordError = {
           hasError: error.response.data.error,

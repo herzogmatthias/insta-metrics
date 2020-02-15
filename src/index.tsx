@@ -1,13 +1,55 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import './index.css';
-import * as serviceWorker from './serviceWorker';
-import Router from './router/Router';
-import store from './redux/store';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import "./index.css";
+import * as serviceWorker from "./serviceWorker";
+import Router from "./router/Router";
+import store from "./redux/store";
+import Axios from "axios";
+import AuthService from "./services/AuthService";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 
+Axios.interceptors.request.use(
+  function(config) {
+    if (AuthService.getToken()) {
+      config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
+    }
+    return config;
+  },
+  function(err) {
+    return Promise.reject(err);
+  }
+);
 
-ReactDOM.render(<Provider store={store}><Router /></Provider>, document.getElementById('root'));
+const theme = createMuiTheme({
+  overrides: {
+    MuiListItem: {
+      root: {
+        "&$selected": {
+          backgroundColor: "lightgray"
+        },
+        "&$selected:hover": {
+          backgroundColor: "lightgray"
+        }
+      }
+    },
+    MuiAppBar: {
+      colorPrimary: {
+        backgroundColor: "white",
+        color: "black"
+      }
+    }
+  }
+});
+
+ReactDOM.render(
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <Router />
+    </Provider>
+  </ThemeProvider>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
