@@ -139,7 +139,7 @@ export function DoubleNavigation(props: Props) {
             selected={val.username === props.selectedUser?.username}
             onClick={() => {
               props.selectUser(val.username);
-              props.history.replace("dashboard/" + val.username);
+              props.history.replace(val.username);
               console.log(props.location);
             }}
             button

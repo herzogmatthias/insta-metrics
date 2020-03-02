@@ -7,35 +7,50 @@ import NewUser from "../../components/new-user-component/NewUser";
 import { Switch, RouteComponentProps } from "react-router-dom";
 import { ProtectedRoute } from "../../router/Router";
 import UserDetails from "../../components/user-details-component/UserDetails";
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline, CircularProgress, makeStyles } from "@material-ui/core";
 
 type Props = ConnectedProps<typeof connector> & RouteComponentProps<void>;
 
-class Home extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
+const useStyles = makeStyles(theme => ({
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar
+  },
+  content: {
+    flexGrow: 1,
+    paddingTop: theme.spacing(9)
+  },
+  root: {
+    display: "flex"
   }
-  public render() {
-    return (
-      <div>
-        <CssBaseline />
-        <DoubleNavigation {...this.props}></DoubleNavigation>
-        <NewUser></NewUser>
-        <main>
-          <Switch>
-            <ProtectedRoute
-              path="dashboard
-              /:name"
-              component={UserDetails}
-            ></ProtectedRoute>
-          </Switch>
-        </main>
-      </div>
-    );
-  }
+}));
+
+function Home(props: Props) {
+  const classes = useStyles();
+  const _renderDetails = () => {
+    if (props.loaded) {
+      return <UserDetails></UserDetails>;
+    } else {
+      return <CircularProgress />;
+    }
+  };
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <DoubleNavigation {...props}></DoubleNavigation>
+      <NewUser></NewUser>
+      <main className={classes.content}>
+        <div className={classes.toolbar}>{_renderDetails()}</div>
+      </main>
+    </div>
+  );
 }
 const mapState = (state: RootState) => {
-  return { todos: state.home.todos, headline: state.home.headline };
+  return { loaded: state.sidebar.loaded, users: state.sidebar.users };
 };
 const mapDispatch = {
   addTodos: (increment: number) => ({ type: ADD_TODO, payload: increment })
