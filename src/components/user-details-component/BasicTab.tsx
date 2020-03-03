@@ -124,20 +124,23 @@ function BasicTab(props: Props) {
         xs={12}
         direction="row"
       >
-        <Grid className={classes.cardMargin} xs={12} sm={4} item>
+        <Grid className={classes.cardMargin} xs={12} md={4} item>
           <BasicStatsCard
+            fadeTimeOut={4000}
             data={props.basicStats.posts}
             name="Posts"
           ></BasicStatsCard>
         </Grid>
-        <Grid className={classes.cardMargin} xs={12} sm={4} item>
+        <Grid className={classes.cardMargin} xs={12} md={4} item>
           <BasicStatsCard
+            fadeTimeOut={5000}
             data={props.basicStats.follower}
             name="Followers"
           ></BasicStatsCard>
         </Grid>
-        <Grid className={classes.cardMargin} xs={12} sm={4} item>
+        <Grid className={classes.cardMargin} xs={12} md={4} item>
           <BasicStatsCard
+            fadeTimeOut={6000}
             data={props.basicStats.following}
             name="Following"
           ></BasicStatsCard>

@@ -42,13 +42,13 @@ const theme = createMuiTheme({
   }
 });
 
-theme.typography.h3 = {
-  fontSize: "1.1rem",
+theme.typography.h4 = {
+  fontSize: "0.9rem",
   "@media (min-width:600px)": {
-    fontSize: "1.5rem"
+    fontSize: "1rem"
   },
   [theme.breakpoints.up("md")]: {
-    fontSize: "2.4rem"
+    fontSize: "1.3rem"
   }
 };
 

@@ -44,6 +44,15 @@ type Props = ConnectedProps<typeof connector>;
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
+  },
+  firstTabColor: {
+    color: "#FCAF45 !important"
+  },
+  secondTabColor: {
+    color: "#F56040 !important"
+  },
+  thirdTabColor: {
+    color: "#C13584 !important"
   }
 }));
 
@@ -58,13 +67,31 @@ function UserDetails(props: Props) {
           onChange={(ev: React.ChangeEvent<{}>, value: number) =>
             props.onTabChange(value)
           }
-          indicatorColor="primary"
           textColor="primary"
+          indicatorColor="secondary"
           centered
         >
-          <Tab label="Basic" icon={<InfoIcon></InfoIcon>} />
-          <Tab label="Advanced" icon={<ShowChartIcon></ShowChartIcon>} />
-          <Tab label="Admin Settings" icon={<BuildIcon></BuildIcon>} />
+          <Tab
+            classes={{
+              selected: classes.firstTabColor
+            }}
+            label="Basic"
+            icon={<InfoIcon></InfoIcon>}
+          />
+          <Tab
+            classes={{
+              selected: classes.secondTabColor
+            }}
+            label="Advanced"
+            icon={<ShowChartIcon></ShowChartIcon>}
+          />
+          <Tab
+            classes={{
+              selected: classes.thirdTabColor
+            }}
+            label="Admin Settings"
+            icon={<BuildIcon></BuildIcon>}
+          />
         </Tabs>
       </Paper>
       <TabPanel value={props.tab} index={0}>

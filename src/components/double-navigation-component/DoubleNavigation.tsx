@@ -114,7 +114,9 @@ const useStyles = makeStyles((theme: Theme) =>
         "linear-gradient(45deg,#FFDC80,#FCAF45,#F77737,#F56040, #FD1D1D, #E1306C, #C13584, #833AB4, #5851DB, #405DE6)",
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
-      fontFamily: "Yellowtail"
+      fontFamily: "Yellowtail",
+      fontSize: "1.5rem",
+      fontWeight: 400
     },
     content: {
       flexGrow: 1,
@@ -207,7 +209,7 @@ export function DoubleNavigation(props: Props) {
     async function init() {
       props.initData();
     }
-    init();
+    //init();
   }, []);
   return (
     <div>
