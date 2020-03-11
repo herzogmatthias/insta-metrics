@@ -2,18 +2,19 @@ import React, { Component } from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { RootState } from "../../redux/reducer";
 import { connect, ConnectedProps } from "react-redux";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import CommentIcon from "@material-ui/icons/Comment";
+import SmartphoneIcon from "@material-ui/icons/Smartphone";
 import clsx from "clsx";
 import {
   makeStyles,
   Avatar,
   Typography,
-  Card,
-  Paper,
   Grid,
   Button
 } from "@material-ui/core";
 import BasicStatsCard from "./BasicStatsCard";
+import GeneralInformation from "./GeneralInformation";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -23,50 +24,31 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     display: "flex"
   },
+  flexVerified: {
+    display: "flex",
+    alignItems: "center"
+  },
   large: {
     width: theme.spacing(10),
     height: theme.spacing(10)
   },
-  paddingName: {
-    paddingLeft: theme.spacing(2)
-  },
-  paddingVerified: {
-    paddingRight: theme.spacing(2)
-  },
-  instaButtonContainer: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "flex-end",
-    padding: theme.spacing(1)
-  },
-  avatarGrow: {
-    padding: theme.spacing(2),
-    [theme.breakpoints.down("sm")]: {
-      flexGrow: 1
+  iconSize: {
+    "@media (min-width:600px)": {
+      fontSize: "1.7rem"
     },
-    [theme.breakpoints.up("sm")]: {
-      flexGrow: 0
+    [theme.breakpoints.up("md")]: {
+      fontSize: "2.4rem"
     }
-  },
-  button: {
-    "&:hover": {
-      backgroundPosition: "100%"
-    },
-    transition: "0.5s",
-    backgroundSize: "200%",
-    backgroundImage:
-      "linear-gradient(45deg,#FFDC80 0%,#FCAF45,#F77737,#F56040, #FD1D1D, #E1306C, #C13584, #833AB4, #5851DB, #405DE6)",
-    color: "white"
-  },
-  verifiedColor: {
-    color: "#3897f0"
   },
   space: {
     marginBottom: theme.spacing(2)
   },
   cardMargin: {
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2)
+    margin: theme.spacing(2),
+    "@media (max-width:600px)": {
+      marginLeft: 0,
+      marginRight: 0
+    }
   },
   textDirection: {
     textAlign: "center"
@@ -77,72 +59,52 @@ function BasicTab(props: Props) {
   const classes = useStyles();
   return (
     <div>
-      <Paper elevation={3} className={classes.space}>
-        <Grid container spacing={0}>
-          <Grid className={clsx(classes.flex, classes.avatarGrow)} item>
-            <Avatar
-              className={classes.large}
-              src={props.basicStats.avatar}
-            ></Avatar>
-          </Grid>
-          <Grid item xs={12} sm container>
-            <Grid
-              className={classes.paddingName}
-              item
-              xs
-              container
-              direction="column"
-              spacing={0}
-            >
-              <Grid item xs>
-                <Typography variant="h6">{props.basicStats.name}</Typography>
-                <Typography gutterBottom variant="body2" color="textSecondary">
-                  @{props.basicStats.userName}
-                </Typography>
-                <Typography variant="body2">
-                  {props.basicStats.biography}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid className={classes.paddingVerified} item>
-              <CheckCircleIcon
-                className={classes.verifiedColor}
-              ></CheckCircleIcon>
-            </Grid>
-          </Grid>
-          <Grid className={classes.instaButtonContainer} item>
-            <Button className={classes.button} variant="contained">
-              Show More
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
+      <GeneralInformation></GeneralInformation>
       <Grid
-        className={classes.textDirection}
+        className={clsx(classes.textDirection, classes.flex)}
         container
         spacing={0}
         xs={12}
         direction="row"
       >
-        <Grid className={classes.cardMargin} xs={12} md={4} item>
+        <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
             fadeTimeOut={4000}
-            data={props.basicStats.posts}
-            name="Posts"
+            data={props.basicStats.avgLikes}
+            name="Avg Likes"
+            iconColor="#bc2a8d"
+            icon={<FavoriteIcon className={classes.iconSize}></FavoriteIcon>}
           ></BasicStatsCard>
         </Grid>
-        <Grid className={classes.cardMargin} xs={12} md={4} item>
+        <Grid className={classes.cardMargin} xs={12} md={5} item>
+          <BasicStatsCard
+            fadeTimeOut={4500}
+            data={props.basicStats.avgComments}
+            name="Avg. Comments"
+            iconColor="#5851DB"
+            icon={<CommentIcon className={classes.iconSize}></CommentIcon>}
+          ></BasicStatsCard>
+        </Grid>
+        <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
             fadeTimeOut={5000}
-            data={props.basicStats.follower}
-            name="Followers"
+            data={props.basicStats.avgEngagementRate + "%"}
+            name="Avg. Engagement Rate"
+            iconColor="#FD1D1D"
+            icon={
+              <SmartphoneIcon className={classes.iconSize}></SmartphoneIcon>
+            }
           ></BasicStatsCard>
         </Grid>
-        <Grid className={classes.cardMargin} xs={12} md={4} item>
+        <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
-            fadeTimeOut={6000}
-            data={props.basicStats.following}
-            name="Following"
+            fadeTimeOut={5000}
+            data={props.basicStats.avgEngagementRate + "%"}
+            name="Avg. Engagement Rate"
+            iconColor="#FD1D1D"
+            icon={
+              <SmartphoneIcon className={classes.iconSize}></SmartphoneIcon>
+            }
           ></BasicStatsCard>
         </Grid>
       </Grid>

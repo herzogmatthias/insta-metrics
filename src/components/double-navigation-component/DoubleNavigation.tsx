@@ -141,7 +141,8 @@ export function DoubleNavigation(props: Props) {
             selected={val.username === props.selectedUser?.username}
             onClick={() => {
               props.selectUser(val.username);
-              props.history.replace(val.username);
+              console.log(props.location);
+              props.history.push(val.username);
               console.log(props.location);
             }}
             button
@@ -207,7 +208,7 @@ export function DoubleNavigation(props: Props) {
   };
   useEffect(() => {
     async function init() {
-      props.initData();
+      props.initData(props.history);
     }
     //init();
   }, []);

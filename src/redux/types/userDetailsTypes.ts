@@ -15,4 +15,7 @@ interface BasicTabStats {
   posts: number;
   lastThreePosts: string[];
   isVerified: boolean;
+  avgLikes: number;
+  avgComments: number;
+  avgEngagementRate: number;
 }

@@ -14,6 +14,7 @@ import BuildIcon from "@material-ui/icons/Build";
 import { RootState } from "../../redux/reducer";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { changeTab } from "../../redux/actions/userDetailsAction";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import BasicTab from "./BasicTab";
 
 interface TabPanelProps {
@@ -59,6 +60,7 @@ const useStyles = makeStyles(theme => ({
 function UserDetails(props: Props) {
   const classes = useStyles();
 
+  const matches = useMediaQuery("(max-width: 600px)");
   return (
     <div className={classes.root}>
       <Paper className={classes.root}>
@@ -69,7 +71,8 @@ function UserDetails(props: Props) {
           }
           textColor="primary"
           indicatorColor="secondary"
-          centered
+          centered={!matches}
+          variant={matches ? "fullWidth" : "standard"}
         >
           <Tab
             classes={{

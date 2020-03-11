@@ -43,6 +43,7 @@ const theme = createMuiTheme({
 });
 
 theme.typography.h4 = {
+  fontWeight: 400,
   fontSize: "0.9rem",
   "@media (min-width:600px)": {
     fontSize: "1rem"
