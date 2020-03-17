@@ -16,6 +16,7 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { changeTab } from "../../redux/actions/userDetailsAction";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import BasicTab from "./BasicTab";
+import AdvancedStatsTab from "./advancedStatsTab/AdvancedStatsTab";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -101,7 +102,7 @@ function UserDetails(props: Props) {
         <BasicTab></BasicTab>
       </TabPanel>
       <TabPanel value={props.tab} index={1}>
-        Item Two
+        <AdvancedStatsTab></AdvancedStatsTab>
       </TabPanel>
       <TabPanel value={props.tab} index={2}>
         Item Three

@@ -5,7 +5,9 @@ import { connect, ConnectedProps } from "react-redux";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CommentIcon from "@material-ui/icons/Comment";
 import SmartphoneIcon from "@material-ui/icons/Smartphone";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import clsx from "clsx";
+import numeral from "numeral";
 import {
   makeStyles,
   Avatar,
@@ -98,12 +100,16 @@ function BasicTab(props: Props) {
         </Grid>
         <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
-            fadeTimeOut={5000}
-            data={props.basicStats.avgEngagementRate + "%"}
-            name="Avg. Engagement Rate"
-            iconColor="#FD1D1D"
+            fadeTimeOut={5500}
+            data={
+              numeral(props.basicStats.minPrice).format("$0,0.00") +
+              " - " +
+              numeral(props.basicStats.maxPrice).format("$0,0.00")
+            }
+            name="Avg. Price Range Per Ad"
+            iconColor="#85bb65"
             icon={
-              <SmartphoneIcon className={classes.iconSize}></SmartphoneIcon>
+              <AttachMoneyIcon className={classes.iconSize}></AttachMoneyIcon>
             }
           ></BasicStatsCard>
         </Grid>

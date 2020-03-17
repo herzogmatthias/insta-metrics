@@ -8,6 +8,7 @@ import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import numeral from "numeral";
 import clsx from "clsx";
+import randomColor from "randomcolor";
 import {
   makeStyles,
   Avatar,
@@ -18,7 +19,8 @@ import {
   List,
   ListItemText,
   ListItem,
-  ListItemAvatar
+  ListItemAvatar,
+  Chip
 } from "@material-ui/core";
 
 type Props = ConnectedProps<typeof connector>;
@@ -106,9 +108,11 @@ function GeneralInformation(props: Props) {
                 <Grid item xs>
                   <Typography className={classes.flexVerified} variant="h6">
                     {props.basicStats.name}
-                    <CheckCircleIcon
-                      className={classes.verifiedColor}
-                    ></CheckCircleIcon>
+                    {props.basicStats.isVerified ? (
+                      <CheckCircleIcon
+                        className={classes.verifiedColor}
+                      ></CheckCircleIcon>
+                    ) : null}
                   </Typography>
                   <Typography
                     gutterBottom
@@ -134,7 +138,7 @@ function GeneralInformation(props: Props) {
       <Grid style={{ flexGrow: 1 }} className={classes.cardMargin} item md={5}>
         <Paper elevation={3}>
           <List>
-            <ListItem>
+            <ListItem divider>
               <ListItemAvatar>
                 <Avatar>
                   <PhotoLibraryIcon></PhotoLibraryIcon>
@@ -149,7 +153,7 @@ function GeneralInformation(props: Props) {
               ></ListItemText>
             </ListItem>
 
-            <ListItem>
+            <ListItem divider>
               <ListItemAvatar>
                 <Avatar>
                   <GroupAddIcon></GroupAddIcon>
@@ -163,7 +167,7 @@ function GeneralInformation(props: Props) {
                 }
               ></ListItemText>
             </ListItem>
-            <ListItem>
+            <ListItem divider>
               <ListItemAvatar>
                 <Avatar>
                   <PersonAddIcon></PersonAddIcon>
@@ -176,6 +180,20 @@ function GeneralInformation(props: Props) {
                   ) + " Following"
                 }
               ></ListItemText>
+            </ListItem>
+            <ListItem>
+              {props.basicStats.tags.map(val => {
+                return (
+                  <Chip
+                    style={{
+                      marginRight: "5px",
+                      backgroundColor: randomColor(),
+                      color: "white"
+                    }}
+                    label={val}
+                  ></Chip>
+                );
+              })}
             </ListItem>
           </List>
         </Paper>

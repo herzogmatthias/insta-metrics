@@ -18,4 +18,7 @@ interface BasicTabStats {
   avgLikes: number;
   avgComments: number;
   avgEngagementRate: number;
+  tags: string[];
+  minPrice: number;
+  maxPrice: number;
 }

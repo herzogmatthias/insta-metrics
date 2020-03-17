@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  Grid,
-  Typography,
-  makeStyles,
-  Fade,
-  Paper
-} from "@material-ui/core";
+import { Grid, Typography, makeStyles, Fade, Paper } from "@material-ui/core";
 import numeral from "numeral";
 import clsx from "clsx";
 
@@ -57,7 +51,8 @@ export default function BasicStatsCard(props: Props) {
                           props.data % 1000 === props.data
                           ? "0a"
                           : "0.0a"
-                      )}{" "}
+                      )}
+                  <br></br>
                   {props.name}
                 </Typography>
               </Grid>

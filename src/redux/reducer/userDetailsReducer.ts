@@ -3,7 +3,7 @@ import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import { changeTab } from "../actions/userDetailsAction";
 
 const initialState: UserDetailsState = {
-  tab: 0,
+  tab: 1,
   basicStats: {
     name: "Kylie ",
     userName: "kyliejenner",
@@ -19,7 +19,10 @@ const initialState: UserDetailsState = {
     isVerified: true,
     avgLikes: 7918720,
     avgComments: 70140,
-    avgEngagementRate: 4.87
+    avgEngagementRate: 4.87,
+    tags: ["Model", "Women", "Kids", "Make-Up"],
+    minPrice: 1091806.38,
+    maxPrice: 1321660.36
   }
 };
 
