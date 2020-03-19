@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect, ConnectedProps } from "react-redux";
-import { makeStyles, Grid } from "@material-ui/core";
+import { makeStyles, Grid, Typography } from "@material-ui/core";
 import { RootState } from "../../../redux/reducer";
 import AdvancedStatsChart from "./AdvancedStatsChart";
 
@@ -50,13 +50,20 @@ function AdvancedStatsTab(props: Props) {
     <div>
       <Grid container spacing={1}>
         <Grid className={classes.flex} item xs={12} md={6}>
-          <AdvancedStatsChart data={props.likesData}></AdvancedStatsChart>
-        </Grid>
-        <Grid className={classes.flex} item xs={12} md={6}>
-          <AdvancedStatsChart data={props.commentsData}></AdvancedStatsChart>
+          <AdvancedStatsChart
+            type="Likes"
+            data={props.likesData}
+          ></AdvancedStatsChart>
         </Grid>
         <Grid className={classes.flex} item xs={12} md={6}>
           <AdvancedStatsChart
+            type="Comments"
+            data={props.commentsData}
+          ></AdvancedStatsChart>
+        </Grid>
+        <Grid className={classes.flex} item xs={12} md={6}>
+          <AdvancedStatsChart
+            type="Engagement Rate"
             data={props.engagementRateData}
           ></AdvancedStatsChart>
         </Grid>
