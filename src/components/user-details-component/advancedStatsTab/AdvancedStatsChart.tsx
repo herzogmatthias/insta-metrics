@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 export default function AdvancedStatsChart(props: Props) {
   const classes = useStyles();
   return (
-    <Paper style={{ width: "100%", height: "100%" }} elevation={3}>
+    <Paper elevation={3}>
       <Typography
         className={clsx(classes.seperator, classes.h5Responsive)}
         align="center"
@@ -67,7 +67,7 @@ export default function AdvancedStatsChart(props: Props) {
       >
         {props.type} for last 11 Pictures
       </Typography>
-      <ResponsiveContainer aspect={3}>
+      <ResponsiveContainer width="99%" aspect={3}>
         <ComposedChart
           onClick={(ev: any) => console.log(ev)}
           syncId="mainChart"
@@ -89,12 +89,18 @@ export default function AdvancedStatsChart(props: Props) {
           />
           <CartesianGrid stroke="#e4e4e4" strokeDasharray="3 3" />
           <Area
+            isAnimationActive={false}
             type="monotone"
             dataKey="data"
             fill="url(#colorUv)"
             stroke="#8884d8"
           ></Area>
-          <Line type="monotone" dataKey="data" stroke="#ff7300" />
+          <Line
+            isAnimationActive={false}
+            type="monotone"
+            dataKey="data"
+            stroke="#ff7300"
+          />
           <defs>
             <linearGradient id="colorUv" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#ee0979" stopOpacity={0.5} />

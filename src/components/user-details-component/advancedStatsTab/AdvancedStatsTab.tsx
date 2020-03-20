@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect, ConnectedProps } from "react-redux";
 import { makeStyles, Grid, Typography } from "@material-ui/core";
@@ -46,26 +46,36 @@ const useStyles = makeStyles(theme => ({
 
 function AdvancedStatsTab(props: Props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    if ((window as any).instgrm) {
+      (window as any).instgrm.Embeds.process();
+    }
+  }, []);
+
   return (
     <div>
-      <Grid container spacing={1}>
-        <Grid className={classes.flex} item xs={12} md={6}>
+      <Grid spacing={2} container>
+        <Grid item xs={12} md={4}>
           <AdvancedStatsChart
             type="Likes"
             data={props.likesData}
           ></AdvancedStatsChart>
         </Grid>
-        <Grid className={classes.flex} item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <AdvancedStatsChart
             type="Comments"
             data={props.commentsData}
           ></AdvancedStatsChart>
         </Grid>
-        <Grid className={classes.flex} item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <AdvancedStatsChart
             type="Engagement Rate"
             data={props.engagementRateData}
           ></AdvancedStatsChart>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <div dangerouslySetInnerHTML={{ __html: props.embedHtml }}></div>
         </Grid>
       </Grid>
     </div>
@@ -74,7 +84,8 @@ function AdvancedStatsTab(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   likesData: state.advancedStats.likesData,
   commentsData: state.advancedStats.commentsData,
-  engagementRateData: state.advancedStats.engagementRateData
+  engagementRateData: state.advancedStats.engagementRateData,
+  embedHtml: state.advancedStats.embedHtml
 });
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);

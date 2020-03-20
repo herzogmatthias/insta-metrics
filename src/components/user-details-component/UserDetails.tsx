@@ -36,7 +36,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box paddingTop={3}>{children}</Box>}
     </Typography>
   );
 }
@@ -71,7 +71,7 @@ function UserDetails(props: Props) {
             props.onTabChange(value)
           }
           textColor="primary"
-          indicatorColor="secondary"
+          TabIndicatorProps={{ hidden: true }}
           centered={!matches}
           variant={matches ? "fullWidth" : "standard"}
         >
