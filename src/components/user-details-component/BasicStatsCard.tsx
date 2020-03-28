@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Grid, Typography, makeStyles, Fade, Paper } from "@material-ui/core";
 import numeral from "numeral";
 import clsx from "clsx";

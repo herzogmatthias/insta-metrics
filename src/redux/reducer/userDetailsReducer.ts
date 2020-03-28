@@ -1,9 +1,49 @@
 import { UserDetailsState } from "../types/userDetailsTypes";
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
-import { changeTab } from "../actions/userDetailsAction";
+import {
+  changeTab,
+  carouselGoBack,
+  carouselGoForward
+} from "../actions/userDetailsAction";
 
 const initialState: UserDetailsState = {
-  tab: 1,
+  CarouselData: [
+    {
+      chart: [
+        { data: 11277, name: "February 17, 2009" },
+        { data: 146587, name: "February 17, 2009" },
+        { data: 173160, name: "February 17, 2009" },
+        { data: 193160, name: "February 17, 2009" },
+        { data: 163160, name: "February 17, 2009" },
+        { data: 204865, name: "February 17, 2009" }
+      ],
+      header: "Likes"
+    },
+    {
+      chart: [
+        { data: 12731, name: "February 17, 2009" },
+        { data: 45987, name: "February 17, 2009" },
+        { data: 23645, name: "February 17, 2009" },
+        { data: 65412, name: "February 17, 2009" },
+        { data: 16547, name: "February 17, 2009" },
+        { data: 25863, name: "February 17, 2009" }
+      ],
+      header: "Comments"
+    },
+    {
+      chart: [
+        { data: 2.1, name: "February 17, 2009" },
+        { data: 4.5, name: "February 17, 2009" },
+        { data: 3.24, name: "February 17, 2009" },
+        { data: 1.23, name: "February 17, 2009" },
+        { data: 5, name: "February 17, 2009" },
+        { data: 3, name: "February 17, 2009" }
+      ],
+      header: "Engagement Rate"
+    }
+  ],
+  tab: 0,
+  selectedChart: 0,
   basicStats: {
     name: "Kylie ",
     userName: "kyliejenner",
@@ -29,5 +69,15 @@ const initialState: UserDetailsState = {
 export const userDetailsReducer = createReducer(initialState, {
   [changeTab.type]: (state, action: PayloadAction<number>) => {
     state.tab = action.payload;
+  },
+  [carouselGoBack.type]: (state, action: any) => {
+    state.selectedChart > 0
+      ? (state.selectedChart -= 1)
+      : (state.selectedChart = 2);
+  },
+  [carouselGoForward.type]: (state, action: any) => {
+    state.selectedChart <= 1
+      ? (state.selectedChart += 1)
+      : (state.selectedChart = 0);
   }
 });

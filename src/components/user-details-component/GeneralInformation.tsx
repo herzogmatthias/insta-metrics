@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { RootState } from "../../redux/reducer";
 import { connect, ConnectedProps } from "react-redux";

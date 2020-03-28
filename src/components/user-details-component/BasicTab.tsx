@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { RootState } from "../../redux/reducer";
 import { connect, ConnectedProps } from "react-redux";
@@ -8,15 +8,10 @@ import SmartphoneIcon from "@material-ui/icons/Smartphone";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import clsx from "clsx";
 import numeral from "numeral";
-import {
-  makeStyles,
-  Avatar,
-  Typography,
-  Grid,
-  Button
-} from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
 import BasicStatsCard from "./BasicStatsCard";
 import GeneralInformation from "./GeneralInformation";
+import CarouselWrapper from "./CarouselWrapper";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -47,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
   cardMargin: {
     margin: theme.spacing(2),
-    "@media (max-width:600px)": {
+    "@media (max-width:960px)": {
       marginLeft: 0,
       marginRight: 0
     }
@@ -113,6 +108,15 @@ function BasicTab(props: Props) {
             }
           ></BasicStatsCard>
         </Grid>
+      </Grid>
+      <Grid
+        className={clsx(classes.textDirection, classes.flex)}
+        container
+        spacing={0}
+        xs={12}
+        direction="row"
+      >
+        <CarouselWrapper></CarouselWrapper>
       </Grid>
     </div>
   );

@@ -1,7 +1,27 @@
 export const CHANGE_TAB = "CHANGE_TAB";
+export const CAROUSEL_GO_BACK = "CAROUSEL_GO_BACK";
+export const CAROUSEL_GO_FORWARD = "CAROUSEL_GO_FORWARD";
+
+export interface ChartData {
+  data: number;
+  name: string;
+}
+
+export interface BarChartData {
+  likes: number;
+  comments: number;
+  name: string;
+}
+
+export interface CarouselWrapper {
+  chart: ChartData[];
+  header: string;
+}
 
 export interface UserDetailsState {
   tab: number;
+  CarouselData: CarouselWrapper[];
+  selectedChart: number;
   basicStats: BasicTabStats;
 }
 

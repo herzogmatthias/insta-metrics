@@ -24,7 +24,7 @@ export function getBasicInformation(history: any) {
   return (dispatch: any) => {
     axios.get(URI + "basic-information").then(res => {
       dispatch({ type: FETCH_BASIC_INFORMATION, payload: res.data });
-      if (res.data.length != 0) {
+      if (res.data.length !== 0) {
         history.push("dashboard/" + res.data[0].username);
         dispatch({ type: SELECT_USER, payload: res.data[0].username });
       }

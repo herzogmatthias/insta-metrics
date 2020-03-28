@@ -6,11 +6,7 @@ import {
   Avatar,
   Typography,
   TextField,
-  FormControlLabel,
-  Checkbox,
-  Button,
-  Grid,
-  Box
+  Button
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { RootState } from "../../redux/reducer/index";

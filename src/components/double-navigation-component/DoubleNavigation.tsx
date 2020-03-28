@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../redux/reducer";
 import {
@@ -17,14 +17,12 @@ import {
   List,
   ListItem,
   ListItemText,
-  CssBaseline,
   AppBar,
   Toolbar,
   Typography,
   Avatar,
   ListItemAvatar,
-  ListItemSecondaryAction,
-  ListItemIcon
+  ListItemSecondaryAction
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";

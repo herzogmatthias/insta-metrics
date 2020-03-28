@@ -1,5 +1,5 @@
 import { TooltipProps } from "recharts";
-import React, { Component } from "react";
+import React from "react";
 import { Paper, Typography, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 }));
 interface CustomToolTipProps {
   props: TooltipProps;
-  type: "Comments" | "Likes" | "Engagement Rate";
+  type: string;
 }
 
 export default function CustomToolTip(props: CustomToolTipProps) {
