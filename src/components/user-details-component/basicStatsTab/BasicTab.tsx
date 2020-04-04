@@ -1,6 +1,6 @@
 import React from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { RootState } from "../../redux/reducer";
+import { RootState } from "../../../redux/reducer";
 import { connect, ConnectedProps } from "react-redux";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CommentIcon from "@material-ui/icons/Comment";

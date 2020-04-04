@@ -10,8 +10,8 @@ import {
   Area
 } from "recharts";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import CustomToolTip from "./basicStatsTab/CustomToolTip";
-import { ChartData } from "../../redux/types/userDetailsTypes";
+import CustomToolTip from "./CustomToolTip";
+import { ChartData } from "../../../redux/types/userDetailsTypes";
 
 interface Props {
   data: ChartData[];

@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, Typography, makeStyles, IconButton } from "@material-ui/core";
-import { RootState } from "../../redux/reducer";
+import { RootState } from "../../../redux/reducer";
 import { bindActionCreators } from "redux";
 import { ConnectedProps, connect } from "react-redux";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -8,7 +8,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import {
   carouselGoBack,
   carouselGoForward
-} from "../../redux/actions/userDetailsAction";
+} from "../../../redux/actions/userDetailsAction";
 import BasicStatsChart from "./BasicStatsChart";
 
 type Props = ConnectedProps<typeof connector>;

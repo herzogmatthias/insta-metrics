@@ -11,21 +11,21 @@ import { CssBaseline, CircularProgress, makeStyles } from "@material-ui/core";
 
 type Props = ConnectedProps<typeof connector> & RouteComponentProps<void>;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   toolbar: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
     padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   content: {
     flexGrow: 1,
-    paddingTop: theme.spacing(9)
+    paddingTop: theme.spacing(9),
   },
   root: {
-    display: "flex"
-  }
+    display: "flex",
+  },
 }));
 
 function Home(props: Props) {
@@ -53,7 +53,7 @@ const mapState = (state: RootState) => {
   return { loaded: state.sidebar.loaded, users: state.sidebar.users };
 };
 const mapDispatch = {
-  addTodos: (increment: number) => ({ type: ADD_TODO, payload: increment })
+  addTodos: (increment: number) => ({ type: ADD_TODO, payload: increment }),
 };
 
 const connector = connect(mapState, mapDispatch);

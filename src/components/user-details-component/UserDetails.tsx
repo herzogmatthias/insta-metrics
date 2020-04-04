@@ -6,7 +6,7 @@ import {
   Tabs,
   Tab,
   Typography,
-  Box
+  Box,
 } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
 import ShowChartIcon from "@material-ui/icons/ShowChart";
@@ -15,7 +15,7 @@ import { RootState } from "../../redux/reducer";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { changeTab } from "../../redux/actions/userDetailsAction";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import BasicTab from "./BasicTab";
+import BasicTab from "./basicStatsTab/BasicTab";
 import AdvancedStatsTab from "./advancedStatsTab/AdvancedStatsTab";
 
 interface TabPanelProps {
@@ -43,19 +43,19 @@ function TabPanel(props: TabPanelProps) {
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   firstTabColor: {
-    color: "#FCAF45 !important"
+    color: "#FCAF45 !important",
   },
   secondTabColor: {
-    color: "#F56040 !important"
+    color: "#F56040 !important",
   },
   thirdTabColor: {
-    color: "#C13584 !important"
-  }
+    color: "#C13584 !important",
+  },
 }));
 
 function UserDetails(props: Props) {
@@ -77,21 +77,21 @@ function UserDetails(props: Props) {
         >
           <Tab
             classes={{
-              selected: classes.firstTabColor
+              selected: classes.firstTabColor,
             }}
             label="Basic"
             icon={<InfoIcon></InfoIcon>}
           />
           <Tab
             classes={{
-              selected: classes.secondTabColor
+              selected: classes.secondTabColor,
             }}
             label="Advanced"
             icon={<ShowChartIcon></ShowChartIcon>}
           />
           <Tab
             classes={{
-              selected: classes.thirdTabColor
+              selected: classes.thirdTabColor,
             }}
             label="Admin Settings"
             icon={<BuildIcon></BuildIcon>}
@@ -112,13 +112,13 @@ function UserDetails(props: Props) {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  tab: state.userDetails.tab
+  tab: state.userDetails.tab,
 });
 
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
-      onTabChange: (t: number) => changeTab(t)
+      onTabChange: (t: number) => changeTab(t),
     },
     dispatch
   );

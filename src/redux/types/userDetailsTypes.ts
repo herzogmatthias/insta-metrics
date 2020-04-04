@@ -7,12 +7,6 @@ export interface ChartData {
   name: string;
 }
 
-export interface BarChartData {
-  likes: number;
-  comments: number;
-  name: string;
-}
-
 export interface CarouselWrapper {
   chart: ChartData[];
   header: string;

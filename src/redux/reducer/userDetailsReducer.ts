@@ -42,7 +42,7 @@ const initialState: UserDetailsState = {
       header: "Engagement Rate"
     }
   ],
-  tab: 0,
+  tab: 1,
   selectedChart: 0,
   basicStats: {
     name: "Kylie ",

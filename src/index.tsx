@@ -8,15 +8,17 @@ import store from "./redux/store";
 import Axios from "axios";
 import AuthService from "./services/AuthService";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 Axios.interceptors.request.use(
-  function(config) {
+  function (config) {
     if (AuthService.getToken()) {
       config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
     }
     return config;
   },
-  function(err) {
+  function (err) {
     return Promise.reject(err);
   }
 );
@@ -26,38 +28,40 @@ const theme = createMuiTheme({
     MuiListItem: {
       root: {
         "&$selected": {
-          backgroundColor: "lightgray"
+          backgroundColor: "lightgray",
         },
         "&$selected:hover": {
-          backgroundColor: "lightgray"
-        }
-      }
+          backgroundColor: "lightgray",
+        },
+      },
     },
     MuiAppBar: {
       colorPrimary: {
         backgroundColor: "white",
-        color: "black"
-      }
-    }
-  }
+        color: "black",
+      },
+    },
+  },
 });
 
 theme.typography.h4 = {
   fontWeight: 400,
   fontSize: "0.9rem",
   "@media (min-width:600px)": {
-    fontSize: "1rem"
+    fontSize: "1rem",
   },
   [theme.breakpoints.up("md")]: {
-    fontSize: "1.3rem"
-  }
+    fontSize: "1.3rem",
+  },
 };
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <Router />
-    </Provider>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Provider store={store}>
+        <Router />
+      </Provider>
+    </MuiPickersUtilsProvider>
   </ThemeProvider>,
   document.getElementById("root")
 );
