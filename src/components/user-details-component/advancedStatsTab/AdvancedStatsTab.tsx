@@ -3,32 +3,21 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect, ConnectedProps } from "react-redux";
 import {
   makeStyles,
-  Grid,
   useMediaQuery,
   Box,
   ClickAwayListener,
-  FormControlLabel,
-  Checkbox,
-  FormGroup,
-  TextField,
-  MenuItem,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  Typography,
-  ExpansionPanelDetails,
-  Select,
 } from "@material-ui/core";
 import { RootState } from "../../../redux/reducer";
 import ImagePreviewCard from "./ImagePreviewCard";
 import clsx from "clsx";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 //@ts-ignore
 import ItemsCarousel from "react-items-carousel";
 import { ImagePreview } from "../../../redux/types/advancedStatsTypes";
 import { selectImage } from "../../../redux/actions/advancedStatsAction";
-import { KeyboardDatePicker } from "@material-ui/pickers";
+import Filter from "./Filter";
+import SortBy from "./SortBy";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -122,7 +111,7 @@ function AdvancedStatsTab(props: Props) {
   const matchesSm = useMediaQuery("(max-width: 750px)");
   const matchesXl = useMediaQuery("(min-width: 1300px)");
   const items: JSX.Element[] = [];
-  const _renderCards = (maxCards: number) => {
+  const _renderCards = () => {
     for (var i = 0; i < props.images.length; i++) {
       items.push(
         <div key={i} className={clsx(classes.cardMargin)}>
@@ -136,85 +125,17 @@ function AdvancedStatsTab(props: Props) {
     return items;
   };
   useEffect(() => {}, []);
-
   return (
-    <ClickAwayListener onClickAway={() => props.onSelectImage(undefined)}>
-      <div>
-        <div className={classes.posRelative}>
-          <div className={classes.spacingBottom}>
-            <Grid container justify="space-around" alignItems="center">
-              <Grid item xs={12}>
-                <ExpansionPanel>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <Typography variant="h4">Filter Options</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <Grid container justify="space-around" alignItems="center">
-                      <Grid item xs={6} md={3}>
-                        <FormControlLabel
-                          control={<Checkbox name="checkedC" />}
-                          label="Uncontrolled"
-                        />
-                      </Grid>
-                      <Grid item xs={6} md={3}>
-                        <FormControlLabel
-                          control={<Checkbox name="checkedC" />}
-                          label="Uncontrolled"
-                        />
-                      </Grid>
-                      <Grid item xs={6} md={3}>
-                        <KeyboardDatePicker
-                          disableToolbar
-                          variant="inline"
-                          format="MM/dd/yyyy"
-                          margin="normal"
-                          id="date-picker-inline"
-                          label="Date picker inline"
-                          value={selectedDate}
-                          onChange={(date) => console.log(date)}
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={6} md={3}>
-                        <KeyboardDatePicker
-                          disableToolbar
-                          variant="inline"
-                          format="MM/dd/yyyy"
-                          margin="normal"
-                          id="date-picker-inline"
-                          label="Date picker inline"
-                          value={selectedDate}
-                          onChange={(date) => console.log(date)}
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                        />
-                      </Grid>
-                    </Grid>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
-              </Grid>
-            </Grid>
-          </div>
+    <div>
+      <div className={classes.posRelative}>
+        <div className={classes.spacingBottom}>
+          <Filter></Filter>
         </div>
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Select
-            disableUnderline
-            value="10"
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-          >
-            <MenuItem value={10}>Sort By</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </div>
+      </div>
+      <SortBy></SortBy>
+      <ClickAwayListener
+        onClickAway={() => (matchesSm ? props.onSelectImage(undefined) : null)}
+      >
         <Box className={classes.posRelative}>
           <div className={classes.carouselWrapper}>
             <div className={classes.carousel}>
@@ -225,7 +146,19 @@ function AdvancedStatsTab(props: Props) {
                 chevronWidth={60}
                 disableSwipe={false}
                 alwaysShowChevrons={false}
-                numberOfCards={matches && !matchesSm ? 2 : matchesXl ? 4 : 3}
+                numberOfCards={
+                  !matchesSm && matches
+                    ? props.images.length <= 2
+                      ? props.images.length
+                      : 2
+                    : matchesXl
+                    ? props.images.length <= 4
+                      ? props.images.length
+                      : 4
+                    : props.images.length <= 3
+                    ? props.images.length
+                    : 3
+                }
                 slidesToScroll={matches && !matchesSm ? 2 : matchesXl ? 4 : 3}
                 outsideChevron={true}
                 showSlither={false}
@@ -243,28 +176,28 @@ function AdvancedStatsTab(props: Props) {
                   ></ChevronLeftIcon>
                 }
               >
-                {_renderCards(5)}
+                {_renderCards()}
               </ItemsCarousel>
             </div>
           </div>
         </Box>
-        {matchesSm && props.selectedImage ? (
-          <div className={classes.imagePreviewWrapper}>
-            <div className={classes.absoluteImagePreview}>
-              <ImagePreviewCard
-                displayInformation
-                image={props.selectedImage}
-                noElevation
-              ></ImagePreviewCard>
-            </div>
+      </ClickAwayListener>
+      {matchesSm && props.selectedImage ? (
+        <div className={classes.imagePreviewWrapper}>
+          <div className={classes.absoluteImagePreview}>
+            <ImagePreviewCard
+              displayInformation
+              image={props.selectedImage}
+              noElevation
+            ></ImagePreviewCard>
           </div>
-        ) : null}
-      </div>
-    </ClickAwayListener>
+        </div>
+      ) : null}
+    </div>
   );
 }
 const mapStateToProps = (state: RootState) => ({
-  images: state.advancedStats.images,
+  images: state.advancedStats.filteredImages,
   selectedImage: state.advancedStats.selectedImage,
 });
 

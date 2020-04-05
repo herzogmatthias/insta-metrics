@@ -19,8 +19,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import CommentIcon from "@material-ui/icons/Comment";
 import BurstModeIcon from "@material-ui/icons/BurstMode";
 import VideocamIcon from "@material-ui/icons/Videocam";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import clsx from "clsx";
+import format from "date-fns/format";
 import { ImagePreview } from "../../../redux/types/advancedStatsTypes";
 
 interface Props {
@@ -131,7 +130,10 @@ export default function ImagePreviewCard(props: Props) {
             }
             action={<div></div>}
             title={props.image.author}
-            subheader={props.image.date}
+            subheader={format(
+              new Date(props.image.timeStamp * 1000),
+              "MMMM, d yyyy"
+            )}
           />
         )}
         {matches && !props.displayInformation ? (
