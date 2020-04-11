@@ -12,6 +12,8 @@ import {
   changeToFilter,
   filterImages,
   changeSorting,
+  handleModalOpen,
+  handleModalClose,
 } from "../actions/advancedStatsAction";
 
 const initialState: AdvancedStatsState = {
@@ -288,13 +290,149 @@ const initialState: AdvancedStatsState = {
       multipleViews: true,
     },
   ],
+  modalOpen: true,
+  selectedImageDetails: {
+    rankings: [
+      { type: "Comments", percentage: 65, rank: 10 },
+      { type: "Likes", percentage: 78, rank: 5 },
+    ],
+    hashTags: [{ name: "#happybdayvic", posts: 16340 }],
+    timeStamp: 1586239714,
+    owner: {
+      avatar:
+        "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/88969499_231226268049340_341618078066409472_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=50VnRbd71_QAX_Iy_kp&oh=ad06bfd2f0a40ea7dae61e6c70ce6a2e&oe=5EB8068B",
+      username: "kyliejenner",
+      name: "Kylie 🤍",
+    },
+    id: "B9ZtrC9nHcL",
+    likes: 5531452,
+    comments: 13626,
+    previewComments: [
+      {
+        text: "❤️",
+        likes: 1,
+        timeStamp: 1586239714,
+        owner: {
+          avatar:
+            "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/92839363_239209004122482_7847278460975185920_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=jFxsks0Hfq4AX-R-D2N&oh=0f1f046c5f7dbe717d4ecda18b357e9f&oe=5EB93522",
+          name: "",
+          username: "akhilakhilesh67",
+        },
+      },
+      {
+        text: "❤️",
+        likes: 1,
+        timeStamp: 1586239714,
+        owner: {
+          avatar:
+            "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/92839363_239209004122482_7847278460975185920_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=jFxsks0Hfq4AX-R-D2N&oh=0f1f046c5f7dbe717d4ecda18b357e9f&oe=5EB93522",
+          name: "",
+          username: "akhilakhilesh67",
+        },
+      },
+      {
+        text: "❤️",
+        likes: 1,
+        timeStamp: 1586239714,
+        owner: {
+          avatar:
+            "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/92839363_239209004122482_7847278460975185920_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=jFxsks0Hfq4AX-R-D2N&oh=0f1f046c5f7dbe717d4ecda18b357e9f&oe=5EB93522",
+          name: "",
+          username: "akhilakhilesh67",
+        },
+      },
+      {
+        text: "❤️",
+        likes: 1,
+        timeStamp: 1586239714,
+        owner: {
+          avatar:
+            "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/92839363_239209004122482_7847278460975185920_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=jFxsks0Hfq4AX-R-D2N&oh=0f1f046c5f7dbe717d4ecda18b357e9f&oe=5EB93522",
+          name: "",
+          username: "akhilakhilesh67",
+        },
+      },
+      {
+        text: "❤️",
+        likes: 1,
+        timeStamp: 1586239714,
+        owner: {
+          avatar:
+            "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/92839363_239209004122482_7847278460975185920_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=jFxsks0Hfq4AX-R-D2N&oh=0f1f046c5f7dbe717d4ecda18b357e9f&oe=5EB93522",
+          name: "",
+          username: "akhilakhilesh67",
+        },
+      },
+      {
+        text: "❤️",
+        likes: 1,
+        timeStamp: 1586239714,
+        owner: {
+          avatar:
+            "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/92839363_239209004122482_7847278460975185920_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=jFxsks0Hfq4AX-R-D2N&oh=0f1f046c5f7dbe717d4ecda18b357e9f&oe=5EB93522",
+          name: "",
+          username: "akhilakhilesh67",
+        },
+      },
+      {
+        text: "❤️",
+        likes: 1,
+        timeStamp: 1586239714,
+        owner: {
+          avatar:
+            "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/92839363_239209004122482_7847278460975185920_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=jFxsks0Hfq4AX-R-D2N&oh=0f1f046c5f7dbe717d4ecda18b357e9f&oe=5EB93522",
+          name: "",
+          username: "akhilakhilesh67",
+        },
+      },
+    ],
+    caption: "howdy #happybdayvic",
+    images: [
+      {
+        display_url:
+          "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-15/e35/p1080x1080/88378944_244138456603733_3149386129266207514_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_cat=1&_nc_ohc=Q6VWSj1PeBgAX-0airb&oh=c1036cb1b9180f65963aece226eac1be&oe=5EB9F85A",
+        isVideo: false,
+        tagged_users: [
+          {
+            avatar:
+              "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/67775370_1254208501433066_1523271818666835968_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=VH075GSezoAAX_3-C48&oh=50942804c3be873b91f56f60370656c8&oe=5EB8D3E3",
+            name: "Anastasia Karanikolaou",
+            username: "stassiebaby",
+          },
+        ],
+      },
+      {
+        display_url:
+          "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-15/e35/p1080x1080/88378944_244138456603733_3149386129266207514_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_cat=1&_nc_ohc=Q6VWSj1PeBgAX-0airb&oh=c1036cb1b9180f65963aece226eac1be&oe=5EB9F85A",
+        isVideo: false,
+        tagged_users: [
+          {
+            avatar:
+              "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/67775370_1254208501433066_1523271818666835968_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=VH075GSezoAAX_3-C48&oh=50942804c3be873b91f56f60370656c8&oe=5EB8D3E3",
+            name: "Anastasia Karanikolaou",
+            username: "stassiebaby",
+          },
+        ],
+      },
+      {
+        display_url:
+          "https://scontent-vie1-1.cdninstagram.com/v/t50.2886-16/88313687_2563875087164213_3180834690883378592_n.mp4?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_cat=105&_nc_ohc=vyoDorZZZA0AX_o4hn4&oe=5E93B76F&oh=e60179226abc1d9060b7bdb63cc5e045",
+        isVideo: true,
+        tagged_users: [
+          {
+            avatar:
+              "https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/s150x150/67775370_1254208501433066_1523271818666835968_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=VH075GSezoAAX_3-C48&oh=50942804c3be873b91f56f60370656c8&oe=5EB8D3E3",
+            name: "Anastasia Karanikolaou",
+            username: "stassiebaby",
+          },
+        ],
+      },
+    ],
+  },
 };
 
 export const advancedStatsReducer = createReducer(initialState, {
-  [selectImage.type]: (
-    state,
-    action: PayloadAction<ImagePreview | undefined>
-  ) => {
+  [selectImage.type]: (state, action: PayloadAction<string | undefined>) => {
     state.selectedImage = action.payload;
   },
   [changeOnlyMultiviewsFilter.type]: (
@@ -360,5 +498,11 @@ export const advancedStatsReducer = createReducer(initialState, {
           : b.comments - a.comments;
       }
     });
+  },
+  [handleModalOpen.type]: (state, action) => {
+    state.modalOpen = true;
+  },
+  [handleModalClose.type]: (state, action) => {
+    state.modalOpen = false;
   },
 });

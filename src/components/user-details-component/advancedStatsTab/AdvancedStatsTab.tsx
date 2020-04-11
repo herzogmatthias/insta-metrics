@@ -14,10 +14,13 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 //@ts-ignore
 import ItemsCarousel from "react-items-carousel";
-import { ImagePreview } from "../../../redux/types/advancedStatsTypes";
-import { selectImage } from "../../../redux/actions/advancedStatsAction";
+import {
+  selectImage,
+  handleModalOpen,
+} from "../../../redux/actions/advancedStatsAction";
 import Filter from "./Filter";
 import SortBy from "./SortBy";
+import FullScreenDialog from "./FullScreenDialog";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -106,7 +109,6 @@ const useStyles = makeStyles((theme) => ({
 function AdvancedStatsTab(props: Props) {
   const classes = useStyles();
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const [selectedDate, handleDateChange] = useState(new Date());
   const matches = useMediaQuery("(max-width: 980px)");
   const matchesSm = useMediaQuery("(max-width: 750px)");
   const matchesXl = useMediaQuery("(min-width: 1300px)");
@@ -117,6 +119,7 @@ function AdvancedStatsTab(props: Props) {
         <div key={i} className={clsx(classes.cardMargin)}>
           <ImagePreviewCard
             onSelectImage={props.onSelectImage}
+            openModal={props.openModal}
             image={props.images[i]}
           ></ImagePreviewCard>
         </div>
@@ -127,6 +130,7 @@ function AdvancedStatsTab(props: Props) {
   useEffect(() => {}, []);
   return (
     <div>
+      <FullScreenDialog></FullScreenDialog>
       <div className={classes.posRelative}>
         <div className={classes.spacingBottom}>
           <Filter></Filter>
@@ -187,7 +191,7 @@ function AdvancedStatsTab(props: Props) {
           <div className={classes.absoluteImagePreview}>
             <ImagePreviewCard
               displayInformation
-              image={props.selectedImage}
+              image={props.images.find((i) => i.id === props.selectedImage)!}
               noElevation
             ></ImagePreviewCard>
           </div>
@@ -204,7 +208,8 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
-      onSelectImage: (image: ImagePreview | undefined) => selectImage(image),
+      onSelectImage: (image: string | undefined) => selectImage(image),
+      openModal: () => handleModalOpen(),
     },
     dispatch
   );

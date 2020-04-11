@@ -26,7 +26,8 @@ interface Props {
   image: ImagePreview;
   noElevation: boolean;
   displayInformation: boolean;
-  onSelectImage(image: ImagePreview | undefined): void;
+  onSelectImage(image: string | undefined): void;
+  openModal(): void;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -111,7 +112,10 @@ export default function ImagePreviewCard(props: Props) {
       onClick={
         props.displayInformation
           ? undefined
-          : () => props.onSelectImage(props.image)
+          : () => {
+              props.onSelectImage(props.image.id);
+              props.openModal();
+            }
       }
     >
       <Card
