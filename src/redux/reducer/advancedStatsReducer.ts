@@ -1,9 +1,5 @@
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
-import {
-  AdvancedStatsState,
-  ImagePreview,
-  SortByOption,
-} from "../types/advancedStatsTypes";
+import { AdvancedStatsState, SortByOption } from "../types/advancedStatsTypes";
 import {
   selectImage,
   changeOnlyMultiviewsFilter,

@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, TooltipProps } from "@material-ui/core";
+import { TooltipProps } from "@material-ui/core";
 import {
   Line,
   ResponsiveContainer,
@@ -7,7 +7,7 @@ import {
   ComposedChart,
   CartesianGrid,
   YAxis,
-  Area
+  Area,
 } from "recharts";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import CustomToolTip from "./CustomToolTip";
@@ -18,35 +18,7 @@ interface Props {
   type: string;
 }
 
-const useStyles = makeStyles(theme => ({
-  h3Responsive: {
-    fontSize: "1.5rem",
-    padding: "15px",
-    "@media (max-width:600px)": {
-      fontSize: "1rem"
-    }
-  },
-  seperator: {
-    display: "flex",
-    alignItems: "center",
-    textAlign: "center",
-    "&:before": {
-      marginRight: ".25em"
-    },
-    "&:after": {
-      marginLeft: ".25em"
-    },
-    "&:after, &:before": {
-      content: "close-quote",
-      flex: 1,
-      borderBottom: "2px solid #9e9e9e"
-    }
-  }
-}));
-
 export default function BasicStatsChart(props: Props) {
-  const classes = useStyles();
-  const matches = useMediaQuery("(max-width: 600px)");
   const aspectForGraph = useMediaQuery("(max-width: 1500px)");
   return (
     <ResponsiveContainer width="99%" aspect={aspectForGraph ? 4 : 5}>

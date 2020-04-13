@@ -6,9 +6,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import {
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Ranking } from "../../../redux/types/advancedStatsTypes";
+import randomColor from "randomcolor";
 
 interface Props {
   rankings: Ranking[];
@@ -30,15 +34,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function CommentLikeRatio(props: Props) {
   const classes = useStyles();
-  const matches = useMediaQuery("(max-width: 750px)");
   return (
     <div className={classes.flex}>
-      {props.rankings.map((val) => {
+      {props.rankings.map((val, ind) => {
         return (
-          <div className={classes.circleSize}>
+          <div key={ind} className={classes.circleSize}>
             <CircularProgressbarWithChildren
               value={val.percentage}
-              strokeWidth={5}
+              strokeWidth={4}
+              styles={buildStyles({
+                pathColor: randomColor(),
+                trailColor: "transparent",
+              })}
             >
               <div className={classes.textAlign}>
                 <Typography variant="subtitle1">

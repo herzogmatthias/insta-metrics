@@ -6,7 +6,6 @@ import {
   CardHeader,
   Avatar,
   IconButton,
-  CardMedia,
   CardContent,
   Typography,
   CardActions,
@@ -19,8 +18,6 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import React, { useState } from "react";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CommentIcon from "@material-ui/icons/Comment";
-import BurstModeIcon from "@material-ui/icons/BurstMode";
-import VideocamIcon from "@material-ui/icons/Videocam";
 import format from "date-fns/format";
 import "./ImageCarousel.scss";
 //@ts-ignore
@@ -35,46 +32,6 @@ interface Props {
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      maxWidth: 350,
-      minWidth: 80,
-      maxHeight: 600,
-      "&:hover": {
-        boxShadow:
-          "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)",
-      },
-      boxShadow:
-        "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
-    },
-    displayInfo: {
-      boxShadow: "none",
-    },
-    fadeOut: {
-      boxShadow: "none",
-      "&:after": {
-        zIndex: 1,
-        pointerEvents: "none",
-        backgroundImage:
-          "linear-gradient(to right, rgba(255,255,255, 0), rgba(255,255,255, 1) 80%)",
-        width: "100%",
-        height: "600px",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        content: "close-quote",
-      },
-      "&:hover": {
-        boxShadow: "none",
-      },
-      position: "relative",
-    },
-    media: {
-      height: 0,
-      paddingTop: "100%", // 16:9
-    },
-    avatar: {
-      backgroundColor: red[500],
-    },
     chevron: {
       position: "absolute",
       fontSize: "6rem",
@@ -87,12 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       padding: 0,
     },
-    smallImagePreview: {
-      padding: "56.25%",
-      backgroundSize: "contain",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-    },
     carouselWrapper: {
       display: "flex",
       justifyContent: "center",
@@ -103,6 +54,13 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
     },
+    cardBorder: {
+      borderRight: "1px solid rgba(0,0,0,0.2)",
+      "@media(max-width: 960px)": {
+        borderRight: 0,
+      },
+    },
+
     chevronIcon: {
       color: "#9e9e9e",
       fontSize: "5rem",
@@ -141,17 +99,13 @@ export default function ImageDetailsCard(props: Props) {
       );
     });
   };
-  const matches = useMediaQuery("(max-width: 750px)");
+  const matches = useMediaQuery("(max-width: 960px)");
   return (
     <div>
-      <Card elevation={4}>
+      <Card elevation={0} className={classes.cardBorder}>
         <CardHeader
           avatar={
-            <Avatar
-              src={props.image.owner.avatar}
-              aria-label="recipe"
-              className={classes.avatar}
-            ></Avatar>
+            <Avatar src={props.image.owner.avatar} aria-label="recipe"></Avatar>
           }
           action={<div></div>}
           title={props.image.owner.name}

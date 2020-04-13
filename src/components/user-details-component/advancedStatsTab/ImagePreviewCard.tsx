@@ -12,6 +12,7 @@ import {
   CardActions,
   Tooltip,
   useMediaQuery,
+  Button,
 } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
 import React from "react";
@@ -101,6 +102,11 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: "1rem",
       },
     },
+    buttonRight: {
+      display: "flex",
+      width: "100%",
+      justifyContent: "flex-end",
+    },
   })
 );
 
@@ -110,8 +116,12 @@ export default function ImagePreviewCard(props: Props) {
   return (
     <div
       onClick={
-        props.displayInformation
+        props.displayInformation && matches
           ? undefined
+          : !props.displayInformation && matches
+          ? () => {
+              props.onSelectImage(props.image.id);
+            }
           : () => {
               props.onSelectImage(props.image.id);
               props.openModal();
@@ -185,6 +195,11 @@ export default function ImagePreviewCard(props: Props) {
                   <BurstModeIcon className={classes.iconFontSize} />
                 </IconButton>
               </Tooltip>
+            ) : null}
+            {props.displayInformation && matches ? (
+              <div className={classes.buttonRight}>
+                <Button variant="outlined">Details</Button>
+              </div>
             ) : null}
           </CardActions>
         )}

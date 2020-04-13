@@ -2,13 +2,11 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  useMediaQuery,
   List,
   ListItemAvatar,
   Avatar,
   ListItem,
   ListItemText,
-  Typography,
   Divider,
   ListSubheader,
   ListItemSecondaryAction,
@@ -16,7 +14,7 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
-import { Comment, HashTag } from "../../../redux/types/advancedStatsTypes";
+import { HashTag } from "../../../redux/types/advancedStatsTypes";
 
 interface Props {
   hashTags: HashTag[];
@@ -37,18 +35,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function HashTags(props: Props) {
+const Hashtags = React.memo((props: Props) => {
   const classes = useStyles();
-  const matches = useMediaQuery("(max-width: 750px)");
   return (
-    <div className={classes.root}>
+    <>
       <List>
         <ListSubheader className={classes.whiteBackground} component="div">
           HashTags in Caption
         </ListSubheader>
         {props.hashTags.map((val, ind) => {
           return (
-            <div>
+            <div key={ind}>
               <ListItem>
                 <ListItemAvatar>
                   <Avatar>#</Avatar>
@@ -68,6 +65,8 @@ export default function HashTags(props: Props) {
           );
         })}
       </List>
-    </div>
+    </>
   );
-}
+});
+
+export default Hashtags;

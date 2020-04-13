@@ -2,7 +2,6 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  useMediaQuery,
   List,
   ListItemAvatar,
   Avatar,
@@ -38,7 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Comments(props: Props) {
   const classes = useStyles();
-  const matches = useMediaQuery("(max-width: 750px)");
   return (
     <div className={classes.root}>
       <List>
@@ -47,7 +45,7 @@ export default function Comments(props: Props) {
         </ListSubheader>
         {props.comments.map((val, ind) => {
           return (
-            <div>
+            <div key={ind}>
               <ListItem>
                 <ListItemAvatar>
                   <Avatar src={val.owner.avatar}></Avatar>
@@ -57,13 +55,13 @@ export default function Comments(props: Props) {
                   secondary={
                     <React.Fragment>
                       <Typography
-                        component="p"
+                        component="span"
                         variant="body2"
                         color="textPrimary"
                       >
                         {val.text}
                       </Typography>
-                      <div className={classes.flex}>
+                      <span className={classes.flex}>
                         {"posted on " +
                           format(
                             new Date(val.timeStamp * 1000),
@@ -72,7 +70,7 @@ export default function Comments(props: Props) {
                           " - " +
                           val.likes}{" "}
                         <FavoriteIcon></FavoriteIcon>
-                      </div>
+                      </span>
                     </React.Fragment>
                   }
                 ></ListItemText>

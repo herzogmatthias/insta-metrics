@@ -1,9 +1,5 @@
 import {
-  makeStyles,
-  Theme,
-  createStyles,
   Typography,
-  useMediaQuery,
   Grid,
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -27,11 +23,7 @@ import { KeyboardDatePicker } from "@material-ui/pickers";
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}));
-
 function Filter(props: Props) {
-  const classes = useStyles();
-  const matches = useMediaQuery("(max-width: 750px)");
   return (
     <Grid container justify="space-around" alignItems="center">
       <Grid item xs={12}>

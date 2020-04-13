@@ -1,7 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 import {
   SELECT_IMAGE,
-  ImagePreview,
   CHANGE_ONLY_VIDEOS_FILTER,
   CHANGE_ONLY_MULTIVIEWS_FILTER,
   CHANGE_FROM_FILTER,

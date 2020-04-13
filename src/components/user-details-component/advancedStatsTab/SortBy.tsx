@@ -2,7 +2,6 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  useMediaQuery,
   Select,
   MenuItem,
 } from "@material-ui/core";

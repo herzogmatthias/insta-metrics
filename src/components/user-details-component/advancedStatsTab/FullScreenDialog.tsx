@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -45,7 +44,7 @@ const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
   ref: React.Ref<unknown>
 ) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide key={"slideUP"} direction="up" ref={ref} {...props} />;
 });
 
 function FullScreenDialog(props: Props) {
@@ -71,27 +70,25 @@ function FullScreenDialog(props: Props) {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Sound
+              Image Details
             </Typography>
-            <Button autoFocus color="inherit" onClick={props.handleClose}>
-              save
-            </Button>
           </Toolbar>
         </AppBar>
-        <Grid style={{ padding: "30px" }} container spacing={2}>
+        <Grid style={{ padding: "30px" }} container spacing={4}>
           <Grid xs={12} item md={6}>
             <ImageDetailsCard image={props.imageDetails}></ImageDetailsCard>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Comments comments={props.imageDetails.previewComments}></Comments>
+          <Grid item xs={12} md={6} className={classes.flex}>
+            <CommentLikeRatio
+              rankings={props.imageDetails.rankings}
+            ></CommentLikeRatio>
           </Grid>
+
           <Grid item xs={12} md={6}>
             <HashTags hashTags={props.imageDetails.hashTags}></HashTags>
           </Grid>
           <Grid item xs={12} md={6}>
-            <CommentLikeRatio
-              rankings={props.imageDetails.rankings}
-            ></CommentLikeRatio>
+            <Comments comments={props.imageDetails.previewComments}></Comments>
           </Grid>
         </Grid>
       </Dialog>
