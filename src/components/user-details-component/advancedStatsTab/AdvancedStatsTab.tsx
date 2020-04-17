@@ -137,55 +137,51 @@ function AdvancedStatsTab(props: Props) {
         </div>
       </div>
       <SortBy></SortBy>
-      <ClickAwayListener
-        onClickAway={() => (matchesSm ? props.onSelectImage(undefined) : null)}
-      >
-        <Box className={classes.posRelative}>
-          <div className={classes.carouselWrapper}>
-            <div className={classes.carousel}>
-              <ItemsCarousel
-                infiniteLoop={false}
-                gutter={12}
-                activePosition={"center"}
-                chevronWidth={60}
-                disableSwipe={false}
-                alwaysShowChevrons={false}
-                numberOfCards={
-                  !matchesSm && matches
-                    ? props.images.length <= 2
-                      ? props.images.length
-                      : 2
-                    : matchesXl
-                    ? props.images.length <= 4
-                      ? props.images.length
-                      : 4
-                    : props.images.length <= 3
+      <Box className={classes.posRelative}>
+        <div className={classes.carouselWrapper}>
+          <div className={classes.carousel}>
+            <ItemsCarousel
+              infiniteLoop={false}
+              gutter={12}
+              activePosition={"center"}
+              chevronWidth={60}
+              disableSwipe={false}
+              alwaysShowChevrons={false}
+              numberOfCards={
+                !matchesSm && matches
+                  ? props.images.length <= 2
                     ? props.images.length
-                    : 3
-                }
-                slidesToScroll={matches && !matchesSm ? 2 : matchesXl ? 4 : 3}
-                outsideChevron={true}
-                showSlither={false}
-                firstAndLastGutter={false}
-                requestToChangeActive={setActiveItemIndex}
-                activeItemIndex={activeItemIndex}
-                rightChevron={
-                  <ChevronRightIcon
-                    className={classes.chevronIcon}
-                  ></ChevronRightIcon>
-                }
-                leftChevron={
-                  <ChevronLeftIcon
-                    className={classes.chevronIcon}
-                  ></ChevronLeftIcon>
-                }
-              >
-                {_renderCards()}
-              </ItemsCarousel>
-            </div>
+                    : 2
+                  : matchesXl
+                  ? props.images.length <= 4
+                    ? props.images.length
+                    : 4
+                  : props.images.length <= 3
+                  ? props.images.length
+                  : 3
+              }
+              slidesToScroll={matches && !matchesSm ? 2 : matchesXl ? 4 : 3}
+              outsideChevron={true}
+              showSlither={false}
+              firstAndLastGutter={false}
+              requestToChangeActive={setActiveItemIndex}
+              activeItemIndex={activeItemIndex}
+              rightChevron={
+                <ChevronRightIcon
+                  className={classes.chevronIcon}
+                ></ChevronRightIcon>
+              }
+              leftChevron={
+                <ChevronLeftIcon
+                  className={classes.chevronIcon}
+                ></ChevronLeftIcon>
+              }
+            >
+              {_renderCards()}
+            </ItemsCarousel>
           </div>
-        </Box>
-      </ClickAwayListener>
+        </div>
+      </Box>
       {matchesSm && props.selectedImage ? (
         <div className={classes.imagePreviewWrapper}>
           <div className={classes.absoluteImagePreview}>
@@ -193,6 +189,7 @@ function AdvancedStatsTab(props: Props) {
               displayInformation
               image={props.images.find((i) => i.id === props.selectedImage)!}
               noElevation
+              openModal={props.openModal}
             ></ImagePreviewCard>
           </div>
         </div>

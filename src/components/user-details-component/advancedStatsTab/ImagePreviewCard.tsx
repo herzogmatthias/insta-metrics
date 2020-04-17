@@ -198,7 +198,9 @@ export default function ImagePreviewCard(props: Props) {
             ) : null}
             {props.displayInformation && matches ? (
               <div className={classes.buttonRight}>
-                <Button variant="outlined">Details</Button>
+                <Button variant="outlined" onClick={() => props.openModal()}>
+                  Details
+                </Button>
               </div>
             ) : null}
           </CardActions>

@@ -20,60 +20,60 @@ import {
   ListItemText,
   ListItem,
   ListItemAvatar,
-  Chip
+  Chip,
 } from "@material-ui/core";
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   flex: {
     alignItems: "center",
     justifyContent: "center",
-    display: "flex"
+    display: "flex",
   },
   flexVerified: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   large: {
     width: theme.spacing(15),
-    height: theme.spacing(15)
+    height: theme.spacing(15),
   },
   paddingName: {
-    paddingLeft: theme.spacing(2)
+    paddingLeft: theme.spacing(2),
   },
   paddingVerified: {
-    paddingRight: theme.spacing(2)
+    paddingRight: theme.spacing(2),
   },
   instaButtonContainer: {
     width: "100%",
     display: "flex",
     justifyContent: "flex-end",
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   avatarGrow: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   button: {
     "&:hover": {
-      backgroundPosition: "100%"
+      backgroundPosition: "100%",
     },
     transition: "0.5s",
     backgroundSize: "200%",
     backgroundImage:
       "linear-gradient(45deg,#FFDC80 0%,#FCAF45,#F77737,#F56040, #FD1D1D, #E1306C, #C13584, #833AB4, #5851DB, #405DE6)",
-    color: "white"
+    color: "white",
   },
   verifiedColor: {
-    color: "#3897f0"
+    color: "#3897f0",
   },
   cardMargin: {
     margin: theme.spacing(2),
     "@media (max-width:600px)": {
       marginLeft: 0,
-      marginRight: 0
-    }
-  }
+      marginRight: 0,
+    },
+  },
 }));
 
 function GeneralInformation(props: Props) {
@@ -82,7 +82,7 @@ function GeneralInformation(props: Props) {
   };
   const classes = useStyles();
   return (
-    <Grid className={classes.flex} container xs={12} spacing={0}>
+    <Grid className={classes.flex} container spacing={0}>
       <Grid style={{ flexGrow: 1 }} className={classes.cardMargin} item md={5}>
         <Paper elevation={3}>
           <Grid container spacing={0}>
@@ -182,13 +182,14 @@ function GeneralInformation(props: Props) {
               ></ListItemText>
             </ListItem>
             <ListItem>
-              {props.basicStats.tags.map(val => {
+              {props.basicStats.tags.map((val, ind) => {
                 return (
                   <Chip
+                    key={ind}
                     style={{
                       marginRight: "5px",
                       backgroundColor: randomColor(),
-                      color: "white"
+                      color: "white",
                     }}
                     label={val}
                   ></Chip>
@@ -203,7 +204,7 @@ function GeneralInformation(props: Props) {
 }
 const mapStateToProps = (state: RootState) => ({
   tab: state.userDetails.tab,
-  basicStats: state.userDetails.basicStats
+  basicStats: state.userDetails.basicStats,
 });
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);

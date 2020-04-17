@@ -15,41 +15,41 @@ import CarouselWrapper from "./CarouselWrapper";
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   flex: {
     alignItems: "center",
     justifyContent: "center",
-    display: "flex"
+    display: "flex",
   },
   flexVerified: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   large: {
     width: theme.spacing(10),
-    height: theme.spacing(10)
+    height: theme.spacing(10),
   },
   iconSize: {
     "@media (min-width:600px)": {
-      fontSize: "1.7rem"
+      fontSize: "1.7rem",
     },
     [theme.breakpoints.up("md")]: {
-      fontSize: "2.4rem"
-    }
+      fontSize: "2.4rem",
+    },
   },
   space: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   cardMargin: {
     margin: theme.spacing(2),
     "@media (max-width:960px)": {
       marginLeft: 0,
-      marginRight: 0
-    }
+      marginRight: 0,
+    },
   },
   textDirection: {
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 }));
 
 function BasicTab(props: Props) {
@@ -61,7 +61,6 @@ function BasicTab(props: Props) {
         className={clsx(classes.textDirection, classes.flex)}
         container
         spacing={0}
-        xs={12}
         direction="row"
       >
         <Grid className={classes.cardMargin} xs={12} md={5} item>
@@ -113,7 +112,6 @@ function BasicTab(props: Props) {
         className={clsx(classes.textDirection, classes.flex)}
         container
         spacing={0}
-        xs={12}
         direction="row"
       >
         <CarouselWrapper></CarouselWrapper>
@@ -123,7 +121,7 @@ function BasicTab(props: Props) {
 }
 const mapStateToProps = (state: RootState) => ({
   tab: state.userDetails.tab,
-  basicStats: state.userDetails.basicStats
+  basicStats: state.userDetails.basicStats,
 });
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);

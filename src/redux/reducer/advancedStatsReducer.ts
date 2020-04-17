@@ -286,7 +286,7 @@ const initialState: AdvancedStatsState = {
       multipleViews: true,
     },
   ],
-  modalOpen: true,
+  modalOpen: false,
   selectedImageDetails: {
     rankings: [
       { type: "Comments", percentage: 65, rank: 10 },

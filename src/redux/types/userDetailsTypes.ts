@@ -1,6 +1,5 @@
 export const CHANGE_TAB = "CHANGE_TAB";
-export const CAROUSEL_GO_BACK = "CAROUSEL_GO_BACK";
-export const CAROUSEL_GO_FORWARD = "CAROUSEL_GO_FORWARD";
+export const CHANGE_CHART = "CHANGE_CHART";
 
 export interface ChartData {
   data: number;
