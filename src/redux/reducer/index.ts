@@ -5,6 +5,7 @@ import { newUserReducer } from "./newUserReducer";
 import { loginReducer } from "./loginReducer";
 import { userDetailsReducer } from "./userDetailsReducer";
 import { advancedStatsReducer } from "./advancedStatsReducer";
+import { adminReducer } from "./adminReducer";
 
 export const rootReducer = combineReducers({
   home: homeReducer,
@@ -12,6 +13,7 @@ export const rootReducer = combineReducers({
   newUser: newUserReducer,
   login: loginReducer,
   userDetails: userDetailsReducer,
-  advancedStats: advancedStatsReducer
+  advancedStats: advancedStatsReducer,
+  admin: adminReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;

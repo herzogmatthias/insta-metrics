@@ -26,7 +26,6 @@ interface BasicTabStats {
   following: number;
   biography: string;
   posts: number;
-  lastThreePosts: string[];
   isVerified: boolean;
   avgLikes: number;
   avgComments: number;
