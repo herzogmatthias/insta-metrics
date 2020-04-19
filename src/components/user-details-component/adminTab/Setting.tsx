@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   Typography,
   Input,
@@ -20,8 +20,8 @@ import SaveIcon from "@material-ui/icons/Save";
 
 export interface Props {
   canBeModified: boolean;
-  type: string;
   value: string;
+  children: string;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -45,13 +45,13 @@ export default function Setting(props: Props) {
   const [modify, setModify] = React.useState(false);
   return (
     <Grid item xs={12}>
-      <Grid container spacing={5} justify="center" alignItems="center">
-        <Grid item xs={2}>
-          <Typography align="right" variant="h6">
-            {props.type}:
+      <Grid container spacing={0} justify="center" alignItems="center">
+        <Grid item md={2} lg={1} xs={12}>
+          <Typography align="left" variant="h6">
+            {props.children}:
           </Typography>
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={12} md={10} lg={11}>
           <div className={clsx(classes.spacing, classes.notModifyFlex)}>
             {modify ? (
               <FormControl variant="outlined">
@@ -81,7 +81,7 @@ export default function Setting(props: Props) {
                 {props.value}
               </Typography>
             )}
-            {modify ? null : (
+            {modify || !props.canBeModified ? null : (
               <IconButton onClick={() => setModify(true)}>
                 <EditIcon></EditIcon>
               </IconButton>

@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     borderRight: {
       borderRight: "1px solid grey",
+      "@media(max-width: 960px)": {
+        borderRight: "none",
+      },
     },
     spacingLeft: {
       marginLeft: "3px",
@@ -76,7 +79,7 @@ function Status({ status }: Props) {
     <Grid container alignContent="center" justify="center" spacing={1}>
       <Grid
         item
-        xs={5}
+        xs={12}
         md={2}
         className={clsx(classes.borderRight, classes.flex)}
       >
@@ -91,7 +94,7 @@ function Status({ status }: Props) {
       </Grid>
       <Grid
         item
-        xs={5}
+        xs={12}
         md={2}
         className={clsx(classes.borderRight, classes.flex)}
       >
@@ -101,7 +104,7 @@ function Status({ status }: Props) {
       </Grid>
       <Grid
         item
-        xs={5}
+        xs={12}
         md={2}
         className={clsx(classes.borderRight, classes.flex)}
       >
@@ -122,7 +125,7 @@ function Status({ status }: Props) {
       </Grid>
       <Grid
         item
-        xs={5}
+        xs={12}
         md={2}
         className={clsx(classes.flex, classes.borderRight)}
       >

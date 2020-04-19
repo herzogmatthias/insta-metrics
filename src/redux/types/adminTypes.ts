@@ -20,4 +20,17 @@ export interface IAdminState {
   schedule: string;
   subreddits: string[];
   logs: string;
+  dms: IDM[];
+  explore: boolean;
+  hashtags: string[];
+  logsLoaded: boolean;
+  dmsLoaded: boolean;
+}
+
+export interface IDM {
+  avatarUrl: string;
+  username: string;
+  lastMessage: string;
+  dateFormatted: string;
+  date: string;
 }

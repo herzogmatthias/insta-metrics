@@ -15,6 +15,28 @@ const initialState: IAdminState = {
   },
   name: "memez.every.day.bro",
   subreddits: ["memes", "dank", "deepfried"],
+  hashtags: ["memes", "dank", "deepfried"],
+  explore: true,
+  logsLoaded: false,
+  dmsLoaded: false,
+  dms: [
+    {
+      avatarUrl:
+        "https://scontent-lhr8-1.cdninstagram.com/v/t51.2885-19/s150x150/79773077_1023877884628204_8588040416933183488_n.jpg?_nc_ht=scontent-lhr8-1.cdninstagram.com&_nc_ohc=s3MxRE-sriYAX_qp0Wi&oh=d75e1532a2d5ccb9f6ba46f70e5fd430&oe=5EC60A8B",
+      username: "matthias1100",
+      lastMessage: "hello",
+      dateFormatted: "1w",
+      date: "2020-04-06T21:58:50.218Z",
+    },
+    {
+      avatarUrl:
+        "https://scontent-lhr8-1.cdninstagram.com/v/t51.2885-19/s150x150/79773077_1023877884628204_8588040416933183488_n.jpg?_nc_ht=scontent-lhr8-1.cdninstagram.com&_nc_ohc=s3MxRE-sriYAX_qp0Wi&oh=d75e1532a2d5ccb9f6ba46f70e5fd430&oe=5EC60A8B",
+      username: "matthias1100",
+      lastMessage: "hello",
+      dateFormatted: "1w",
+      date: "2020-04-06T21:58:50.218Z",
+    },
+  ],
   schedule: "0 0 * * SUN",
   logs: `[32minfo[39m: New Bot created {"options":{"subredditNames":["memes","dankmemes","deepfriedmemes"],"schedule":"0 10,20 * * *","instagramCredentials":{"username":"memez.every.day.bro","password":"lio888"},"tags":["meme","memes","funny","lmao","dankmemes"],"explore":true},"timestamp":"2020-04-17T19:23:23.644Z"}
   [32minfo[39m: Bot started {"timestamp":"2020-04-17T19:23:23.655Z"}

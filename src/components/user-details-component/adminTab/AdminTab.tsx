@@ -6,6 +6,8 @@ import {
   Theme,
   createStyles,
   Divider,
+  Button,
+  Box,
 } from "@material-ui/core";
 import Status from "./Status";
 import Setting from "./Setting";
@@ -13,6 +15,8 @@ import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../../redux/reducer";
 import { bindActionCreators } from "redux";
 import { Logs } from "./Logs";
+import { red, yellow, green, orange } from "@material-ui/core/colors";
+import { DirectMessages } from "./DirectMessages";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -32,6 +36,21 @@ const useStyles = makeStyles((theme: Theme) =>
     notModifyFlex: {
       display: "flex",
       alignItems: "center",
+    },
+    red: {
+      color: red[500],
+      border: `1px solid ${red[500]}`,
+    },
+    orange: {
+      color: orange[500],
+      border: `1px solid ${orange[500]}`,
+    },
+    green: {
+      color: theme.palette.getContrastText(green[500]),
+      backgroundColor: green[500],
+      "&:hover": {
+        backgroundColor: green[700],
+      },
     },
   })
 );
@@ -53,17 +72,46 @@ function AdminTab(props: Props) {
         <Divider></Divider>
       </div>
       <Grid container spacing={2} justify="flex-start" alignItems="center">
-        <Setting type="Name" value={props.name}></Setting>
-        <Setting canBeModified type="Schedule" value={props.schedule}></Setting>
-        <Setting type="Subreddits" value={props.subreddits.join(",")}></Setting>
+        <Setting value={props.name}>Name</Setting>
+        <Setting value={props.hashtags.join(",")}>Hashtags</Setting>
+        <Setting value={props.explore.toString()}>explore</Setting>
+        <Setting canBeModified value={props.schedule}>
+          Schedule
+        </Setting>
+        <Setting canBeModified value={props.subreddits.join(",")}>
+          Subreddits
+        </Setting>
+
+        <Box padding={2}>
+          <Button className={classes.red} variant="outlined">
+            Delete
+          </Button>
+        </Box>
+        <Box padding={2}>
+          <Button className={classes.orange} variant="outlined">
+            Stop
+          </Button>
+        </Box>
+        <Box padding={2}>
+          <Button className={classes.green} variant="contained">
+            Restart
+          </Button>
+        </Box>
       </Grid>
+      <div className={classes.spacingTop}>
+        <DirectMessages
+          loaded={props.dmsLoaded}
+          dms={props.dms}
+        ></DirectMessages>
+      </div>
+
       <div className={classes.spacingTop}>
         <Typography align="left" variant="h5">
           Logs
         </Typography>
         <Divider></Divider>
       </div>
-      <Logs logs={props.logs}></Logs>
+      <Logs loaded={props.logsLoaded} logs={props.logs}></Logs>
     </div>
   );
 }
@@ -72,6 +120,11 @@ const mapStateToProps = (state: RootState) => ({
   subreddits: state.admin.subreddits,
   name: state.admin.name,
   logs: state.admin.logs,
+  dms: state.admin.dms,
+  explore: state.admin.explore,
+  hashtags: state.admin.hashtags,
+  logsLoaded: state.admin.logsLoaded,
+  dmsLoaded: state.admin.dmsLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);

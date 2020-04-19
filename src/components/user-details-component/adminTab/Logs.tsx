@@ -3,6 +3,7 @@ import "./Logs.scss";
 
 export interface Props {
   logs: string;
+  loaded: boolean;
 }
 
 export function Logs(props: Props) {
@@ -64,7 +65,20 @@ export function Logs(props: Props) {
         </header>
         <section className="terminal">
           <div className="history"></div>
-          <span className="prompt">{_renderTerminalOutput()}</span>
+          <span className="prompt">
+            {props.loaded ? (
+              _renderTerminalOutput()
+            ) : (
+              <span>
+                <span>~$&nbsp;</span>
+                <p className="saving">
+                  Initialize Logs<span>.</span>
+                  <span>.</span>
+                  <span>.</span>
+                </p>
+              </span>
+            )}
+          </span>
         </section>
       </div>
     </div>

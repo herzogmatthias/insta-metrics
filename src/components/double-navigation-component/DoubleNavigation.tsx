@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../redux/reducer";
 import {
   getBasicInformation,
-  selectUser
+  selectUser,
 } from "../../redux/actions/sidebarActions";
 import clsx from "clsx";
 import {
@@ -22,7 +22,7 @@ import {
   Typography,
   Avatar,
   ListItemAvatar,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -32,6 +32,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { Skeleton } from "@material-ui/lab";
 import { openNewUserModal } from "../../redux/actions/newUserAction";
 import { RouteComponentProps } from "react-router-dom";
+import { FakeLoadingList } from "../fake-loading-list-component/FakeLoadingList";
 
 interface IDoubleNavigationProps extends RouteComponentProps<void> {}
 
@@ -42,70 +43,65 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex"
+      display: "flex",
     },
-    skeletonBackground: {
-      backgroundColor: "lightgrey"
-    },
+
     listItemTextOverflow: {
       overflow: "hidden",
       wordBreak: "break-word",
-      textOverflow: "ellipsis"
+      textOverflow: "ellipsis",
     },
-    skeletonCircle: {
-      height: "40px",
-      width: "40px"
-    },
+
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
-      })
+        duration: theme.transitions.duration.leavingScreen,
+      }),
     },
     appBarShift: {
       marginLeft: drawerWidth,
       width: `calc(100% - ${drawerWidth}px)`,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen
-      })
+        duration: theme.transitions.duration.enteringScreen,
+      }),
     },
     menuButton: {
-      marginRight: 36
+      marginRight: 36,
     },
     hide: {
-      display: "none"
+      display: "none",
     },
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
     },
     drawerOpen: {
       width: drawerWidth,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen
-      })
+        duration: theme.transitions.duration.enteringScreen,
+      }),
     },
     drawerClose: {
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
+        duration: theme.transitions.duration.leavingScreen,
       }),
       overflowX: "hidden",
       width: theme.spacing(8) + 1,
       [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9) + 1
-      }
+        width: theme.spacing(9) + 1,
+      },
     },
     toolbar: {
       display: "flex",
       alignItems: "center",
       justifyContent: "flex-end",
       padding: theme.spacing(0, 1),
-      ...theme.mixins.toolbar
+      ...theme.mixins.toolbar,
     },
     textColor: {
       backgroundImage:
@@ -114,12 +110,12 @@ const useStyles = makeStyles((theme: Theme) =>
       WebkitTextFillColor: "transparent",
       fontFamily: "Yellowtail",
       fontSize: "1.5rem",
-      fontWeight: 400
+      fontWeight: 400,
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3)
-    }
+      padding: theme.spacing(3),
+    },
   })
 );
 
@@ -165,40 +161,7 @@ export function DoubleNavigation(props: Props) {
         );
       });
     } else {
-      return [1, 2, 3].map((val, ind) => {
-        return (
-          <ListItem key={ind}>
-            <ListItemAvatar>
-              <Avatar>
-                <Skeleton
-                  className={clsx(
-                    classes.skeletonBackground,
-                    classes.skeletonCircle
-                  )}
-                  animation="wave"
-                  variant="circle"
-                ></Skeleton>
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              secondary={
-                <Skeleton
-                  animation="wave"
-                  className={classes.skeletonBackground}
-                  variant="text"
-                ></Skeleton>
-              }
-              primary={
-                <Skeleton
-                  animation="wave"
-                  className={classes.skeletonBackground}
-                  variant="text"
-                ></Skeleton>
-              }
-            ></ListItemText>
-          </ListItem>
-        );
-      });
+      return <FakeLoadingList length={3}></FakeLoadingList>;
     }
   };
   const handleDrawerClose = () => {
@@ -215,7 +178,7 @@ export function DoubleNavigation(props: Props) {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open
+          [classes.appBarShift]: open,
         })}
       >
         <Toolbar>
@@ -225,7 +188,7 @@ export function DoubleNavigation(props: Props) {
             onClick={handleDrawerOpen}
             edge="start"
             className={clsx(classes.menuButton, {
-              [classes.hide]: open
+              [classes.hide]: open,
             })}
           >
             <MenuIcon />
@@ -239,13 +202,13 @@ export function DoubleNavigation(props: Props) {
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open
+          [classes.drawerClose]: !open,
         })}
         classes={{
           paper: clsx({
             [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open
-          })
+            [classes.drawerClose]: !open,
+          }),
         }}
       >
         <div className={classes.toolbar}>
@@ -278,13 +241,13 @@ export function DoubleNavigation(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   loaded: state.sidebar.loaded,
   users: state.sidebar.users,
-  selectedUser: state.sidebar.selectedUser
+  selectedUser: state.sidebar.selectedUser,
 });
 
 const mapDispatchToProps = {
   initData: getBasicInformation,
   openModal: openNewUserModal,
-  selectUser: selectUser
+  selectUser: selectUser,
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connect(mapStateToProps, mapDispatchToProps)(DoubleNavigation);
