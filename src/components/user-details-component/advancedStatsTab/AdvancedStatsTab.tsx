@@ -6,6 +6,8 @@ import {
   useMediaQuery,
   Box,
   ClickAwayListener,
+  LinearProgress,
+  Typography,
 } from "@material-ui/core";
 import { RootState } from "../../../redux/reducer";
 import ImagePreviewCard from "./ImagePreviewCard";
@@ -114,18 +116,22 @@ function AdvancedStatsTab(props: Props) {
   const matchesXl = useMediaQuery("(min-width: 1300px)");
   const items: JSX.Element[] = [];
   const _renderCards = () => {
-    for (var i = 0; i < props.images.length; i++) {
-      items.push(
-        <div key={i} className={clsx(classes.cardMargin)}>
-          <ImagePreviewCard
-            onSelectImage={props.onSelectImage}
-            openModal={props.openModal}
-            image={props.images[i]}
-          ></ImagePreviewCard>
-        </div>
-      );
+    if (props.imagesLoaded) {
+      for (var i = 0; i < props.images.length; i++) {
+        items.push(
+          <div key={i} className={clsx(classes.cardMargin)}>
+            <ImagePreviewCard
+              onSelectImage={props.onSelectImage}
+              openModal={props.openModal}
+              image={props.images[i]}
+            ></ImagePreviewCard>
+          </div>
+        );
+      }
+      return items;
+    } else {
+      return [];
     }
-    return items;
   };
   useEffect(() => {}, []);
   return (
@@ -141,7 +147,20 @@ function AdvancedStatsTab(props: Props) {
         <div className={classes.carouselWrapper}>
           <div className={classes.carousel}>
             <ItemsCarousel
+              placeholderItem={
+                <div style={{ height: "200px", width: "200px" }}>
+                  <LinearProgress
+                    variant="indeterminate"
+                    color="secondary"
+                  ></LinearProgress>
+                  <Typography variant="body2" align="center">
+                    Loading Images...
+                  </Typography>
+                </div>
+              }
+              numberOfPlaceholderItems={1}
               infiniteLoop={false}
+              enablePlaceholder={true}
               gutter={12}
               activePosition={"center"}
               chevronWidth={60}
@@ -200,6 +219,7 @@ function AdvancedStatsTab(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   images: state.advancedStats.filteredImages,
   selectedImage: state.advancedStats.selectedImage,
+  imagesLoaded: state.advancedStats.imagesLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) =>

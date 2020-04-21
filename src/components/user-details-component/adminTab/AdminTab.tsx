@@ -72,13 +72,27 @@ function AdminTab(props: Props) {
         <Divider></Divider>
       </div>
       <Grid container spacing={2} justify="flex-start" alignItems="center">
-        <Setting value={props.name}>Name</Setting>
-        <Setting value={props.hashtags.join(",")}>Hashtags</Setting>
-        <Setting value={props.explore.toString()}>explore</Setting>
-        <Setting canBeModified value={props.schedule}>
+        <Setting loaded={props.settingsLoaded} value={props.name}>
+          Name
+        </Setting>
+        <Setting loaded={props.settingsLoaded} value={props.hashtags.join(",")}>
+          Hashtags
+        </Setting>
+        <Setting loaded={props.settingsLoaded} value={props.explore.toString()}>
+          explore
+        </Setting>
+        <Setting
+          loaded={props.settingsLoaded}
+          canBeModified
+          value={props.schedule}
+        >
           Schedule
         </Setting>
-        <Setting canBeModified value={props.subreddits.join(",")}>
+        <Setting
+          loaded={props.settingsLoaded}
+          canBeModified
+          value={props.subreddits.join(",")}
+        >
           Subreddits
         </Setting>
 
@@ -125,6 +139,7 @@ const mapStateToProps = (state: RootState) => ({
   hashtags: state.admin.hashtags,
   logsLoaded: state.admin.logsLoaded,
   dmsLoaded: state.admin.dmsLoaded,
+  settingsLoaded: state.admin.settingsLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);

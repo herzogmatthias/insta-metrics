@@ -13,6 +13,7 @@ import {
 } from "../actions/advancedStatsAction";
 
 const initialState: AdvancedStatsState = {
+  imagesLoaded: false,
   sortingOptions: [
     {
       id: 1,

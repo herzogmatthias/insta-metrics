@@ -17,6 +17,7 @@ export interface AdvancedStatsState {
   filteredImages: ImagePreview[];
   sortingOptions: SortByOption[];
   modalOpen: boolean;
+  imagesLoaded: boolean;
   selectedImageDetails: ImageDetails;
 }
 

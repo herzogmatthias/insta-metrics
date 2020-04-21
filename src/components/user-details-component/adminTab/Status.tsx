@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function Status({ status }: Props) {
+function Status({ status, loaded }: Props) {
   const classes = useStyles();
   const _renderSize = (bytes: number, si: boolean) => {
     var thresh = si ? 1000 : 1024;
@@ -77,74 +77,86 @@ function Status({ status }: Props) {
   };
   return (
     <Grid container alignContent="center" justify="center" spacing={1}>
-      <Grid
-        item
-        xs={12}
-        md={2}
-        className={clsx(classes.borderRight, classes.flex)}
-      >
-        <div
-          className={clsx(
-            classes.circle,
-            classes.spacingRight,
-            status.status === "online" ? classes.GreenBg : classes.RedBg
-          )}
-        ></div>
-        <Typography variant="body2">{status.status}</Typography>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        md={2}
-        className={clsx(classes.borderRight, classes.flex)}
-      >
-        <Typography className={classes.spacingRight} variant="body2">
-          {_renderSize(status.monit.memory, true)} Memory Usage
-        </Typography>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        md={2}
-        className={clsx(classes.borderRight, classes.flex)}
-      >
-        <Typography variant="body2">
-          {status.monit.cpu * 100}% CPU Usage
-        </Typography>
-        <CircularProgress
-          className={
-            status.monit.cpu > 0.75
-              ? classes.RedColor
-              : status.monit.cpu > 0.5
-              ? classes.YellowColor
-              : classes.GreenColor
-          }
-          variant="static"
-          value={status.monit.cpu * 100}
-        />
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        md={2}
-        className={clsx(classes.flex, classes.borderRight)}
-      >
-        <Typography className={classes.spacingRight} variant="body2">
-          {status.env.instances}{" "}
-          {status.env.instances > 1 ? "instances are " : "instance is "} running
-        </Typography>
-      </Grid>
-      <Grid item xs={12} md={2} className={clsx(classes.flex)}>
-        <Typography variant="body2">
-          Bot is running since {format(new Date(status.env.uptime), "HH:mm:ss")}
-        </Typography>
-      </Grid>
+      {loaded ? (
+        <>
+          <Grid
+            item
+            xs={12}
+            md={2}
+            className={clsx(classes.borderRight, classes.flex)}
+          >
+            <div
+              className={clsx(
+                classes.circle,
+                classes.spacingRight,
+                status.status === "online" ? classes.GreenBg : classes.RedBg
+              )}
+            ></div>
+            <Typography variant="body2">{status.status}</Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={2}
+            className={clsx(classes.borderRight, classes.flex)}
+          >
+            <Typography className={classes.spacingRight} variant="body2">
+              {_renderSize(status.monit.memory, true)} Memory Usage
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={2}
+            className={clsx(classes.borderRight, classes.flex)}
+          >
+            <Typography variant="body2">
+              {status.monit.cpu * 100}% CPU Usage
+            </Typography>
+            <CircularProgress
+              className={
+                status.monit.cpu > 0.75
+                  ? classes.RedColor
+                  : status.monit.cpu > 0.5
+                  ? classes.YellowColor
+                  : classes.GreenColor
+              }
+              variant="static"
+              value={status.monit.cpu * 100}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={2}
+            className={clsx(classes.flex, classes.borderRight)}
+          >
+            <Typography className={classes.spacingRight} variant="body2">
+              {status.env.instances}{" "}
+              {status.env.instances > 1 ? "instances are " : "instance is "}{" "}
+              running
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={2} className={clsx(classes.flex)}>
+            <Typography variant="body2">
+              Bot is running since{" "}
+              {format(new Date(status.env.uptime), "HH:mm:ss")}
+            </Typography>
+          </Grid>
+        </>
+      ) : (
+        <Grid className={classes.flex} item xs={12}>
+          <CircularProgress></CircularProgress>
+          <Typography variant="subtitle1">Fetching Status...</Typography>
+        </Grid>
+      )}
     </Grid>
   );
 }
 
 const mapStateToProps = (state: RootState) => ({
   status: state.admin.status,
+  loaded: state.admin.infoLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);

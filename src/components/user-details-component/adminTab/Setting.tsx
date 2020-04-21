@@ -17,11 +17,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import clsx from "clsx";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
+import { Skeleton } from "@material-ui/lab";
 
 export interface Props {
   canBeModified: boolean;
   value: string;
   children: string;
+  loaded: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,38 +55,44 @@ export default function Setting(props: Props) {
         </Grid>
         <Grid item xs={12} md={10} lg={11}>
           <div className={clsx(classes.spacing, classes.notModifyFlex)}>
-            {modify ? (
-              <FormControl variant="outlined">
-                <OutlinedInput
-                  id="standard-adornment-password"
-                  value={props.value}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setModify(false)}
-                        aria-label="toggle password visibility"
-                      >
-                        <CloseIcon></CloseIcon>
-                      </IconButton>
-                      <IconButton
-                        onClick={() => setModify(false)}
-                        aria-label="toggle password visibility"
-                      >
-                        <SaveIcon></SaveIcon>
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+            {props.loaded ? (
+              <>
+                {modify ? (
+                  <FormControl variant="outlined">
+                    <OutlinedInput
+                      id="standard-adornment-password"
+                      value={props.value}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setModify(false)}
+                            aria-label="toggle password visibility"
+                          >
+                            <CloseIcon></CloseIcon>
+                          </IconButton>
+                          <IconButton
+                            onClick={() => setModify(false)}
+                            aria-label="toggle password visibility"
+                          >
+                            <SaveIcon></SaveIcon>
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                ) : (
+                  <Typography align="center" variant="subtitle1">
+                    {props.value}
+                  </Typography>
+                )}
+                {modify || !props.canBeModified ? null : (
+                  <IconButton onClick={() => setModify(true)}>
+                    <EditIcon></EditIcon>
+                  </IconButton>
+                )}
+              </>
             ) : (
-              <Typography align="center" variant="subtitle1">
-                {props.value}
-              </Typography>
-            )}
-            {modify || !props.canBeModified ? null : (
-              <IconButton onClick={() => setModify(true)}>
-                <EditIcon></EditIcon>
-              </IconButton>
+              <Skeleton variant="text" width="50%"></Skeleton>
             )}
           </div>
         </Grid>

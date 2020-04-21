@@ -16,6 +16,8 @@ export interface UserDetailsState {
   CarouselData: CarouselWrapper[];
   selectedChart: number;
   basicStats: BasicTabStats;
+  graphLoaded: boolean;
+  dataLoaded: boolean;
 }
 
 interface BasicTabStats {

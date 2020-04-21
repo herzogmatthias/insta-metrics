@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import "./index.css";
@@ -10,6 +10,17 @@ import AuthService from "./services/AuthService";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { Overrides as CoreOverrides } from "@material-ui/core/styles/overrides";
+import { AutocompleteClassKey } from "@material-ui/lab";
+
+interface Overrides extends CoreOverrides {
+  // Define additional lab components here as needed....
+  MuiSkeleton?:
+    | Partial<
+        Record<AutocompleteClassKey, CSSProperties | (() => CSSProperties)>
+      >
+    | undefined;
+}
 
 Axios.interceptors.request.use(
   function (config) {
@@ -23,25 +34,32 @@ Axios.interceptors.request.use(
   }
 );
 
-const theme = createMuiTheme({
-  overrides: {
-    MuiListItem: {
-      root: {
-        "&$selected": {
-          backgroundColor: "lightgray",
-        },
-        "&$selected:hover": {
-          backgroundColor: "lightgray",
-        },
+const overrides: Overrides = {
+  MuiListItem: {
+    root: {
+      "&$selected": {
+        backgroundColor: "lightgray",
       },
-    },
-    MuiAppBar: {
-      colorPrimary: {
-        backgroundColor: "white",
-        color: "black",
+      "&$selected:hover": {
+        backgroundColor: "lightgray",
       },
     },
   },
+  MuiAppBar: {
+    colorPrimary: {
+      backgroundColor: "white",
+      color: "black",
+    },
+  },
+  MuiSkeleton: {
+    root: {
+      backgroundColor: "lightgrey",
+    },
+  },
+};
+
+const theme = createMuiTheme({
+  overrides: overrides,
 });
 
 theme.typography.h4 = {

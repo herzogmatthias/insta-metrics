@@ -65,8 +65,9 @@ function BasicTab(props: Props) {
       >
         <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
-            fadeTimeOut={4000}
+            fadeTimeOut={0}
             data={props.basicStats.avgLikes}
+            loaded={props.dataLoaded}
             name="Avg Likes"
             iconColor="#bc2a8d"
             icon={<FavoriteIcon className={classes.iconSize}></FavoriteIcon>}
@@ -74,8 +75,9 @@ function BasicTab(props: Props) {
         </Grid>
         <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
-            fadeTimeOut={4500}
+            fadeTimeOut={0}
             data={props.basicStats.avgComments}
+            loaded={props.dataLoaded}
             name="Avg. Comments"
             iconColor="#5851DB"
             icon={<CommentIcon className={classes.iconSize}></CommentIcon>}
@@ -83,8 +85,9 @@ function BasicTab(props: Props) {
         </Grid>
         <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
-            fadeTimeOut={5000}
+            fadeTimeOut={0}
             data={props.basicStats.avgEngagementRate + "%"}
+            loaded={props.dataLoaded}
             name="Avg. Engagement Rate"
             iconColor="#FD1D1D"
             icon={
@@ -94,7 +97,8 @@ function BasicTab(props: Props) {
         </Grid>
         <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
-            fadeTimeOut={5500}
+            fadeTimeOut={0}
+            loaded={props.dataLoaded}
             data={
               numeral(props.basicStats.minPrice).format("$0,0.00") +
               " - " +
@@ -122,6 +126,7 @@ function BasicTab(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   tab: state.userDetails.tab,
   basicStats: state.userDetails.basicStats,
+  dataLoaded: state.userDetails.dataLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);

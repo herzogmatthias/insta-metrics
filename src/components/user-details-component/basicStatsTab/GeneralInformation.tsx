@@ -22,6 +22,7 @@ import {
   ListItemAvatar,
   Chip,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -105,25 +106,35 @@ function GeneralInformation(props: Props) {
                 direction="column"
                 spacing={0}
               >
-                <Grid item xs>
-                  <Typography className={classes.flexVerified} variant="h6">
-                    {props.basicStats.name}
-                    {props.basicStats.isVerified ? (
-                      <CheckCircleIcon
-                        className={classes.verifiedColor}
-                      ></CheckCircleIcon>
-                    ) : null}
-                  </Typography>
-                  <Typography
-                    gutterBottom
-                    variant="body2"
-                    color="textSecondary"
-                  >
-                    @{props.basicStats.userName}
-                  </Typography>
-                  <Typography variant="body2">
-                    {props.basicStats.biography}
-                  </Typography>
+                <Grid item xs={12}>
+                  {props.dataLoaded ? (
+                    <>
+                      <Typography className={classes.flexVerified} variant="h6">
+                        {props.basicStats.name}
+                        {props.basicStats.isVerified ? (
+                          <CheckCircleIcon
+                            className={classes.verifiedColor}
+                          ></CheckCircleIcon>
+                        ) : null}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="body2"
+                        color="textSecondary"
+                      >
+                        @{props.basicStats.userName}
+                      </Typography>
+                      <Typography variant="body2">
+                        {props.basicStats.biography}
+                      </Typography>
+                    </>
+                  ) : (
+                    <>
+                      <Skeleton width="200px" variant="text"></Skeleton>
+                      <Skeleton variant="text"></Skeleton>
+                      <Skeleton variant="text"></Skeleton>
+                    </>
+                  )}
                 </Grid>
               </Grid>
             </Grid>
@@ -144,13 +155,19 @@ function GeneralInformation(props: Props) {
                   <PhotoLibraryIcon></PhotoLibraryIcon>
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText
-                primary={
-                  numeral(props.basicStats.posts).format(
-                    checkFormat(props.basicStats.posts)
-                  ) + " Posts"
-                }
-              ></ListItemText>
+              {props.dataLoaded ? (
+                <ListItemText
+                  primary={
+                    numeral(props.basicStats.posts).format(
+                      checkFormat(props.basicStats.posts)
+                    ) + " Posts"
+                  }
+                ></ListItemText>
+              ) : (
+                <ListItemText
+                  primary={<Skeleton variant="text" width="80%"></Skeleton>}
+                ></ListItemText>
+              )}
             </ListItem>
 
             <ListItem divider>
@@ -159,13 +176,19 @@ function GeneralInformation(props: Props) {
                   <GroupAddIcon></GroupAddIcon>
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText
-                primary={
-                  numeral(props.basicStats.follower).format(
-                    checkFormat(props.basicStats.follower)
-                  ) + " Followers"
-                }
-              ></ListItemText>
+              {props.dataLoaded ? (
+                <ListItemText
+                  primary={
+                    numeral(props.basicStats.follower).format(
+                      checkFormat(props.basicStats.follower)
+                    ) + " Followers"
+                  }
+                ></ListItemText>
+              ) : (
+                <ListItemText
+                  primary={<Skeleton variant="text" width="80%"></Skeleton>}
+                ></ListItemText>
+              )}
             </ListItem>
             <ListItem divider>
               <ListItemAvatar>
@@ -173,28 +196,46 @@ function GeneralInformation(props: Props) {
                   <PersonAddIcon></PersonAddIcon>
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText
-                primary={
-                  numeral(props.basicStats.following).format(
-                    checkFormat(props.basicStats.following)
-                  ) + " Following"
-                }
-              ></ListItemText>
+              {props.dataLoaded ? (
+                <ListItemText
+                  primary={
+                    numeral(props.basicStats.following).format(
+                      checkFormat(props.basicStats.following)
+                    ) + " Following"
+                  }
+                ></ListItemText>
+              ) : (
+                <ListItemText
+                  primary={<Skeleton variant="text" width="80%"></Skeleton>}
+                ></ListItemText>
+              )}
             </ListItem>
             <ListItem>
-              {props.basicStats.tags.map((val, ind) => {
-                return (
-                  <Chip
-                    key={ind}
-                    style={{
-                      marginRight: "5px",
-                      backgroundColor: randomColor(),
-                      color: "white",
-                    }}
-                    label={val}
-                  ></Chip>
-                );
-              })}
+              {props.dataLoaded
+                ? props.basicStats.tags.map((val, ind) => {
+                    return (
+                      <Chip
+                        key={ind}
+                        style={{
+                          marginRight: "5px",
+                          backgroundColor: randomColor(),
+                          color: "white",
+                        }}
+                        label={val}
+                      ></Chip>
+                    );
+                  })
+                : Array.apply(null, Array(3)).map((val, ind) => {
+                    return (
+                      <Skeleton
+                        key={ind}
+                        variant="text"
+                        width="60px"
+                        height="30px"
+                        style={{ marginRight: "5px" }}
+                      ></Skeleton>
+                    );
+                  })}
             </ListItem>
           </List>
         </Paper>
@@ -205,6 +246,7 @@ function GeneralInformation(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   tab: state.userDetails.tab,
   basicStats: state.userDetails.basicStats,
+  dataLoaded: state.userDetails.dataLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);

@@ -19,6 +19,8 @@ const initialState: IAdminState = {
   explore: true,
   logsLoaded: false,
   dmsLoaded: false,
+  settingsLoaded: false,
+  infoLoaded: false,
   dms: [
     {
       avatarUrl:

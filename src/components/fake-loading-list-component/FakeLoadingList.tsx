@@ -17,9 +17,6 @@ export interface Props {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    skeletonBackground: {
-      backgroundColor: "lightgrey",
-    },
     skeletonCircle: {
       height: "40px",
       width: "40px",
@@ -38,30 +35,15 @@ export function FakeLoadingList(props: Props) {
             <ListItemAvatar>
               <Avatar>
                 <Skeleton
-                  className={clsx(
-                    classes.skeletonBackground,
-                    classes.skeletonCircle
-                  )}
+                  className={clsx(classes.skeletonCircle)}
                   animation="wave"
                   variant="circle"
                 ></Skeleton>
               </Avatar>
             </ListItemAvatar>
             <ListItemText
-              secondary={
-                <Skeleton
-                  animation="wave"
-                  className={classes.skeletonBackground}
-                  variant="text"
-                ></Skeleton>
-              }
-              primary={
-                <Skeleton
-                  animation="wave"
-                  className={classes.skeletonBackground}
-                  variant="text"
-                ></Skeleton>
-              }
+              secondary={<Skeleton animation="wave" variant="text"></Skeleton>}
+              primary={<Skeleton animation="wave" variant="text"></Skeleton>}
             ></ListItemText>
           </ListItem>
         );

@@ -87,6 +87,7 @@ function CarouselWrapper(props: Props) {
         <BasicStatsChart
           type={props.carouselData[props.selected].header}
           data={props.carouselData[props.selected].chart}
+          loaded={props.graphLoaded}
         ></BasicStatsChart>
       </div>
     </Paper>
@@ -95,6 +96,7 @@ function CarouselWrapper(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   carouselData: state.userDetails.CarouselData,
   selected: state.userDetails.selectedChart,
+  graphLoaded: state.userDetails.graphLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) =>

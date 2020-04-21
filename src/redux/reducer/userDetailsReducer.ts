@@ -38,7 +38,7 @@ const initialState: UserDetailsState = {
       header: "Engagement Rate",
     },
   ],
-  tab: 2,
+  tab: 0,
   selectedChart: 0,
   basicStats: {
     name: "Kylie ",
@@ -57,6 +57,8 @@ const initialState: UserDetailsState = {
     minPrice: 1091806.38,
     maxPrice: 1321660.36,
   },
+  dataLoaded: false,
+  graphLoaded: false,
 };
 
 export const userDetailsReducer = createReducer(initialState, {

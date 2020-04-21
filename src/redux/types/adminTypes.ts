@@ -25,6 +25,8 @@ export interface IAdminState {
   hashtags: string[];
   logsLoaded: boolean;
   dmsLoaded: boolean;
+  settingsLoaded: boolean;
+  infoLoaded: boolean;
 }
 
 export interface IDM {
