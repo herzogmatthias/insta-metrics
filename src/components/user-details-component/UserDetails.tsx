@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import {
   makeStyles,
@@ -18,6 +18,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import BasicTab from "./basicStatsTab/BasicTab";
 import AdvancedStatsTab from "./advancedStatsTab/AdvancedStatsTab";
 import AdminTab from "./adminTab/AdminTab";
+import { RouteComponentProps, Route } from "react-router-dom";
+import { tabRoutes } from "./tabRoutes";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,7 +44,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-type Props = ConnectedProps<typeof connector>;
+type Props = ConnectedProps<typeof connector> & RouteComponentProps<void>;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,16 +63,26 @@ const useStyles = makeStyles((theme) => ({
 
 function UserDetails(props: Props) {
   const classes = useStyles();
-
+  useEffect(() => {
+    console.log("hello");
+    props.history.push({
+      pathname: props.match.url + "/" + tabRoutes[props.tab],
+      state: { tab: props.tab, username: props.selectedUser?.username },
+    });
+  }, []);
   const matches = useMediaQuery("(max-width: 600px)");
   return (
     <div className={classes.root}>
       <Paper className={classes.root}>
         <Tabs
           value={props.tab}
-          onChange={(ev: React.ChangeEvent<{}>, value: number) =>
-            props.onTabChange(value)
-          }
+          onChange={(ev: React.ChangeEvent<{}>, value: number) => {
+            props.onTabChange(value);
+            props.history.push({
+              pathname: props.match.url + "/" + tabRoutes[value],
+              state: { tab: value, username: props.selectedUser?.username },
+            });
+          }}
           textColor="primary"
           TabIndicatorProps={{ hidden: true }}
           centered={!matches}
@@ -100,13 +112,16 @@ function UserDetails(props: Props) {
         </Tabs>
       </Paper>
       <TabPanel value={props.tab} index={0}>
-        <BasicTab></BasicTab>
+        <Route path={props.match.url + "/basic"} component={BasicTab}></Route>
       </TabPanel>
       <TabPanel value={props.tab} index={1}>
-        <AdvancedStatsTab></AdvancedStatsTab>
+        <Route
+          path={props.match.url + "/advanced"}
+          component={AdvancedStatsTab}
+        ></Route>
       </TabPanel>
       <TabPanel value={props.tab} index={2}>
-        <AdminTab></AdminTab>
+        <Route path={props.match.url + "/admin"} component={AdminTab}></Route>
       </TabPanel>
     </div>
   );
@@ -114,6 +129,7 @@ function UserDetails(props: Props) {
 
 const mapStateToProps = (state: RootState) => ({
   tab: state.userDetails.tab,
+  selectedUser: state.sidebar.selectedUser,
 });
 
 const mapDispatchToProps = (dispatch: any) =>

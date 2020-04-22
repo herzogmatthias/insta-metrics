@@ -292,6 +292,7 @@ const initialState: AdvancedStatsState = {
     rankings: [
       { type: "Comments", percentage: 65, rank: 10 },
       { type: "Likes", percentage: 78, rank: 5 },
+      { type: "Likes", percentage: 78, rank: 5 },
     ],
     hashTags: [{ name: "#happybdayvic", posts: 16340 }],
     timeStamp: 1586239714,

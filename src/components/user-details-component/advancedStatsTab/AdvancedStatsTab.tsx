@@ -145,7 +145,7 @@ function AdvancedStatsTab(props: Props) {
       <SortBy></SortBy>
       <Box className={classes.posRelative}>
         <div className={classes.carouselWrapper}>
-          <div className={classes.carousel}>
+          <div id="mainCarousel" className={classes.carousel}>
             <ItemsCarousel
               placeholderItem={
                 <div style={{ height: "200px", width: "200px" }}>

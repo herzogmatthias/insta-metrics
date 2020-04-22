@@ -135,8 +135,8 @@ export function DoubleNavigation(props: Props) {
             selected={val.username === props.selectedUser?.username}
             onClick={() => {
               props.selectUser(val.username);
-              console.log(props.location);
-              props.history.push(val.username);
+              console.log(props.match);
+              props.history.push(props.match.url + "/" + val.username);
               console.log(props.location);
             }}
             button

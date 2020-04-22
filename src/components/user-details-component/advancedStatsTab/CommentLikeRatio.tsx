@@ -4,6 +4,7 @@ import {
   createStyles,
   useMediaQuery,
   Typography,
+  Grid,
 } from "@material-ui/core";
 import React from "react";
 import {
@@ -35,10 +36,10 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function CommentLikeRatio(props: Props) {
   const classes = useStyles();
   return (
-    <div className={classes.flex}>
+    <Grid container spacing={2} className={classes.flex}>
       {props.rankings.map((val, ind) => {
         return (
-          <div key={ind} className={classes.circleSize}>
+          <Grid item xs={6} key={ind}>
             <CircularProgressbarWithChildren
               value={val.percentage}
               strokeWidth={4}
@@ -57,9 +58,9 @@ export default function CommentLikeRatio(props: Props) {
                 </Typography>
               </div>
             </CircularProgressbarWithChildren>
-          </div>
+          </Grid>
         );
       })}
-    </div>
+    </Grid>
   );
 }

@@ -4,10 +4,12 @@ import { HomeState, ADD_TODO } from "../../redux/types/homeTypes";
 import { RootState } from "../../redux/reducer";
 import DoubleNavigation from "../../components/double-navigation-component/DoubleNavigation";
 import NewUser from "../../components/new-user-component/NewUser";
-import { Switch, RouteComponentProps } from "react-router-dom";
+import { Switch, RouteComponentProps, Route } from "react-router-dom";
 import { ProtectedRoute } from "../../router/Router";
 import UserDetails from "../../components/user-details-component/UserDetails";
 import { CssBaseline, CircularProgress, makeStyles } from "@material-ui/core";
+import { selectUser } from "../../redux/actions/sidebarActions";
+import { changeTab } from "../../redux/actions/userDetailsAction";
 
 type Props = ConnectedProps<typeof connector> & RouteComponentProps<void>;
 
@@ -30,9 +32,25 @@ const useStyles = makeStyles((theme) => ({
 
 function Home(props: Props) {
   const classes = useStyles();
+  window.onpopstate = (e: PopStateEvent) => {
+    console.log(e.state.state.tab);
+    if (e.state.state.username) {
+      props.selectUser(e.state.state.username);
+    }
+    if (e.state.state.tab != undefined) {
+      console.log(e.state.state.tab);
+      props.changeTab(e.state.state.tab);
+    }
+  };
   const _renderDetails = () => {
+    console.log(props.selectedUser!.username);
     if (props.loaded) {
-      return <UserDetails></UserDetails>;
+      return (
+        <Route
+          path={`${props.match.url}/${props.selectedUser?.username}`}
+          component={UserDetails}
+        ></Route>
+      );
     } else {
       return <CircularProgress />;
     }
@@ -50,10 +68,16 @@ function Home(props: Props) {
   );
 }
 const mapState = (state: RootState) => {
-  return { loaded: state.sidebar.loaded, users: state.sidebar.users };
+  return {
+    loaded: state.sidebar.loaded,
+    users: state.sidebar.users,
+    selectedUser: state.sidebar.selectedUser,
+  };
 };
 const mapDispatch = {
   addTodos: (increment: number) => ({ type: ADD_TODO, payload: increment }),
+  changeTab: (t: number) => changeTab(t),
+  selectUser: (username: string) => selectUser(username),
 };
 
 const connector = connect(mapState, mapDispatch);
