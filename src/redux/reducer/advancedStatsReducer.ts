@@ -13,7 +13,7 @@ import {
 } from "../actions/advancedStatsAction";
 
 const initialState: AdvancedStatsState = {
-  imagesLoaded: false,
+  imagesLoaded: true,
   sortingOptions: [
     {
       id: 1,
@@ -288,7 +288,9 @@ const initialState: AdvancedStatsState = {
     },
   ],
   modalOpen: false,
+  imageDetailsLoaded: false,
   selectedImageDetails: {
+    er: 3.1,
     rankings: [
       { type: "Comments", percentage: 65, rank: 10 },
       { type: "Likes", percentage: 78, rank: 5 },

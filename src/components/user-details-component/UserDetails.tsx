@@ -20,6 +20,7 @@ import AdvancedStatsTab from "./advancedStatsTab/AdvancedStatsTab";
 import AdminTab from "./adminTab/AdminTab";
 import { RouteComponentProps, Route } from "react-router-dom";
 import { tabRoutes } from "./tabRoutes";
+import { selectUser } from "../../redux/actions/sidebarActions";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -64,11 +65,18 @@ const useStyles = makeStyles((theme) => ({
 function UserDetails(props: Props) {
   const classes = useStyles();
   useEffect(() => {
-    console.log("hello");
-    props.history.push({
-      pathname: props.match.url + "/" + tabRoutes[props.tab],
-      state: { tab: props.tab, username: props.selectedUser?.username },
-    });
+    let perf = performance
+      .getEntriesByType("navigation")
+      .find(
+        (v) => (v as PerformanceNavigationTiming).type === "reload"
+      ) as PerformanceNavigationTiming;
+
+    if (!perf || perf.type !== "reload") {
+      props.history.push({
+        pathname: props.match.url + "/" + tabRoutes[props.tab],
+        state: { tab: props.tab, username: props.selectedUser?.username },
+      });
+    }
   }, []);
   const matches = useMediaQuery("(max-width: 600px)");
   return (
@@ -136,6 +144,7 @@ const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
       onTabChange: (t: number) => changeTab(t),
+      selectUser: (username: string) => selectUser(username),
     },
     dispatch
   );

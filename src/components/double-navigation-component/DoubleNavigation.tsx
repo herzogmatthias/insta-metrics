@@ -33,6 +33,7 @@ import { Skeleton } from "@material-ui/lab";
 import { openNewUserModal } from "../../redux/actions/newUserAction";
 import { RouteComponentProps } from "react-router-dom";
 import { FakeLoadingList } from "../fake-loading-list-component/FakeLoadingList";
+import { tabRoutes } from "../user-details-component/tabRoutes";
 
 interface IDoubleNavigationProps extends RouteComponentProps<void> {}
 
@@ -136,7 +137,18 @@ export function DoubleNavigation(props: Props) {
             onClick={() => {
               props.selectUser(val.username);
               console.log(props.match);
-              props.history.push(props.match.url + "/" + val.username);
+              props.history.push({
+                pathname:
+                  props.match.url +
+                  "/" +
+                  val.username +
+                  "/" +
+                  tabRoutes[props.tab],
+                state: {
+                  tab: props.tab,
+                  username: val.username,
+                },
+              });
               console.log(props.location);
             }}
             button
@@ -242,6 +254,7 @@ const mapStateToProps = (state: RootState) => ({
   loaded: state.sidebar.loaded,
   users: state.sidebar.users,
   selectedUser: state.sidebar.selectedUser,
+  tab: state.userDetails.tab,
 });
 
 const mapDispatchToProps = {

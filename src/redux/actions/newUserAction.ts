@@ -6,7 +6,8 @@ import {
   CHANGE_USERNAME_INPUT,
   USERNAME_HAS_ERROR,
   AddUserError,
-  USERNAME_HAS_NO_ERROR
+  USERNAME_HAS_NO_ERROR,
+  HANDLE_CHECK,
 } from "../types/newUserTypes";
 import { withPayloadType } from "./genericActionPayloadType";
 import Axios from "axios";
@@ -24,21 +25,25 @@ export const usernameHasError = createAction(
   withPayloadType<AddUserError>()
 );
 export const usernameHasNoError = createAction(USERNAME_HAS_NO_ERROR);
+export const handleCheck = createAction(
+  HANDLE_CHECK,
+  withPayloadType<boolean>()
+);
 
-export function addUser(username: string) {
+export function addUser(username: string, isBot: boolean) {
   return (dispatch: any) => {
-    Axios.get(URI + "new-user/" + username)
-      .then(value => {
+    Axios.get(URI + "new-user/" + username + `?isBot=${isBot}`)
+      .then((value) => {
         dispatch({ type: USERNAME_HAS_NO_ERROR, payload: undefined });
         dispatch({
           type: USERNAME_IS_VALID,
-          payload: value.data.basicInformation as BasicUserInformation
+          payload: value.data.basicInformation as BasicUserInformation,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         const usernameError: AddUserError = {
           error: error.response.data.error,
-          text: error.response.data.text
+          text: error.response.data.text,
         };
         dispatch({ type: USERNAME_HAS_ERROR, payload: usernameError });
       });

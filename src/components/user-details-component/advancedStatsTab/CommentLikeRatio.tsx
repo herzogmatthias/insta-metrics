@@ -5,6 +5,7 @@ import {
   useMediaQuery,
   Typography,
   Grid,
+  CircularProgress,
 } from "@material-ui/core";
 import React from "react";
 import {
@@ -17,6 +18,7 @@ import randomColor from "randomcolor";
 
 interface Props {
   rankings: Ranking[];
+  loaded: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,32 +37,40 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function CommentLikeRatio(props: Props) {
   const classes = useStyles();
-  return (
-    <Grid container spacing={2} className={classes.flex}>
-      {props.rankings.map((val, ind) => {
-        return (
-          <Grid item xs={6} key={ind}>
-            <CircularProgressbarWithChildren
-              value={val.percentage}
-              strokeWidth={4}
-              styles={buildStyles({
-                pathColor: randomColor(),
-                trailColor: "transparent",
-              })}
-            >
-              <div className={classes.textAlign}>
-                <Typography variant="subtitle1">
-                  Rank <strong>{val.rank}</strong> of 50
-                </Typography>
-                <Typography variant="body1">
-                  Top <strong>{100 - val.percentage}%</strong> of{" "}
-                  <strong>{val.type}</strong>
-                </Typography>
-              </div>
-            </CircularProgressbarWithChildren>
-          </Grid>
-        );
-      })}
-    </Grid>
-  );
+  if (props.loaded) {
+    return (
+      <Grid container spacing={2} className={classes.flex}>
+        {props.rankings.map((val, ind) => {
+          return (
+            <Grid style={{ maxWidth: "300px" }} item xs={6} key={ind}>
+              <CircularProgressbarWithChildren
+                value={val.percentage}
+                strokeWidth={4}
+                styles={buildStyles({
+                  pathColor: randomColor(),
+                  trailColor: "transparent",
+                })}
+              >
+                <div className={classes.textAlign}>
+                  <Typography variant="subtitle1">
+                    Rank <strong>{val.rank}</strong> of 50
+                  </Typography>
+                  <Typography variant="body1">
+                    Top <strong>{100 - val.percentage}%</strong> of{" "}
+                    <strong>{val.type}</strong>
+                  </Typography>
+                </div>
+              </CircularProgressbarWithChildren>
+            </Grid>
+          );
+        })}
+      </Grid>
+    );
+  } else {
+    return (
+      <div className={classes.flex}>
+        <CircularProgress variant="indeterminate" size={60}></CircularProgress>
+      </div>
+    );
+  }
 }

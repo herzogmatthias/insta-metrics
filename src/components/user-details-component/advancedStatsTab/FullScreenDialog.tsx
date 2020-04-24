@@ -76,19 +76,29 @@ function FullScreenDialog(props: Props) {
         </AppBar>
         <Grid style={{ padding: "30px" }} container spacing={4}>
           <Grid xs={12} item md={6}>
-            <ImageDetailsCard image={props.imageDetails}></ImageDetailsCard>
+            <ImageDetailsCard
+              loaded={props.imageDetailsLoaded}
+              image={props.imageDetails}
+            ></ImageDetailsCard>
           </Grid>
           <Grid item xs={12} md={6} className={classes.flex}>
             <CommentLikeRatio
+              loaded={props.imageDetailsLoaded}
               rankings={props.imageDetails.rankings}
             ></CommentLikeRatio>
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <HashTags hashTags={props.imageDetails.hashTags}></HashTags>
+            <HashTags
+              loaded={props.imageDetailsLoaded}
+              hashTags={props.imageDetails.hashTags}
+            ></HashTags>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Comments comments={props.imageDetails.previewComments}></Comments>
+            <Comments
+              loaded={props.imageDetailsLoaded}
+              comments={props.imageDetails.previewComments}
+            ></Comments>
           </Grid>
         </Grid>
       </Dialog>
@@ -98,6 +108,7 @@ function FullScreenDialog(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   open: state.advancedStats.modalOpen,
   imageDetails: state.advancedStats.selectedImageDetails,
+  imageDetailsLoaded: state.advancedStats.imageDetailsLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) =>

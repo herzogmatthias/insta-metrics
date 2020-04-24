@@ -1,7 +1,7 @@
 import {
   newUserState,
   NewUserActionTypes,
-  AddUserError
+  AddUserError,
 } from "../types/newUserTypes";
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
@@ -9,14 +9,16 @@ import {
   closeNewUserModal,
   changeUsernameInput,
   usernameHasError,
-  usernameHasNoError
+  usernameHasNoError,
+  handleCheck,
 } from "../actions/newUserAction";
 
 const initialState: newUserState = {
   error: "",
   hasError: false,
   open: false,
-  username: ""
+  isBot: false,
+  username: "",
 };
 
 export const newUserReducer = createReducer(initialState, {
@@ -35,5 +37,8 @@ export const newUserReducer = createReducer(initialState, {
   },
   [usernameHasNoError.type]: (state, action) => {
     state = initialState;
-  }
+  },
+  [handleCheck.type]: (state, action: PayloadAction<boolean>) => {
+    state.isBot = action.payload;
+  },
 });

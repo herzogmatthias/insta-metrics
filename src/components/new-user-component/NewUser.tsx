@@ -7,14 +7,17 @@ import {
   DialogContentText,
   TextField,
   DialogActions,
-  Button
+  Button,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
 import { RootState } from "../../redux/reducer";
 import { bindActionCreators } from "redux";
 import {
   changeUsernameInput,
   closeNewUserModal,
-  addUser
+  addUser,
+  handleCheck,
 } from "../../redux/actions/newUserAction";
 
 type Props = ConnectedProps<typeof connector>;
@@ -41,15 +44,27 @@ export function NewUser(props: Props) {
           error={props.hasError}
           helperText={props.error}
           value={props.username}
-          onChange={e => props.onChangeUsername(e.target.value)}
+          onChange={(e) => props.onChangeUsername(e.target.value)}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={props.isBot}
+              onChange={(ev, checked) => props.handleCheck(checked)}
+              name="checkedB"
+              color="primary"
+            />
+          }
+          label="Is Bot Account"
         />
       </DialogContent>
+
       <DialogActions>
         <Button onClick={props.closeModal} color="primary">
           Cancel
         </Button>
         <Button
-          onClick={() => props.addUserWithUsername(props.username)}
+          onClick={() => props.addUserWithUsername(props.username, props.isBot)}
           color="primary"
         >
           Add
@@ -63,7 +78,8 @@ const mapStateToProps = (state: RootState) => ({
   open: state.newUser.open,
   username: state.newUser.username,
   error: state.newUser.error,
-  hasError: state.newUser.hasError
+  hasError: state.newUser.hasError,
+  isBot: state.newUser.isBot,
 });
 
 const mapDispatchToProps = (dispatch: any) =>
@@ -71,7 +87,9 @@ const mapDispatchToProps = (dispatch: any) =>
     {
       closeModal: closeNewUserModal,
       onChangeUsername: (t: string) => changeUsernameInput(t),
-      addUserWithUsername: (username: string) => addUser(username)
+      handleCheck: (t: boolean) => handleCheck(t),
+      addUserWithUsername: (username: string, isBot: boolean) =>
+        addUser(username, isBot),
     },
     dispatch
   );

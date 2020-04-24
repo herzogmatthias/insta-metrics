@@ -79,7 +79,7 @@ function Filter(props: Props) {
                   format="dd/MM/yyyy"
                   placeholder="dd/MM/yyyy"
                   margin="normal"
-                  id="date-picker-inline"
+                  id="date-picker-from"
                   label="From"
                   clearable
                   value={props.filterOptions.fromDate}
@@ -99,7 +99,7 @@ function Filter(props: Props) {
                   minDate={props.filterOptions.fromDate}
                   format="dd/MM/yyyy"
                   margin="normal"
-                  id="date-picker-inline"
+                  id="date-picker-to"
                   label="To"
                   value={props.filterOptions.toDate}
                   onChange={(date) => {

@@ -15,9 +15,11 @@ import format from "date-fns/format";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import React from "react";
 import { Comment } from "../../../redux/types/advancedStatsTypes";
+import { FakeLoadingList } from "../../fake-loading-list-component/FakeLoadingList";
 
 interface Props {
   comments: Comment[];
+  loaded: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,42 +45,48 @@ export default function Comments(props: Props) {
         <ListSubheader className={classes.whiteBackground} component="div">
           Preview Comments
         </ListSubheader>
-        {props.comments.map((val, ind) => {
-          return (
-            <div key={ind}>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar src={val.owner.avatar}></Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={val.owner.username}
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        color="textPrimary"
-                      >
-                        {val.text}
-                      </Typography>
-                      <span className={classes.flex}>
-                        {"posted on " +
-                          format(
-                            new Date(val.timeStamp * 1000),
-                            "MMMM, d yyyy"
-                          ) +
-                          " - " +
-                          val.likes}{" "}
-                        <FavoriteIcon></FavoriteIcon>
-                      </span>
-                    </React.Fragment>
-                  }
-                ></ListItemText>
-              </ListItem>
-              <Divider variant="inset" component="li" />
-            </div>
-          );
-        })}
+        {props.loaded ? (
+          <>
+            {props.comments.map((val, ind) => {
+              return (
+                <div key={ind}>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar src={val.owner.avatar}></Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={val.owner.username}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            color="textPrimary"
+                          >
+                            {val.text}
+                          </Typography>
+                          <span className={classes.flex}>
+                            {"posted on " +
+                              format(
+                                new Date(val.timeStamp * 1000),
+                                "MMMM, d yyyy"
+                              ) +
+                              " - " +
+                              val.likes}{" "}
+                            <FavoriteIcon></FavoriteIcon>
+                          </span>
+                        </React.Fragment>
+                      }
+                    ></ListItemText>
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </div>
+              );
+            })}
+          </>
+        ) : (
+          <FakeLoadingList length={3}></FakeLoadingList>
+        )}
       </List>
     </div>
   );

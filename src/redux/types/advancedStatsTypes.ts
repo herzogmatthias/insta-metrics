@@ -17,6 +17,7 @@ export interface AdvancedStatsState {
   filteredImages: ImagePreview[];
   sortingOptions: SortByOption[];
   modalOpen: boolean;
+  imageDetailsLoaded: boolean;
   imagesLoaded: boolean;
   selectedImageDetails: ImageDetails;
 }
@@ -49,6 +50,7 @@ export interface ImageDetails {
   previewComments: Comment[];
   rankings: Ranking[];
   images: Image[];
+  er: number;
 }
 
 export interface Comment {

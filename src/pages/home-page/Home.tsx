@@ -7,9 +7,15 @@ import NewUser from "../../components/new-user-component/NewUser";
 import { Switch, RouteComponentProps, Route } from "react-router-dom";
 import { ProtectedRoute } from "../../router/Router";
 import UserDetails from "../../components/user-details-component/UserDetails";
-import { CssBaseline, CircularProgress, makeStyles } from "@material-ui/core";
+import {
+  CssBaseline,
+  CircularProgress,
+  makeStyles,
+  Portal,
+} from "@material-ui/core";
 import { selectUser } from "../../redux/actions/sidebarActions";
 import { changeTab } from "../../redux/actions/userDetailsAction";
+import { tabRoutes } from "../../components/user-details-component/tabRoutes";
 
 type Props = ConnectedProps<typeof connector> & RouteComponentProps<void>;
 
@@ -32,8 +38,36 @@ const useStyles = makeStyles((theme) => ({
 
 function Home(props: Props) {
   const classes = useStyles();
+  React.useEffect(() => {
+    let perf = performance
+      .getEntriesByType("navigation")
+      .find((v) => (v as PerformanceNavigationTiming).type === "reload") as
+      | PerformanceNavigationTiming
+      | undefined;
+    console.log(perf);
+    if (perf && perf!.type === "reload") {
+      const e = props.location.state as any;
+      console.log(e);
+      if (e.username) {
+        props.selectUser(e.username);
+      }
+      if (e.tab != undefined) {
+        console.log(e.tab);
+        props.changeTab(e.tab);
+      }
+      props.history.push({
+        pathname: props.match.url + "/" + e.username + "/" + tabRoutes[e.tab],
+        state: { tab: e.tab, username: e.username },
+      });
+    } else {
+      props.history.push({
+        pathname: props.match.url + "/" + props.selectedUser!.username,
+        state: { tab: 0, username: props.selectedUser?.username },
+      });
+    }
+  }, []);
   window.onpopstate = (e: PopStateEvent) => {
-    console.log(e.state.state.tab);
+    console.log(e.state);
     if (e.state.state.username) {
       props.selectUser(e.state.state.username);
     }
