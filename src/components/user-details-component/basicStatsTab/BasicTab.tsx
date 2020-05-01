@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { RootState } from "../../../redux/reducer";
 import { connect, ConnectedProps } from "react-redux";
@@ -12,6 +12,10 @@ import { makeStyles, Grid } from "@material-ui/core";
 import BasicStatsCard from "./BasicStatsCard";
 import GeneralInformation from "./GeneralInformation";
 import CarouselWrapper from "./CarouselWrapper";
+import {
+  getTags,
+  getGeneralInformation,
+} from "../../../redux/actions/userDetailsAction";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -54,9 +58,21 @@ const useStyles = makeStyles((theme) => ({
 
 function BasicTab(props: Props) {
   const classes = useStyles();
+  useEffect(() => {
+    async function init() {
+      props.getGeneralInformation(props.selectedUser!.username);
+      props.getTags(props.selectedUser!.username);
+    }
+    init();
+  }, []);
   return (
     <div>
-      <GeneralInformation></GeneralInformation>
+      <GeneralInformation
+        tags={props.tags}
+        tagsLoaded={props.tagsLoaded}
+        dataLoaded={props.dataLoaded}
+        basicStats={props.basicStats!}
+      ></GeneralInformation>
       <Grid
         className={clsx(classes.textDirection, classes.flex)}
         container
@@ -66,7 +82,7 @@ function BasicTab(props: Props) {
         <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
             fadeTimeOut={0}
-            data={props.basicStats.avgLikes}
+            data={props.basicStats?.avgLikes}
             loaded={props.dataLoaded}
             name="Avg Likes"
             iconColor="#bc2a8d"
@@ -76,7 +92,7 @@ function BasicTab(props: Props) {
         <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
             fadeTimeOut={0}
-            data={props.basicStats.avgComments}
+            data={props.basicStats?.avgComments}
             loaded={props.dataLoaded}
             name="Avg. Comments"
             iconColor="#5851DB"
@@ -86,7 +102,7 @@ function BasicTab(props: Props) {
         <Grid className={classes.cardMargin} xs={12} md={5} item>
           <BasicStatsCard
             fadeTimeOut={0}
-            data={props.basicStats.avgEngagementRate + "%"}
+            data={props.basicStats?.avgEngagementRate + "%"}
             loaded={props.dataLoaded}
             name="Avg. Engagement Rate"
             iconColor="#FD1D1D"
@@ -100,9 +116,9 @@ function BasicTab(props: Props) {
             fadeTimeOut={0}
             loaded={props.dataLoaded}
             data={
-              numeral(props.basicStats.minPrice).format("$0,0.00") +
+              numeral(props.basicStats?.avgPriceMin).format("$0,0.00") +
               " - " +
-              numeral(props.basicStats.maxPrice).format("$0,0.00")
+              numeral(props.basicStats?.avgPriceMax).format("$0,0.00")
             }
             name="Avg. Price Range Per Ad"
             iconColor="#85bb65"
@@ -127,9 +143,20 @@ const mapStateToProps = (state: RootState) => ({
   tab: state.userDetails.tab,
   basicStats: state.userDetails.basicStats,
   dataLoaded: state.userDetails.dataLoaded,
+  tagsLoaded: state.userDetails.tagsLoaded,
+  selectedUser: state.sidebar.selectedUser,
+  tags: state.userDetails.tags,
 });
 
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+      getTags: (username: string) => getTags(username),
+      getGeneralInformation: (username: string) =>
+        getGeneralInformation(username),
+    },
+    dispatch
+  );
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connector(BasicTab);

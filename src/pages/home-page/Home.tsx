@@ -48,10 +48,10 @@ function Home(props: Props) {
     if (perf && perf!.type === "reload") {
       const e = props.location.state as any;
       console.log(e);
-      if (e.username) {
+      if (e && e.username) {
         props.selectUser(e.username);
       }
-      if (e.tab != undefined) {
+      if (e && e.tab != undefined) {
         console.log(e.tab);
         props.changeTab(e.tab);
       }
@@ -60,14 +60,15 @@ function Home(props: Props) {
         state: { tab: e.tab, username: e.username },
       });
     } else {
-      props.history.push({
-        pathname: props.match.url + "/" + props.selectedUser!.username,
-        state: { tab: 0, username: props.selectedUser?.username },
-      });
+      if (props.selectedUser) {
+        props.history.push({
+          pathname: props.match.url + "/" + props.selectedUser!.username,
+          state: { tab: 0, username: props.selectedUser?.username },
+        });
+      }
     }
   }, []);
   window.onpopstate = (e: PopStateEvent) => {
-    console.log(e.state);
     if (e.state.state.username) {
       props.selectUser(e.state.state.username);
     }
@@ -77,7 +78,6 @@ function Home(props: Props) {
     }
   };
   const _renderDetails = () => {
-    console.log(props.selectedUser!.username);
     if (props.loaded) {
       return (
         <Route

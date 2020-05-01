@@ -11,7 +11,7 @@ export default class Router extends React.PureComponent {
         <Switch>
           <Route path="/login" component={Login}></Route>
           <Route path="/dashboard" component={Home}></Route>
-          <Redirect strict from="/" to="dashboard"></Redirect>
+          <Redirect strict from="/" to="login"></Redirect>
         </Switch>
       </BrowserRouter>
     );
@@ -22,7 +22,7 @@ export const ProtectedRoute = ({ component, ...rest }: any) => {
   return (
     <Route
       {...rest}
-      render={props => {
+      render={(props) => {
         if (AuthService.getToken() != null) {
           return React.createElement(component, props);
         } else {

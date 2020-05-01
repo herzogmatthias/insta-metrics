@@ -3,7 +3,7 @@ import {
   FETCH_BASIC_INFORMATION,
   USERNAME_IS_VALID,
   BasicUserInformation,
-  SELECT_USER
+  SELECT_USER,
 } from "../types/sidebarTypes";
 import axios from "axios";
 import { withPayloadType } from "./genericActionPayloadType";
@@ -20,13 +20,23 @@ export const usernameIsValid = createAction(
 
 export const selectUser = createAction(SELECT_USER, withPayloadType<string>());
 
-export function getBasicInformation(history: any) {
+export function getBasicInformation(match: any, history: any) {
   return (dispatch: any) => {
-    axios.get(URI + "basic-information").then(res => {
+    axios.get(URI + "user/basic-information").then((res) => {
       dispatch({ type: FETCH_BASIC_INFORMATION, payload: res.data });
       if (res.data.length !== 0) {
-        history.push("dashboard/" + res.data[0].username);
         dispatch({ type: SELECT_USER, payload: res.data[0].username });
+        let perf = performance
+          .getEntriesByType("navigation")
+          .find((v) => (v as PerformanceNavigationTiming).type === "reload") as
+          | PerformanceNavigationTiming
+          | undefined;
+        if (!perf || perf!.type !== "reload") {
+          history.push({
+            pathname: match.url + "/" + res.data[0].username + "/basic",
+            state: { tab: 0, username: res.data[0].username },
+          });
+        }
       }
     });
   };

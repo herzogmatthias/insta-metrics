@@ -181,9 +181,9 @@ export function DoubleNavigation(props: Props) {
   };
   useEffect(() => {
     async function init() {
-      props.initData(props.history);
+      props.initData(props.match, props.history);
     }
-    //init();
+    init();
   }, []);
   return (
     <div>

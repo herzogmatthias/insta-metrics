@@ -13,7 +13,6 @@ import {
   useMediaQuery,
   LinearProgress,
 } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import React, { useState } from "react";

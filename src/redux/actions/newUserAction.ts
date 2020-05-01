@@ -8,6 +8,7 @@ import {
   AddUserError,
   USERNAME_HAS_NO_ERROR,
   HANDLE_CHECK,
+  CHECK_USERNAME,
 } from "../types/newUserTypes";
 import { withPayloadType } from "./genericActionPayloadType";
 import Axios from "axios";
@@ -20,6 +21,7 @@ export const changeUsernameInput = createAction(
   CHANGE_USERNAME_INPUT,
   withPayloadType<string>()
 );
+export const checkUsername = createAction(CHECK_USERNAME);
 export const usernameHasError = createAction(
   USERNAME_HAS_ERROR,
   withPayloadType<AddUserError>()
@@ -32,6 +34,7 @@ export const handleCheck = createAction(
 
 export function addUser(username: string, isBot: boolean) {
   return (dispatch: any) => {
+    dispatch({ type: CHECK_USERNAME, payload: undefined });
     Axios.get(URI + "new-user/" + username + `?isBot=${isBot}`)
       .then((value) => {
         dispatch({ type: USERNAME_HAS_NO_ERROR, payload: undefined });

@@ -10,6 +10,9 @@ import {
   Button,
   FormControlLabel,
   Checkbox,
+  Box,
+  CircularProgress,
+  Typography,
 } from "@material-ui/core";
 import { RootState } from "../../redux/reducer";
 import { bindActionCreators } from "redux";
@@ -35,28 +38,44 @@ export function NewUser(props: Props) {
           Enter the username of an Instagram account to add he or she to your
           watchlist.
         </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="username"
-          fullWidth
-          error={props.hasError}
-          helperText={props.error}
-          value={props.username}
-          onChange={(e) => props.onChangeUsername(e.target.value)}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={props.isBot}
-              onChange={(ev, checked) => props.handleCheck(checked)}
-              name="checkedB"
-              color="primary"
-            />
-          }
-          label="Is Bot Account"
-        />
+        <div>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="username"
+            fullWidth
+            error={props.hasError}
+            helperText={props.error}
+            value={props.username}
+            onChange={(e) => props.onChangeUsername(e.target.value)}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.isBot}
+                onChange={(ev, checked) => props.handleCheck(checked)}
+                name="checkedB"
+                color="primary"
+              />
+            }
+            label="Is Bot Account"
+          />
+        </div>
+
+        {props.checkingUser ? (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <CircularProgress></CircularProgress>
+            <Typography
+              style={{ padding: "8px" }}
+              variant="subtitle1"
+              align="center"
+            >
+              {" "}
+              Checking User...
+            </Typography>
+          </Box>
+        ) : null}
       </DialogContent>
 
       <DialogActions>
@@ -80,6 +99,7 @@ const mapStateToProps = (state: RootState) => ({
   error: state.newUser.error,
   hasError: state.newUser.hasError,
   isBot: state.newUser.isBot,
+  checkingUser: state.newUser.checkingUser,
 });
 
 const mapDispatchToProps = (dispatch: any) =>

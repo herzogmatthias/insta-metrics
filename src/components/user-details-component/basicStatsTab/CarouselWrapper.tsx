@@ -1,12 +1,21 @@
-import React from "react";
-import { Paper, Typography, makeStyles, IconButton } from "@material-ui/core";
+import React, { useEffect } from "react";
+import {
+  Paper,
+  Typography,
+  makeStyles,
+  IconButton,
+  CircularProgress,
+} from "@material-ui/core";
 import { RootState } from "../../../redux/reducer";
 import { bindActionCreators } from "redux";
 import { ConnectedProps, connect } from "react-redux";
 import clsx from "clsx";
 import BasicStatsChart from "./BasicStatsChart";
 import { grey } from "@material-ui/core/colors";
-import { changeChart } from "../../../redux/actions/userDetailsAction";
+import {
+  changeChart,
+  getGraphData,
+} from "../../../redux/actions/userDetailsAction";
 
 type Props = ConnectedProps<typeof connector>;
 const useStyles = makeStyles((theme) => ({
@@ -59,34 +68,44 @@ const useStyles = makeStyles((theme) => ({
 
 function CarouselWrapper(props: Props) {
   const classes = useStyles();
+  useEffect(() => {
+    async function init() {
+      props.getGraphData(props.selectedUser!.username);
+    }
+    init();
+  }, []);
   return (
     <Paper className={classes.cardMargin} elevation={3}>
       <div className={classes.flex}>
-        {props.carouselData.map((val, ind) => {
-          return (
-            <div
-              key={ind}
-              onClick={() => props.changeChart(ind)}
-              className={classes.grow}
-            >
-              <Typography
-                className={clsx(
-                  classes.h3Responsive,
-                  classes.header,
-                  ind === props.selected ? classes.selected : null
-                )}
-                variant="h3"
-              >
-                {val.header}
-              </Typography>
-            </div>
-          );
-        })}
+        {props.graphLoaded ? (
+          <>
+            {props.carouselData.map((val, ind) => {
+              return (
+                <div
+                  key={ind}
+                  onClick={() => props.changeChart(ind)}
+                  className={classes.grow}
+                >
+                  <Typography
+                    className={clsx(
+                      classes.h3Responsive,
+                      classes.header,
+                      ind === props.selected ? classes.selected : null
+                    )}
+                    variant="h3"
+                  >
+                    {val.header}
+                  </Typography>
+                </div>
+              );
+            })}{" "}
+          </>
+        ) : null}
       </div>
       <div>
         <BasicStatsChart
-          type={props.carouselData[props.selected].header}
-          data={props.carouselData[props.selected].chart}
+          type={props.carouselData[props.selected]?.header}
+          data={props.carouselData[props.selected]?.chart}
           loaded={props.graphLoaded}
         ></BasicStatsChart>
       </div>
@@ -94,15 +113,17 @@ function CarouselWrapper(props: Props) {
   );
 }
 const mapStateToProps = (state: RootState) => ({
-  carouselData: state.userDetails.CarouselData,
+  carouselData: state.userDetails.carouselData,
   selected: state.userDetails.selectedChart,
   graphLoaded: state.userDetails.graphLoaded,
+  selectedUser: state.sidebar.selectedUser,
 });
 
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
       changeChart: (index: number) => changeChart(index),
+      getGraphData: (username: string) => getGraphData(username),
     },
     dispatch
   );

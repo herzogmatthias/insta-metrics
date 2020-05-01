@@ -11,10 +11,12 @@ import {
   usernameHasError,
   usernameHasNoError,
   handleCheck,
+  checkUsername,
 } from "../actions/newUserAction";
 
 const initialState: newUserState = {
   error: "",
+  checkingUser: false,
   hasError: false,
   open: false,
   isBot: false,
@@ -34,11 +36,15 @@ export const newUserReducer = createReducer(initialState, {
   [usernameHasError.type]: (state, action: PayloadAction<AddUserError>) => {
     state.hasError = action.payload.error;
     state.error = action.payload.text;
+    state.checkingUser = false;
   },
   [usernameHasNoError.type]: (state, action) => {
     state = initialState;
   },
   [handleCheck.type]: (state, action: PayloadAction<boolean>) => {
     state.isBot = action.payload;
+  },
+  [checkUsername.type]: (state, action) => {
+    state.checkingUser = true;
   },
 });

@@ -1,7 +1,4 @@
 import React from "react";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { RootState } from "../../../redux/reducer";
-import { connect, ConnectedProps } from "react-redux";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
@@ -23,8 +20,14 @@ import {
   Chip,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { BasicTabStats, Tag } from "../../../redux/types/userDetailsTypes";
 
-type Props = ConnectedProps<typeof connector>;
+interface IProps {
+  dataLoaded: boolean;
+  tagsLoaded: boolean;
+  basicStats: BasicTabStats;
+  tags: Tag[];
+}
 
 const useStyles = makeStyles((theme) => ({
   flex: {
@@ -77,10 +80,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function GeneralInformation(props: Props) {
+function GeneralInformation(props: IProps) {
   const checkFormat = (data: number) => {
     return data % 1000 === 0 || data % 1000 === data ? "0a" : "0.0a";
   };
+
   const classes = useStyles();
   return (
     <Grid className={classes.flex} container spacing={0}>
@@ -94,7 +98,7 @@ function GeneralInformation(props: Props) {
             >
               <Avatar
                 className={classes.large}
-                src={props.basicStats.avatar}
+                src={props.dataLoaded ? props.basicStats.avatar : undefined}
               ></Avatar>
             </Grid>
             <Grid item xs={12} container>
@@ -125,7 +129,7 @@ function GeneralInformation(props: Props) {
                         @{props.basicStats.userName}
                       </Typography>
                       <Typography variant="body2">
-                        {props.basicStats.biography}
+                        {props.basicStats.description}
                       </Typography>
                     </>
                   ) : (
@@ -139,7 +143,16 @@ function GeneralInformation(props: Props) {
               </Grid>
             </Grid>
             <Grid className={classes.instaButtonContainer} item>
-              <Button className={classes.button} variant="contained">
+              <Button
+                onClick={() =>
+                  window.open(
+                    `https://www.instagram.com/${props.basicStats.userName}`,
+                    "_blank"
+                  )
+                }
+                className={classes.button}
+                variant="contained"
+              >
                 Show More
               </Button>
             </Grid>
@@ -179,8 +192,8 @@ function GeneralInformation(props: Props) {
               {props.dataLoaded ? (
                 <ListItemText
                   primary={
-                    numeral(props.basicStats.follower).format(
-                      checkFormat(props.basicStats.follower)
+                    numeral(props.basicStats.followers).format(
+                      checkFormat(props.basicStats.followers)
                     ) + " Followers"
                   }
                 ></ListItemText>
@@ -211,31 +224,36 @@ function GeneralInformation(props: Props) {
               )}
             </ListItem>
             <ListItem>
-              {props.dataLoaded
-                ? props.basicStats.tags.map((val, ind) => {
+              {props.tagsLoaded ? (
+                <Grid spacing={1} container>
+                  {props.tags.map((val, ind) => {
                     return (
-                      <Chip
-                        key={ind}
-                        style={{
-                          marginRight: "5px",
-                          backgroundColor: randomColor(),
-                          color: "white",
-                        }}
-                        label={val}
-                      ></Chip>
-                    );
-                  })
-                : Array.apply(null, Array(3)).map((val, ind) => {
-                    return (
-                      <Skeleton
-                        key={ind}
-                        variant="text"
-                        width="60px"
-                        height="30px"
-                        style={{ marginRight: "5px" }}
-                      ></Skeleton>
+                      <Grid key={ind} item xs={4}>
+                        <Chip
+                          style={{
+                            width: "100%",
+                            backgroundColor: randomColor(),
+                            color: "white",
+                          }}
+                          label={val.tag.en}
+                        ></Chip>
+                      </Grid>
                     );
                   })}
+                </Grid>
+              ) : (
+                Array.apply(null, Array(3)).map((val, ind) => {
+                  return (
+                    <Skeleton
+                      key={ind}
+                      variant="text"
+                      width="60px"
+                      height="30px"
+                      style={{ marginRight: "5px" }}
+                    ></Skeleton>
+                  );
+                })
+              )}
             </ListItem>
           </List>
         </Paper>
@@ -243,13 +261,5 @@ function GeneralInformation(props: Props) {
     </Grid>
   );
 }
-const mapStateToProps = (state: RootState) => ({
-  tab: state.userDetails.tab,
-  basicStats: state.userDetails.basicStats,
-  dataLoaded: state.userDetails.dataLoaded,
-});
 
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-export default connector(GeneralInformation);
+export default GeneralInformation;

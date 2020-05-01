@@ -9,6 +9,7 @@ export const FILTER_IMAGES = "FILTER_IMAGES";
 export const CHANGE_SORTING = "CHANGE_SORTING";
 export const HANDLE_MODAL_OPEN = "HANDLE_MODAL_OPEN";
 export const HANDLE_MODAL_CLOSE = "HANDLE_MODAL_CLOSE";
+export const FETCH_IMAGES = "FETCH_IMAGES";
 
 export interface AdvancedStatsState {
   images: ImagePreview[];

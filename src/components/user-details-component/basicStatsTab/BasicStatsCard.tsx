@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Skeleton } from "@material-ui/lab";
 
 interface Props {
-  data: string | number;
+  data: string | number | undefined;
   name: string;
   fadeTimeOut: number;
   iconColor: string;
@@ -50,8 +50,8 @@ export default function BasicStatsCard(props: Props) {
                     {typeof props.data === "string"
                       ? props.data
                       : numeral(props.data).format(
-                          props.data % 1000 === 0 ||
-                            props.data % 1000 === props.data
+                          props.data! % 1000 === 0 ||
+                            props.data! % 1000 === props.data
                             ? "0a"
                             : "0.0a"
                         )}

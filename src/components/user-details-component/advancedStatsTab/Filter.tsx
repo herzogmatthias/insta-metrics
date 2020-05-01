@@ -70,11 +70,13 @@ function Filter(props: Props) {
               <Grid item xs={6} md={3}>
                 <KeyboardDatePicker
                   minDate={
-                    new Date(
-                      [...props.originalImages].sort(
-                        (a, b) => a.timeStamp - b.timeStamp
-                      )[0].timeStamp * 1000
-                    )
+                    props.imagesLoaded
+                      ? new Date(
+                          [...props.originalImages].sort(
+                            (a, b) => a.timeStamp - b.timeStamp
+                          )[0].timeStamp * 1000
+                        )
+                      : null
                   }
                   format="dd/MM/yyyy"
                   placeholder="dd/MM/yyyy"
@@ -121,6 +123,7 @@ function Filter(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   filterOptions: state.advancedStats.filterOptions,
   originalImages: state.advancedStats.images,
+  imagesLoaded: state.advancedStats.imagesLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) =>

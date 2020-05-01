@@ -1,9 +1,12 @@
 export const CHANGE_TAB = "CHANGE_TAB";
 export const CHANGE_CHART = "CHANGE_CHART";
+export const FETCH_TAGS = "FETCH_TAGS";
+export const FETCH_GENERAL_INFORMATION = "FETCH_GENERAL_INFORMATION";
+export const FETCH_GRAPH_DATA = "FETCH_GRAPH_DATA";
 
 export interface ChartData {
   data: number;
-  name: string;
+  name: number;
 }
 
 export interface CarouselWrapper {
@@ -13,26 +16,31 @@ export interface CarouselWrapper {
 
 export interface UserDetailsState {
   tab: number;
-  CarouselData: CarouselWrapper[];
+  carouselData: CarouselWrapper[];
   selectedChart: number;
-  basicStats: BasicTabStats;
+  basicStats: BasicTabStats | undefined;
+  tags: Tag[];
   graphLoaded: boolean;
   dataLoaded: boolean;
+  tagsLoaded: boolean;
+}
+export interface Tag {
+  confidence: number;
+  tag: { en: string };
 }
 
-interface BasicTabStats {
+export interface BasicTabStats {
   name: string;
   userName: string;
   avatar: string;
-  follower: number;
+  followers: number;
   following: number;
-  biography: string;
+  description: string;
   posts: number;
   isVerified: boolean;
   avgLikes: number;
   avgComments: number;
   avgEngagementRate: number;
-  tags: string[];
-  minPrice: number;
-  maxPrice: number;
+  avgPriceMin: number;
+  avgPriceMax: number;
 }

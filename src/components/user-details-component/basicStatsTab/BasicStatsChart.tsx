@@ -14,27 +14,31 @@ import CustomToolTip from "./CustomToolTip";
 import { ChartData } from "../../../redux/types/userDetailsTypes";
 
 interface Props {
-  data: ChartData[];
-  type: string;
+  data: ChartData[] | undefined;
+  type: string | undefined;
   loaded: boolean;
 }
 
 export default function BasicStatsChart(props: Props) {
   const aspectForGraph = useMediaQuery("(max-width: 1500px)");
+  const showYAxis = useMediaQuery("(min-width: 600px)");
   if (props.loaded) {
     return (
       <ResponsiveContainer width="99%" aspect={aspectForGraph ? 4 : 5}>
         <ComposedChart onClick={(ev: any) => console.log(ev)} data={props.data}>
-          <YAxis
-            domain={["auto", "auto"]}
-            orientation="right"
-            padding={{ top: 20, bottom: 0 }}
-            axisLine={false}
-            tickLine={false}
-          />
+          {showYAxis ? (
+            <YAxis
+              domain={["auto", "auto"]}
+              orientation="right"
+              padding={{ top: 20, bottom: 0 }}
+              axisLine={false}
+              tickLine={false}
+            />
+          ) : null}
+
           <Tooltip
             content={(tProps: TooltipProps) => (
-              <CustomToolTip type={props.type} props={tProps}></CustomToolTip>
+              <CustomToolTip type={props.type!} props={tProps}></CustomToolTip>
             )}
             cursor={{ fill: "lightGrey" }}
             isAnimationActive={false}

@@ -36,15 +36,17 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: 350,
       minWidth: 80,
       maxHeight: 600,
+      "@media(max-width: 750px)": {
+        boxShadow: "none",
+        overflow: "hidden",
+        minWidth: 0,
+      },
       "&:hover": {
         boxShadow:
           "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)",
       },
       boxShadow:
         "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
-    },
-    displayInfo: {
-      boxShadow: "none",
     },
     fadeOut: {
       boxShadow: "none",
@@ -107,6 +109,24 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       justifyContent: "flex-end",
     },
+    truncateText: {
+      maxHeight: "calc(1.4rem * 4)",
+      minHeight: "calc(1.4rem * 4)",
+      lineHeight: "1.4rem",
+      overflow: "hidden",
+      position: "relative",
+      "&:after": {
+        content: "close-quote",
+        position: "absolute",
+        textAllign: "right",
+        right: 0,
+        bottom: 0,
+        width: "70%",
+        height: "1.4rem",
+        background:
+          "linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%)",
+      },
+    },
   })
 );
 
@@ -128,11 +148,7 @@ export default function ImagePreviewCard(props: Props) {
             }
       }
     >
-      <Card
-        className={
-          props.displayInformation ? classes.displayInfo : classes.root
-        }
-      >
+      <Card className={classes.root}>
         {matches && !props.displayInformation ? null : (
           <CardHeader
             avatar={
@@ -165,7 +181,12 @@ export default function ImagePreviewCard(props: Props) {
 
         {matches && !props.displayInformation ? null : (
           <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography
+              className={classes.truncateText}
+              variant="body2"
+              color="textSecondary"
+              component="p"
+            >
               {props.image.caption}
             </Typography>
           </CardContent>

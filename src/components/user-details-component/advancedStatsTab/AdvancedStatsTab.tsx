@@ -19,6 +19,7 @@ import ItemsCarousel from "react-items-carousel";
 import {
   selectImage,
   handleModalOpen,
+  getImages,
 } from "../../../redux/actions/advancedStatsAction";
 import Filter from "./Filter";
 import SortBy from "./SortBy";
@@ -133,7 +134,12 @@ function AdvancedStatsTab(props: Props) {
       return [];
     }
   };
-  useEffect(() => {}, []);
+  useEffect(() => {
+    async function init() {
+      props.getImages(props.selectedUser!.username);
+    }
+    init();
+  }, []);
   return (
     <div>
       <FullScreenDialog></FullScreenDialog>
@@ -224,6 +230,7 @@ const mapStateToProps = (state: RootState) => ({
   images: state.advancedStats.filteredImages,
   selectedImage: state.advancedStats.selectedImage,
   imagesLoaded: state.advancedStats.imagesLoaded,
+  selectedUser: state.sidebar.selectedUser,
 });
 
 const mapDispatchToProps = (dispatch: any) =>
@@ -231,6 +238,7 @@ const mapDispatchToProps = (dispatch: any) =>
     {
       onSelectImage: (image: string | undefined) => selectImage(image),
       openModal: () => handleModalOpen(),
+      getImages: (username: string) => getImages(username),
     },
     dispatch
   );

@@ -4,6 +4,7 @@ export const CHANGE_USERNAME_INPUT = "CHANGE_USERNAME_INPUT";
 export const USERNAME_HAS_ERROR = "USERNAME_HAS_ERROR";
 export const USERNAME_HAS_NO_ERROR = "USERNAME_HAS_NO_ERROR";
 export const HANDLE_CHECK = "HANDLE_CHECK";
+export const CHECK_USERNAME = "CHECK_USERNAME";
 
 export interface newUserState {
   error: string;
@@ -11,6 +12,7 @@ export interface newUserState {
   open: boolean;
   isBot: boolean;
   hasError: boolean;
+  checkingUser: boolean;
 }
 
 interface openNewUserModal {
