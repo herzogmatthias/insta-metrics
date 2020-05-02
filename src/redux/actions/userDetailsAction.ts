@@ -8,6 +8,7 @@ import {
   FETCH_GENERAL_INFORMATION,
   CarouselWrapper,
   FETCH_GRAPH_DATA,
+  REINIT_STATE,
 } from "../types/userDetailsTypes";
 import { withPayloadType } from "./genericActionPayloadType";
 import Axios from "axios";
@@ -28,6 +29,7 @@ export const fetchGraphData = createAction(
   FETCH_GRAPH_DATA,
   withPayloadType<CarouselWrapper[]>()
 );
+export const reinitState = createAction(REINIT_STATE);
 
 export function getTags(username: string) {
   console.log("object");

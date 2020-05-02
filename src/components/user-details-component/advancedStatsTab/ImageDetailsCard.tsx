@@ -12,6 +12,8 @@ import {
   Tooltip,
   useMediaQuery,
   LinearProgress,
+  Grid,
+  Chip,
 } from "@material-ui/core";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -30,7 +32,7 @@ import {
 import { Skeleton } from "@material-ui/lab";
 
 interface Props {
-  image: ImageDetails;
+  image: ImageDetails | undefined;
   loaded: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
@@ -85,7 +87,7 @@ export default function ImageDetailsCard(props: Props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const _renderCards = () => {
     if (props.loaded) {
-      return props.image.images.map((val, ind) => {
+      return props.image!.images.map((val, ind) => {
         return (
           <div key={ind} className={classes.flex}>
             {val.isVideo ? (
@@ -114,14 +116,14 @@ export default function ImageDetailsCard(props: Props) {
           <CardHeader
             avatar={
               <Avatar
-                src={props.image.owner.avatar}
+                src={props.image!.owner.avatar}
                 aria-label="recipe"
               ></Avatar>
             }
             action={<div></div>}
-            title={props.image.owner.name}
+            title={props.image!.owner.name}
             subheader={format(
-              new Date(props.image.timeStamp * 1000),
+              new Date(props.image!.timeStamp * 1000),
               "MMMM, d yyyy"
             )}
           />
@@ -186,8 +188,29 @@ export default function ImageDetailsCard(props: Props) {
         {props.loaded ? (
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              {props.image.caption}
+              {props.image!.caption}
             </Typography>
+            <Grid container spacing={2}>
+              {props.image?.images[activeItemIndex]!.tagged_users.map(
+                (val, ind) => {
+                  return (
+                    <Grid key={ind} item md={2} xs={4}>
+                      <Chip
+                        clickable
+                        onClick={() =>
+                          window.open(
+                            `https://www.instagram.com/${val.username}`,
+                            "_blank"
+                          )
+                        }
+                        avatar={<Avatar src={val.avatar}></Avatar>}
+                        label={val.username}
+                      ></Chip>
+                    </Grid>
+                  );
+                }
+              )}
+            </Grid>
           </CardContent>
         ) : (
           <CardContent>
@@ -196,19 +219,20 @@ export default function ImageDetailsCard(props: Props) {
             </Typography>
           </CardContent>
         )}
+
         {props.loaded ? (
           <CardActions disableSpacing>
-            <Tooltip title={props.image.likes + " Likes"}>
+            <Tooltip title={props.image!.likes + " Likes"}>
               <IconButton>
                 <FavoriteIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={props.image.comments + " Comments"}>
+            <Tooltip title={props.image!.comments + " Comments"}>
               <IconButton>
                 <CommentIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={props.image.er + "% Engagement Rate"}>
+            <Tooltip title={props.image!.er.toFixed(2) + "% Engagement Rate"}>
               <IconButton>
                 <SmartphoneIcon />
               </IconButton>

@@ -74,6 +74,12 @@ function CarouselWrapper(props: Props) {
     }
     init();
   }, []);
+  useEffect(() => {
+    async function init() {
+      props.getGraphData(props.selectedUser!.username);
+    }
+    init();
+  }, [props.selectedUser]);
   return (
     <Paper className={classes.cardMargin} elevation={3}>
       <div className={classes.flex}>

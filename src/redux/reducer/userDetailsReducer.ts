@@ -11,6 +11,7 @@ import {
   fetchTags,
   fetchGeneralInformation,
   fetchGraphData,
+  reinitState,
 } from "../actions/userDetailsAction";
 
 const initialState: UserDetailsState = {
@@ -45,5 +46,8 @@ export const userDetailsReducer = createReducer(initialState, {
   [fetchGraphData.type]: (state, action: PayloadAction<CarouselWrapper[]>) => {
     state.carouselData = action.payload;
     state.graphLoaded = true;
+  },
+  [reinitState.type]: (state, action) => {
+    return initialState;
   },
 });

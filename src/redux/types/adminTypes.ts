@@ -1,3 +1,5 @@
+export const REINIT_ADMIN_STATE = "REINIT_ADMIN_STATE";
+
 export interface IStatus {
   status: string;
   monit: IMonit;

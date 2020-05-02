@@ -1,5 +1,6 @@
 import { IAdminState } from "../types/adminTypes";
 import { createReducer } from "@reduxjs/toolkit";
+import { reinitAdminState } from "../actions/adminActions";
 
 const initialState: IAdminState = {
   status: {
@@ -122,4 +123,8 @@ const initialState: IAdminState = {
   `,
 };
 
-export const adminReducer = createReducer(initialState, {});
+export const adminReducer = createReducer(initialState, {
+  [reinitAdminState.type]: (state, action) => {
+    return initialState;
+  },
+});

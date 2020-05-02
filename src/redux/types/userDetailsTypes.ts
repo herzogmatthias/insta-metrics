@@ -3,6 +3,7 @@ export const CHANGE_CHART = "CHANGE_CHART";
 export const FETCH_TAGS = "FETCH_TAGS";
 export const FETCH_GENERAL_INFORMATION = "FETCH_GENERAL_INFORMATION";
 export const FETCH_GRAPH_DATA = "FETCH_GRAPH_DATA";
+export const REINIT_STATE = "REINIT_STATE";
 
 export interface ChartData {
   data: number;

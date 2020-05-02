@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { HomeState, ADD_TODO } from "../../redux/types/homeTypes";
 import { RootState } from "../../redux/reducer";
 import DoubleNavigation from "../../components/double-navigation-component/DoubleNavigation";
 import NewUser from "../../components/new-user-component/NewUser";
@@ -38,36 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Home(props: Props) {
   const classes = useStyles();
-  React.useEffect(() => {
-    let perf = performance
-      .getEntriesByType("navigation")
-      .find((v) => (v as PerformanceNavigationTiming).type === "reload") as
-      | PerformanceNavigationTiming
-      | undefined;
-    console.log(perf);
-    if (perf && perf!.type === "reload") {
-      const e = props.location.state as any;
-      console.log(e);
-      if (e && e.username) {
-        props.selectUser(e.username);
-      }
-      if (e && e.tab != undefined) {
-        console.log(e.tab);
-        props.changeTab(e.tab);
-      }
-      props.history.push({
-        pathname: props.match.url + "/" + e.username + "/" + tabRoutes[e.tab],
-        state: { tab: e.tab, username: e.username },
-      });
-    } else {
-      if (props.selectedUser) {
-        props.history.push({
-          pathname: props.match.url + "/" + props.selectedUser!.username,
-          state: { tab: 0, username: props.selectedUser?.username },
-        });
-      }
-    }
-  }, []);
+  React.useEffect(() => {}, []);
   window.onpopstate = (e: PopStateEvent) => {
     if (e.state.state.username) {
       props.selectUser(e.state.state.username);
@@ -78,6 +48,7 @@ function Home(props: Props) {
     }
   };
   const _renderDetails = () => {
+    console.log(`${props.match.url}/${props.selectedUser?.username}`);
     if (props.loaded) {
       return (
         <Route
@@ -109,7 +80,6 @@ const mapState = (state: RootState) => {
   };
 };
 const mapDispatch = {
-  addTodos: (increment: number) => ({ type: ADD_TODO, payload: increment }),
   changeTab: (t: number) => changeTab(t),
   selectUser: (username: string) => selectUser(username),
 };

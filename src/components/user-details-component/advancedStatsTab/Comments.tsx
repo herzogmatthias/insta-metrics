@@ -18,7 +18,7 @@ import { Comment } from "../../../redux/types/advancedStatsTypes";
 import { FakeLoadingList } from "../../fake-loading-list-component/FakeLoadingList";
 
 interface Props {
-  comments: Comment[];
+  comments: Comment[] | undefined;
   loaded: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,9 +45,9 @@ export default function Comments(props: Props) {
         <ListSubheader className={classes.whiteBackground} component="div">
           Preview Comments
         </ListSubheader>
-        {props.loaded ? (
+        {props.loaded && props.comments?.length != 0 ? (
           <>
-            {props.comments.map((val, ind) => {
+            {props.comments!.map((val, ind) => {
               return (
                 <div key={ind}>
                   <ListItem>
@@ -84,6 +84,16 @@ export default function Comments(props: Props) {
               );
             })}
           </>
+        ) : props.loaded && props.comments?.length === 0 ? (
+          <ListItem>
+            <ListItemText
+              primary={
+                <Typography align="center" variant="h6">
+                  No Comments detected
+                </Typography>
+              }
+            ></ListItemText>
+          </ListItem>
         ) : (
           <FakeLoadingList length={3}></FakeLoadingList>
         )}

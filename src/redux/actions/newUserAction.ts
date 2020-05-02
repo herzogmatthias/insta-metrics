@@ -35,7 +35,7 @@ export const handleCheck = createAction(
 export function addUser(username: string, isBot: boolean) {
   return (dispatch: any) => {
     dispatch({ type: CHECK_USERNAME, payload: undefined });
-    Axios.get(URI + "new-user/" + username + `?isBot=${isBot}`)
+    Axios.get(URI + "user/new/" + username + `?isBot=${isBot}`)
       .then((value) => {
         dispatch({ type: USERNAME_HAS_NO_ERROR, payload: undefined });
         dispatch({

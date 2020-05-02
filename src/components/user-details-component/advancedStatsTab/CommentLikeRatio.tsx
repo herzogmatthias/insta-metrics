@@ -17,8 +17,9 @@ import { Ranking } from "../../../redux/types/advancedStatsTypes";
 import randomColor from "randomcolor";
 
 interface Props {
-  rankings: Ranking[];
+  rankings: Ranking[] | undefined;
   loaded: boolean;
+  max: number;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     textAlign: {
       textAlign: "center",
+      width: "95%",
     },
   })
 );
@@ -40,7 +42,7 @@ export default function CommentLikeRatio(props: Props) {
   if (props.loaded) {
     return (
       <Grid container spacing={2} className={classes.flex}>
-        {props.rankings.map((val, ind) => {
+        {props.rankings!.map((val, ind) => {
           return (
             <Grid style={{ maxWidth: "300px" }} item xs={6} key={ind}>
               <CircularProgressbarWithChildren
@@ -53,7 +55,7 @@ export default function CommentLikeRatio(props: Props) {
               >
                 <div className={classes.textAlign}>
                   <Typography variant="subtitle1">
-                    Rank <strong>{val.rank}</strong> of 50
+                    Rank <strong>{val.rank}</strong> of {props.max}
                   </Typography>
                   <Typography variant="body1">
                     Top <strong>{100 - val.percentage}%</strong> of{" "}

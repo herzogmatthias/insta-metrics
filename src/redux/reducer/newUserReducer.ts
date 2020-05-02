@@ -13,6 +13,8 @@ import {
   handleCheck,
   checkUsername,
 } from "../actions/newUserAction";
+import { fetchRankingsForImage } from "../actions/advancedStatsAction";
+import { Ranking } from "../types/advancedStatsTypes";
 
 const initialState: newUserState = {
   error: "",
@@ -39,7 +41,9 @@ export const newUserReducer = createReducer(initialState, {
     state.checkingUser = false;
   },
   [usernameHasNoError.type]: (state, action) => {
-    state = initialState;
+    state.checkingUser = false;
+    state.hasError = false;
+    state.username = "";
   },
   [handleCheck.type]: (state, action: PayloadAction<boolean>) => {
     state.isBot = action.payload;

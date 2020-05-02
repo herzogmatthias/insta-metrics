@@ -34,6 +34,9 @@ import { openNewUserModal } from "../../redux/actions/newUserAction";
 import { RouteComponentProps } from "react-router-dom";
 import { FakeLoadingList } from "../fake-loading-list-component/FakeLoadingList";
 import { tabRoutes } from "../user-details-component/tabRoutes";
+import { changeTab, reinitState } from "../../redux/actions/userDetailsAction";
+import { reinitAdvancedState } from "../../redux/actions/advancedStatsAction";
+import { reinitAdminState } from "../../redux/actions/adminActions";
 
 interface IDoubleNavigationProps extends RouteComponentProps<void> {}
 
@@ -136,7 +139,7 @@ export function DoubleNavigation(props: Props) {
             selected={val.username === props.selectedUser?.username}
             onClick={() => {
               props.selectUser(val.username);
-              console.log(props.match);
+              console.log(props.location.state);
               props.history.push({
                 pathname:
                   props.match.url +
@@ -149,7 +152,13 @@ export function DoubleNavigation(props: Props) {
                   username: val.username,
                 },
               });
-              console.log(props.location);
+              if (props.tab === 0) {
+                props.reinitBasicState();
+              } else if (props.tab === 1) {
+                props.reinitAdvancedState();
+              } else {
+                props.reinitAdminState();
+              }
             }}
             button
             key={ind}
@@ -181,7 +190,7 @@ export function DoubleNavigation(props: Props) {
   };
   useEffect(() => {
     async function init() {
-      props.initData(props.match, props.history);
+      props.initData(props.match, props.history, props.location);
     }
     init();
   }, []);
@@ -261,6 +270,10 @@ const mapDispatchToProps = {
   initData: getBasicInformation,
   openModal: openNewUserModal,
   selectUser: selectUser,
+  changeTab: changeTab,
+  reinitBasicState: reinitState,
+  reinitAdvancedState: reinitAdvancedState,
+  reinitAdminState: reinitAdminState,
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connect(mapStateToProps, mapDispatchToProps)(DoubleNavigation);

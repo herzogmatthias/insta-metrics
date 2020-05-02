@@ -10,6 +10,9 @@ export const CHANGE_SORTING = "CHANGE_SORTING";
 export const HANDLE_MODAL_OPEN = "HANDLE_MODAL_OPEN";
 export const HANDLE_MODAL_CLOSE = "HANDLE_MODAL_CLOSE";
 export const FETCH_IMAGES = "FETCH_IMAGES";
+export const FETCH_DETAILS_FOR_IMAGE = "FETCH_DETAILS_FOR_IMAGE";
+export const FETCH_RANKINGS_FOR_IMAGE = "FETCH_RANKINGS_FOR_IMAGE";
+export const REINIT_ADVANCED_STATE = "REINIT_ADVANCED_STATE";
 
 export interface AdvancedStatsState {
   images: ImagePreview[];
@@ -17,10 +20,12 @@ export interface AdvancedStatsState {
   filterOptions: FilterOptions;
   filteredImages: ImagePreview[];
   sortingOptions: SortByOption[];
+  rankings: Ranking[];
   modalOpen: boolean;
   imageDetailsLoaded: boolean;
   imagesLoaded: boolean;
-  selectedImageDetails: ImageDetails;
+  rankingsLoaded: boolean;
+  selectedImageDetails: ImageDetails | undefined;
 }
 
 export interface FilterOptions {
@@ -49,7 +54,6 @@ export interface ImageDetails {
   comments: number;
   caption: string;
   previewComments: Comment[];
-  rankings: Ranking[];
   images: Image[];
   er: number;
 }

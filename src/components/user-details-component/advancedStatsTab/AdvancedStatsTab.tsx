@@ -140,9 +140,16 @@ function AdvancedStatsTab(props: Props) {
     }
     init();
   }, []);
+  useEffect(() => {
+    async function init() {
+      props.getImages(props.selectedUser!.username);
+    }
+    init();
+  }, [props.selectedUser]);
   return (
     <div>
-      <FullScreenDialog></FullScreenDialog>
+      {props.selectedImage ? <FullScreenDialog></FullScreenDialog> : null}
+
       <div className={classes.posRelative}>
         <div className={classes.spacingBottom}>
           <Filter></Filter>

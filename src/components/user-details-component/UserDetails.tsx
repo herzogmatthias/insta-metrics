@@ -70,7 +70,7 @@ function UserDetails(props: Props) {
       .find(
         (v) => (v as PerformanceNavigationTiming).type === "reload"
       ) as PerformanceNavigationTiming;
-
+    console.log(perf);
     if (!perf || perf.type !== "reload") {
       props.history.push({
         pathname: props.match.url + "/" + tabRoutes[props.tab],
@@ -120,16 +120,25 @@ function UserDetails(props: Props) {
         </Tabs>
       </Paper>
       <TabPanel value={props.tab} index={0}>
-        <Route path={props.match.url + "/basic"} component={BasicTab}></Route>
+        <Route
+          exact
+          path={props.match.url + "/basic"}
+          component={BasicTab}
+        ></Route>
       </TabPanel>
       <TabPanel value={props.tab} index={1}>
         <Route
+          exact
           path={props.match.url + "/advanced"}
           component={AdvancedStatsTab}
         ></Route>
       </TabPanel>
       <TabPanel value={props.tab} index={2}>
-        <Route path={props.match.url + "/admin"} component={AdminTab}></Route>
+        <Route
+          exact
+          path={props.match.url + "/admin"}
+          component={AdminTab}
+        ></Route>
       </TabPanel>
     </div>
   );

@@ -1,13 +1,5 @@
-export const ADD_TODO = 'ADD_TODO'
-
-interface IncrementTodosAction {
-    type: typeof ADD_TODO,
-    payload: number,
-}
+export const CHANGE_KEY = "CHANGE_KEY";
 
 export interface HomeState {
-    todos: number,
-    headline: string,
+  key: string;
 }
-
-export type HomeActionTypes = IncrementTodosAction

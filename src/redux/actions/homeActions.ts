@@ -1,4 +1,4 @@
-import { HomeActionTypes, ADD_TODO } from "../types/homeTypes";
-import {createAction} from '@reduxjs/toolkit'
+import { createAction } from "@reduxjs/toolkit";
+import { CHANGE_KEY } from "../types/homeTypes";
 
-export const add_todos = createAction(ADD_TODO)
+export const add_todos = createAction(CHANGE_KEY);

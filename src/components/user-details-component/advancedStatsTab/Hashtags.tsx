@@ -11,6 +11,7 @@ import {
   ListSubheader,
   ListItemSecondaryAction,
   IconButton,
+  Typography,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
@@ -18,7 +19,7 @@ import { HashTag } from "../../../redux/types/advancedStatsTypes";
 import { FakeLoadingList } from "../../fake-loading-list-component/FakeLoadingList";
 
 interface Props {
-  hashTags: HashTag[];
+  hashTags: HashTag[] | undefined;
   loaded: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,9 +46,9 @@ const Hashtags = React.memo((props: Props) => {
         <ListSubheader className={classes.whiteBackground} component="div">
           HashTags in Caption
         </ListSubheader>
-        {props.loaded ? (
+        {props.loaded && props.hashTags?.length != 0 ? (
           <>
-            {props.hashTags.map((val, ind) => {
+            {props.hashTags!.map((val, ind) => {
               return (
                 <div key={ind}>
                   <ListItem>
@@ -69,6 +70,16 @@ const Hashtags = React.memo((props: Props) => {
               );
             })}
           </>
+        ) : props.loaded && props.hashTags?.length === 0 ? (
+          <ListItem>
+            <ListItemText
+              primary={
+                <Typography align="center" variant="h6">
+                  No Hashtags detected
+                </Typography>
+              }
+            ></ListItemText>
+          </ListItem>
         ) : (
           <FakeLoadingList length={3}></FakeLoadingList>
         )}

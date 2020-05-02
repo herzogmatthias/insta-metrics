@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,7 +10,11 @@ import Slide from "@material-ui/core/Slide";
 import { TransitionProps } from "@material-ui/core/transitions";
 import { RootState } from "../../../redux/reducer";
 import { bindActionCreators } from "redux";
-import { handleModalClose } from "../../../redux/actions/advancedStatsAction";
+import {
+  handleModalClose,
+  getImageDetails,
+  getRankingForImage,
+} from "../../../redux/actions/advancedStatsAction";
 import { ConnectedProps, connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 import Comments from "./Comments";
@@ -49,7 +53,13 @@ const Transition = React.forwardRef(function Transition(
 
 function FullScreenDialog(props: Props) {
   const classes = useStyles();
-
+  useEffect(() => {
+    async function init() {
+      props.getImageDetails(props.selectedImage!);
+      props.getRankingsForImage(props.selectedImage!);
+    }
+    init();
+  }, []);
   return (
     <div>
       <Dialog
@@ -83,21 +93,22 @@ function FullScreenDialog(props: Props) {
           </Grid>
           <Grid item xs={12} md={6} className={classes.flex}>
             <CommentLikeRatio
-              loaded={props.imageDetailsLoaded}
-              rankings={props.imageDetails.rankings}
+              loaded={props.rankingsLoaded}
+              rankings={props.rankings}
+              max={props.images.length}
             ></CommentLikeRatio>
           </Grid>
 
           <Grid item xs={12} md={6}>
             <HashTags
               loaded={props.imageDetailsLoaded}
-              hashTags={props.imageDetails.hashTags}
+              hashTags={props.imageDetails?.hashTags}
             ></HashTags>
           </Grid>
           <Grid item xs={12} md={6}>
             <Comments
               loaded={props.imageDetailsLoaded}
-              comments={props.imageDetails.previewComments}
+              comments={props.imageDetails?.previewComments}
             ></Comments>
           </Grid>
         </Grid>
@@ -108,13 +119,19 @@ function FullScreenDialog(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   open: state.advancedStats.modalOpen,
   imageDetails: state.advancedStats.selectedImageDetails,
+  selectedImage: state.advancedStats.selectedImage,
+  images: state.advancedStats.images,
   imageDetailsLoaded: state.advancedStats.imageDetailsLoaded,
+  rankings: state.advancedStats.rankings,
+  rankingsLoaded: state.advancedStats.rankingsLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
       handleClose: () => handleModalClose(),
+      getImageDetails: (shortcode: string) => getImageDetails(shortcode),
+      getRankingsForImage: (shortcode: string) => getRankingForImage(shortcode),
     },
     dispatch
   );

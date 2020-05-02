@@ -12,6 +12,11 @@ import {
   HANDLE_MODAL_CLOSE,
   FETCH_IMAGES,
   ImagePreview,
+  FETCH_DETAILS_FOR_IMAGE,
+  ImageDetails,
+  FETCH_RANKINGS_FOR_IMAGE,
+  Ranking,
+  REINIT_ADVANCED_STATE,
 } from "../types/advancedStatsTypes";
 import { withPayloadType } from "./genericActionPayloadType";
 import Axios from "axios";
@@ -45,6 +50,15 @@ export const changeSorting = createAction(
 );
 export const handleModalOpen = createAction(HANDLE_MODAL_OPEN);
 export const handleModalClose = createAction(HANDLE_MODAL_CLOSE);
+export const reinitAdvancedState = createAction(REINIT_ADVANCED_STATE);
+export const fetchRankingsForImage = createAction(
+  FETCH_RANKINGS_FOR_IMAGE,
+  withPayloadType<Ranking[]>()
+);
+export const fetchDetailsForImage = createAction(
+  FETCH_DETAILS_FOR_IMAGE,
+  withPayloadType<ImageDetails>()
+);
 export const fetchImages = createAction(
   FETCH_IMAGES,
   withPayloadType<ImagePreview[]>()
@@ -54,6 +68,21 @@ export function getImages(username: string) {
   return (dispatch: any) => {
     Axios.get(`${URI}post/last-fifty-pictures/${username}`).then((result) => {
       dispatch({ type: FETCH_IMAGES, payload: result.data });
+    });
+  };
+}
+
+export function getImageDetails(shortcode: string) {
+  return (dispatch: any) => {
+    Axios.get(`${URI}post/details-for-pictures/${shortcode}`).then((result) => {
+      dispatch({ type: FETCH_DETAILS_FOR_IMAGE, payload: result.data });
+    });
+  };
+}
+export function getRankingForImage(shortcode: string) {
+  return (dispatch: any) => {
+    Axios.get(`${URI}post/rankings-for-picture/${shortcode}`).then((result) => {
+      dispatch({ type: FETCH_RANKINGS_FOR_IMAGE, payload: result.data });
     });
   };
 }
