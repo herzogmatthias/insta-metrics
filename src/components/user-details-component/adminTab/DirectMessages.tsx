@@ -13,12 +13,16 @@ import {
   ListItemText,
   Typography,
   Divider,
+  IconButton,
 } from "@material-ui/core";
+import CachedIcon from "@material-ui/icons/Cached";
 import { FakeLoadingList } from "../../fake-loading-list-component/FakeLoadingList";
 
 export interface Props {
   dms: IDM[];
   loaded: boolean;
+  username: string;
+  reloadDms(username: string): void;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,6 +48,12 @@ export function DirectMessages(props: Props) {
       <List>
         <ListSubheader className={classes.whiteBackground} component="div">
           Direct Messages
+          <IconButton
+            onClick={() => props.reloadDms(props.username)}
+            edge="end"
+          >
+            <CachedIcon></CachedIcon>
+          </IconButton>
         </ListSubheader>
         {props.loaded ? (
           props.dms.map((val, ind) => {

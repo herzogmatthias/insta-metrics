@@ -59,14 +59,6 @@ const useStyles = makeStyles((theme) => ({
 function BasicTab(props: Props) {
   const classes = useStyles();
   useEffect(() => {
-    console.log("object");
-    async function init() {
-      props.getGeneralInformation(props.selectedUser!.username);
-      props.getTags(props.selectedUser!.username);
-    }
-    init();
-  }, []);
-  useEffect(() => {
     async function init() {
       props.getGeneralInformation(props.selectedUser!.username);
       props.getTags(props.selectedUser!.username);

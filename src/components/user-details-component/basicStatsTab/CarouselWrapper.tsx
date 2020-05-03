@@ -1,11 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Paper,
-  Typography,
-  makeStyles,
-  IconButton,
-  CircularProgress,
-} from "@material-ui/core";
+import { Paper, Typography, makeStyles } from "@material-ui/core";
 import { RootState } from "../../../redux/reducer";
 import { bindActionCreators } from "redux";
 import { ConnectedProps, connect } from "react-redux";
@@ -68,12 +62,6 @@ const useStyles = makeStyles((theme) => ({
 
 function CarouselWrapper(props: Props) {
   const classes = useStyles();
-  useEffect(() => {
-    async function init() {
-      props.getGraphData(props.selectedUser!.username);
-    }
-    init();
-  }, []);
   useEffect(() => {
     async function init() {
       props.getGraphData(props.selectedUser!.username);

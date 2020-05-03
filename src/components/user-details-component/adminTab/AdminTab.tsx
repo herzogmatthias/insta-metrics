@@ -8,6 +8,7 @@ import {
   Divider,
   Button,
   Box,
+  IconButton,
 } from "@material-ui/core";
 import Status from "./Status";
 import Setting from "./Setting";
@@ -15,8 +16,25 @@ import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../../redux/reducer";
 import { bindActionCreators } from "redux";
 import { Logs } from "./Logs";
-import { red, yellow, green, orange } from "@material-ui/core/colors";
+import { red, green, orange } from "@material-ui/core/colors";
 import { DirectMessages } from "./DirectMessages";
+import CachedIcon from "@material-ui/icons/Cached";
+import { useEffect, useState } from "react";
+import {
+  getAllNames,
+  fetchStatusJob,
+  restoreOrginalSubreddits,
+  restoreOriginalSchedule,
+  onChangeSchedule,
+  onChangeSubreddits,
+  postNewSubreddits,
+  postNewSchedule,
+  reloadLogsJob,
+  reloadDMsJob,
+  deleteBot,
+  restartBot,
+  stopBot,
+} from "../../../redux/actions/adminActions";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -57,6 +75,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function AdminTab(props: Props) {
   const classes = useStyles();
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | undefined>(
+    undefined
+  );
+  useEffect(() => {
+    const id = setInterval(() => {
+      props.statusUpdateJob(props.selectedUser!.username);
+    }, 60000);
+    setIntervalId(id);
+    return function cleanup() {
+      clearInterval(intervalId!);
+    };
+  }, []);
+  useEffect(() => {
+    async function init() {
+      props.getAllBots(props.selectedUser!.username);
+    }
+    init();
+  }, [props.selectedUser]);
   return (
     <div>
       <div className={classes.spacing}>
@@ -64,7 +100,7 @@ function AdminTab(props: Props) {
           Admin Center
         </Typography>
       </div>
-      <Status></Status>
+      <Status loaded={props.statusLoaded} status={props.status}></Status>
       <div className={classes.spacingTop}>
         <Typography align="left" variant="h5">
           Settings
@@ -85,6 +121,10 @@ function AdminTab(props: Props) {
           loaded={props.settingsLoaded}
           canBeModified
           value={props.schedule}
+          onChangeValue={props.onChangeSchedule}
+          restoreOriginalValue={props.restoreOriginalSchedule}
+          originalValue={props.originalSchedule}
+          name={props.pm2Name}
         >
           Schedule
         </Setting>
@@ -92,28 +132,47 @@ function AdminTab(props: Props) {
           loaded={props.settingsLoaded}
           canBeModified
           value={props.subreddits.join(",")}
+          restoreOriginalValue={props.restoreOriginalSubreddits}
+          onChangeValue={props.onChangeSubreddits}
+          originalValue={props.originalSubreddits.join(",")}
+          saveChanges={props.newSubreddits}
+          name={props.pm2Name}
         >
           Subreddits
         </Setting>
 
         <Box padding={2}>
-          <Button className={classes.red} variant="outlined">
+          <Button
+            onClick={() => props.deleteBot(props.pm2Name)}
+            className={classes.red}
+            variant="outlined"
+          >
             Delete
           </Button>
         </Box>
         <Box padding={2}>
-          <Button className={classes.orange} variant="outlined">
+          <Button
+            onClick={() => props.stopBot(props.pm2Name)}
+            className={classes.orange}
+            variant="outlined"
+          >
             Stop
           </Button>
         </Box>
         <Box padding={2}>
-          <Button className={classes.green} variant="contained">
+          <Button
+            onClick={() => props.restartBot(props.pm2Name)}
+            className={classes.green}
+            variant="contained"
+          >
             Restart
           </Button>
         </Box>
       </Grid>
       <div className={classes.spacingTop}>
         <DirectMessages
+          reloadDms={props.reloadDms}
+          username={props.selectedUser!.username}
           loaded={props.dmsLoaded}
           dms={props.dms}
         ></DirectMessages>
@@ -121,7 +180,13 @@ function AdminTab(props: Props) {
 
       <div className={classes.spacingTop}>
         <Typography align="left" variant="h5">
-          Logs
+          Logs{" "}
+          <IconButton
+            onClick={() => props.reloadLogs(props.selectedUser!.username)}
+            edge="end"
+          >
+            <CachedIcon></CachedIcon>
+          </IconButton>
         </Typography>
         <Divider></Divider>
       </div>
@@ -133,16 +198,40 @@ const mapStateToProps = (state: RootState) => ({
   schedule: state.admin.schedule,
   subreddits: state.admin.subreddits,
   name: state.admin.name,
+  pm2Name: state.admin.pm2Name,
   logs: state.admin.logs,
+  status: state.admin.status,
+  statusLoaded: state.admin.statusLoaded,
   dms: state.admin.dms,
   explore: state.admin.explore,
   hashtags: state.admin.hashtags,
   logsLoaded: state.admin.logsLoaded,
   dmsLoaded: state.admin.dmsLoaded,
   settingsLoaded: state.admin.settingsLoaded,
+  selectedUser: state.sidebar.selectedUser,
+  originalSubreddits: state.admin.originalSubreddits,
+  originalSchedule: state.admin.originalSchedule,
 });
 
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+      getAllBots: getAllNames,
+      statusUpdateJob: fetchStatusJob,
+      restoreOriginalSubreddits: restoreOrginalSubreddits,
+      restoreOriginalSchedule: restoreOriginalSchedule,
+      onChangeSchedule: onChangeSchedule,
+      onChangeSubreddits: onChangeSubreddits,
+      newSubreddits: postNewSubreddits,
+      newSchedule: postNewSchedule,
+      reloadLogs: reloadLogsJob,
+      reloadDms: reloadDMsJob,
+      restartBot: restartBot,
+      deleteBot: deleteBot,
+      stopBot: stopBot,
+    },
+    dispatch
+  );
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connector(AdminTab);

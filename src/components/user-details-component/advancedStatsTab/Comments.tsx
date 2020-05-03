@@ -14,11 +14,11 @@ import {
 import format from "date-fns/format";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import React from "react";
-import { Comment } from "../../../redux/types/advancedStatsTypes";
+import { IComment } from "../../../redux/types/advancedStatsTypes";
 import { FakeLoadingList } from "../../fake-loading-list-component/FakeLoadingList";
 
 interface Props {
-  comments: Comment[] | undefined;
+  comments: IComment[] | undefined;
   loaded: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,7 +45,7 @@ export default function Comments(props: Props) {
         <ListSubheader className={classes.whiteBackground} component="div">
           Preview Comments
         </ListSubheader>
-        {props.loaded && props.comments?.length != 0 ? (
+        {props.loaded && props.comments?.length !== 0 ? (
           <>
             {props.comments!.map((val, ind) => {
               return (

@@ -1,15 +1,12 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import {
   Typography,
-  Input,
   IconButton,
   Grid,
   makeStyles,
   Theme,
   createStyles,
-  TextField,
   FormControl,
-  InputLabel,
   InputAdornment,
   OutlinedInput,
 } from "@material-ui/core";
@@ -24,6 +21,11 @@ export interface Props {
   value: string;
   children: string;
   loaded: boolean;
+  originalValue: string;
+  restoreOriginalValue(): void;
+  onChangeValue(value: string): void;
+  saveChanges(name: string, value: string): void;
+  name: string;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,16 +64,23 @@ export default function Setting(props: Props) {
                     <OutlinedInput
                       id="standard-adornment-password"
                       value={props.value}
+                      onChange={(ev) => props.onChangeValue(ev.target.value)}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
-                            onClick={() => setModify(false)}
+                            onClick={() => {
+                              setModify(false);
+                              props.restoreOriginalValue();
+                            }}
                             aria-label="toggle password visibility"
                           >
                             <CloseIcon></CloseIcon>
                           </IconButton>
                           <IconButton
-                            onClick={() => setModify(false)}
+                            onClick={() => {
+                              setModify(false);
+                              props.saveChanges(props.name, props.value);
+                            }}
                             aria-label="toggle password visibility"
                           >
                             <SaveIcon></SaveIcon>

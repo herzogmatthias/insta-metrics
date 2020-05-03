@@ -12,7 +12,9 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Overrides as CoreOverrides } from "@material-ui/core/styles/overrides";
 import { AutocompleteClassKey } from "@material-ui/lab";
-
+import dotenv from "dotenv";
+import { REPOST_URI } from "./redux/config";
+dotenv.config();
 interface Overrides extends CoreOverrides {
   // Define additional lab components here as needed....
   MuiSkeleton?:
@@ -24,9 +26,14 @@ interface Overrides extends CoreOverrides {
 
 Axios.interceptors.request.use(
   function (config) {
-    if (AuthService.getToken()) {
-      config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
+    if (config.url?.includes(REPOST_URI)) {
+      config.headers.authorization = process.env.REACT_APP_REPOST_AUTH_KEY;
+    } else {
+      if (AuthService.getToken()) {
+        config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
+      }
     }
+
     return config;
   },
   function (err) {
@@ -87,4 +94,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();

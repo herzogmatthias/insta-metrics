@@ -10,7 +10,6 @@ import {
   Typography,
   CardActions,
   Tooltip,
-  useMediaQuery,
   LinearProgress,
   Grid,
   Chip,
@@ -25,14 +24,11 @@ import "./ImageCarousel.scss";
 import SmartphoneIcon from "@material-ui/icons/Smartphone";
 //@ts-ignore
 import ItemsCarousel from "react-items-carousel";
-import {
-  ImagePreview,
-  ImageDetails,
-} from "../../../redux/types/advancedStatsTypes";
+import { IImageDetails } from "../../../redux/types/advancedStatsTypes";
 import { Skeleton } from "@material-ui/lab";
 
 interface Props {
-  image: ImageDetails | undefined;
+  image: IImageDetails | undefined;
   loaded: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
@@ -99,7 +95,7 @@ export default function ImageDetailsCard(props: Props) {
                 src={val.display_url}
               ></video>
             ) : (
-              <img width={300} height={375} src={val.display_url}></img>
+              <img alt="" width={300} height={375} src={val.display_url}></img>
             )}
           </div>
         );
@@ -108,7 +104,6 @@ export default function ImageDetailsCard(props: Props) {
       return [];
     }
   };
-  const matches = useMediaQuery("(max-width: 960px)");
   return (
     <div>
       <Card elevation={0} className={classes.cardBorder}>

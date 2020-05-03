@@ -2,7 +2,6 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  useMediaQuery,
   Typography,
   Grid,
   CircularProgress,
@@ -13,11 +12,11 @@ import {
   buildStyles,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { Ranking } from "../../../redux/types/advancedStatsTypes";
+import { IRanking } from "../../../redux/types/advancedStatsTypes";
 import randomColor from "randomcolor";
 
 interface Props {
-  rankings: Ranking[] | undefined;
+  rankings: IRanking[] | undefined;
   loaded: boolean;
   max: number;
 }
@@ -55,11 +54,17 @@ export default function CommentLikeRatio(props: Props) {
               >
                 <div className={classes.textAlign}>
                   <Typography variant="subtitle1">
-                    Rank <strong>{val.rank}</strong> of {props.max}
+                    Rank <strong>{val.rank + 1}</strong> of {props.max}
                   </Typography>
                   <Typography variant="body1">
-                    Top <strong>{100 - val.percentage}%</strong> of{" "}
-                    <strong>{val.type}</strong>
+                    {val.rank === 0 ? (
+                      <strong>Top post in Category {val.type}</strong>
+                    ) : (
+                      <>
+                        Better than <strong>{val.percentage}%</strong> of{" "}
+                        <strong>{val.type}</strong>
+                      </>
+                    )}
                   </Typography>
                 </div>
               </CircularProgressbarWithChildren>

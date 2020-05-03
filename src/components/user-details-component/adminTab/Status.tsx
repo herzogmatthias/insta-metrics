@@ -1,6 +1,4 @@
 import * as React from "react";
-import { connect, ConnectedProps } from "react-redux";
-import { bindActionCreators } from "redux";
 import {
   makeStyles,
   Theme,
@@ -11,10 +9,13 @@ import {
 } from "@material-ui/core";
 import { red, green, yellow } from "@material-ui/core/colors";
 import clsx from "clsx";
-import { RootState } from "../../../redux/reducer";
 import format from "date-fns/format";
+import { IStatus } from "../../../redux/types/adminTypes";
 
-type Props = ConnectedProps<typeof connector>;
+interface IProps {
+  loaded: boolean;
+  status: IStatus | undefined;
+}
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     RedBg: {
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function Status({ status, loaded }: Props) {
+function Status({ status, loaded }: IProps) {
   const classes = useStyles();
   const _renderSize = (bytes: number, si: boolean) => {
     var thresh = si ? 1000 : 1024;
@@ -77,7 +78,7 @@ function Status({ status, loaded }: Props) {
   };
   return (
     <Grid container alignContent="center" justify="center" spacing={1}>
-      {loaded ? (
+      {loaded && status ? (
         <>
           <Grid
             item
@@ -111,7 +112,7 @@ function Status({ status, loaded }: Props) {
             className={clsx(classes.borderRight, classes.flex)}
           >
             <Typography variant="body2">
-              {status.monit.cpu * 100}% CPU Usage
+              {status.monit.cpu !== -1 ? status.monit.cpu * 100 : 0}% CPU Usage
             </Typography>
             <CircularProgress
               className={
@@ -122,7 +123,7 @@ function Status({ status, loaded }: Props) {
                   : classes.GreenColor
               }
               variant="static"
-              value={status.monit.cpu * 100}
+              value={status.monit.cpu !== -1 ? status.monit.cpu * 100 : 0}
             />
           </Grid>
           <Grid
@@ -140,7 +141,7 @@ function Status({ status, loaded }: Props) {
           <Grid item xs={12} md={2} className={clsx(classes.flex)}>
             <Typography variant="body2">
               Bot is running since{" "}
-              {format(new Date(status.env.uptime), "HH:mm:ss")}
+              {format(new Date(status.env.uptime), "dd.MM.yyyy HH:mm:ss")}
             </Typography>
           </Grid>
         </>
@@ -154,12 +155,4 @@ function Status({ status, loaded }: Props) {
   );
 }
 
-const mapStateToProps = (state: RootState) => ({
-  status: state.admin.status,
-  loaded: state.admin.infoLoaded,
-});
-
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-export default connector(Status);
+export default Status;

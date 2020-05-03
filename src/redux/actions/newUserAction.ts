@@ -2,17 +2,19 @@ import { createAction } from "@reduxjs/toolkit";
 import {
   CLOSE_NEW_USER_MODAL,
   OPEN_NEW_USER_MODAL,
-  NewUserActionTypes,
   CHANGE_USERNAME_INPUT,
   USERNAME_HAS_ERROR,
-  AddUserError,
+  IAddUserError,
   USERNAME_HAS_NO_ERROR,
   HANDLE_CHECK,
   CHECK_USERNAME,
 } from "../types/newUserTypes";
 import { withPayloadType } from "./genericActionPayloadType";
 import Axios from "axios";
-import { BasicUserInformation, USERNAME_IS_VALID } from "../types/sidebarTypes";
+import {
+  IBasicUserInformation,
+  USERNAME_IS_VALID,
+} from "../types/sidebarTypes";
 import { URI } from "../config";
 
 export const closeNewUserModal = createAction(CLOSE_NEW_USER_MODAL);
@@ -24,7 +26,7 @@ export const changeUsernameInput = createAction(
 export const checkUsername = createAction(CHECK_USERNAME);
 export const usernameHasError = createAction(
   USERNAME_HAS_ERROR,
-  withPayloadType<AddUserError>()
+  withPayloadType<IAddUserError>()
 );
 export const usernameHasNoError = createAction(USERNAME_HAS_NO_ERROR);
 export const handleCheck = createAction(
@@ -40,11 +42,11 @@ export function addUser(username: string, isBot: boolean) {
         dispatch({ type: USERNAME_HAS_NO_ERROR, payload: undefined });
         dispatch({
           type: USERNAME_IS_VALID,
-          payload: value.data.basicInformation as BasicUserInformation,
+          payload: value.data.basicInformation as IBasicUserInformation,
         });
       })
       .catch((error) => {
-        const usernameError: AddUserError = {
+        const usernameError: IAddUserError = {
           error: error.response.data.error,
           text: error.response.data.text,
         };

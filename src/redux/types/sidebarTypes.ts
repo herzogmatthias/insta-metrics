@@ -3,14 +3,15 @@ export const USERNAME_IS_VALID = "USERNAME_IS_VALID";
 export const SELECT_USER = "SELECT_USER";
 export const DELETE_USER = "DELETE_USER";
 
-export interface BasicUserInformation {
+export interface IBasicUserInformation {
   username: string;
   name: string;
   avatar: string;
+  isBot: boolean;
 }
 
-export interface SidebarState {
-  users: BasicUserInformation[];
+export interface ISidebarState {
+  users: IBasicUserInformation[];
   loaded: boolean;
-  selectedUser: BasicUserInformation | undefined;
+  selectedUser: IBasicUserInformation | undefined;
 }

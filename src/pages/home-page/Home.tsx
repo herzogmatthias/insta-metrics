@@ -3,18 +3,12 @@ import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../redux/reducer";
 import DoubleNavigation from "../../components/double-navigation-component/DoubleNavigation";
 import NewUser from "../../components/new-user-component/NewUser";
-import { Switch, RouteComponentProps, Route } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { ProtectedRoute } from "../../router/Router";
 import UserDetails from "../../components/user-details-component/UserDetails";
-import {
-  CssBaseline,
-  CircularProgress,
-  makeStyles,
-  Portal,
-} from "@material-ui/core";
+import { CssBaseline, CircularProgress, makeStyles } from "@material-ui/core";
 import { selectUser } from "../../redux/actions/sidebarActions";
 import { changeTab } from "../../redux/actions/userDetailsAction";
-import { tabRoutes } from "../../components/user-details-component/tabRoutes";
 
 type Props = ConnectedProps<typeof connector> & RouteComponentProps<void>;
 
@@ -42,19 +36,17 @@ function Home(props: Props) {
     if (e.state.state.username) {
       props.selectUser(e.state.state.username);
     }
-    if (e.state.state.tab != undefined) {
-      console.log(e.state.state.tab);
+    if (e.state.state.tab !== undefined) {
       props.changeTab(e.state.state.tab);
     }
   };
   const _renderDetails = () => {
-    console.log(`${props.match.url}/${props.selectedUser?.username}`);
     if (props.loaded) {
       return (
-        <Route
+        <ProtectedRoute
           path={`${props.match.url}/${props.selectedUser?.username}`}
           component={UserDetails}
-        ></Route>
+        ></ProtectedRoute>
       );
     } else {
       return <CircularProgress />;

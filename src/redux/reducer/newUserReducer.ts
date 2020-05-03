@@ -1,8 +1,3 @@
-import {
-  newUserState,
-  NewUserActionTypes,
-  AddUserError,
-} from "../types/newUserTypes";
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
   openNewUserModal,
@@ -13,10 +8,9 @@ import {
   handleCheck,
   checkUsername,
 } from "../actions/newUserAction";
-import { fetchRankingsForImage } from "../actions/advancedStatsAction";
-import { Ranking } from "../types/advancedStatsTypes";
+import { INewUserState, IAddUserError } from "../types/newUserTypes";
 
-const initialState: newUserState = {
+const initialState: INewUserState = {
   error: "",
   checkingUser: false,
   hasError: false,
@@ -35,7 +29,7 @@ export const newUserReducer = createReducer(initialState, {
   [changeUsernameInput.type]: (state, action: PayloadAction<string>) => {
     state.username = action.payload;
   },
-  [usernameHasError.type]: (state, action: PayloadAction<AddUserError>) => {
+  [usernameHasError.type]: (state, action: PayloadAction<IAddUserError>) => {
     state.hasError = action.payload.error;
     state.error = action.payload.text;
     state.checkingUser = false;

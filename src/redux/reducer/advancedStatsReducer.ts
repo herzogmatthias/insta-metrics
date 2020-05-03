@@ -1,12 +1,5 @@
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
-  AdvancedStatsState,
-  SortByOption,
-  ImagePreview,
-  ImageDetails,
-  Ranking,
-} from "../types/advancedStatsTypes";
-import {
   selectImage,
   changeOnlyMultiviewsFilter,
   changeOnlyVideosFilter,
@@ -21,8 +14,15 @@ import {
   fetchRankingsForImage,
   reinitAdvancedState,
 } from "../actions/advancedStatsAction";
+import {
+  IAdvancedStatsState,
+  IImagePreview,
+  IImageDetails,
+  IRanking,
+  ISortByOption,
+} from "../types/advancedStatsTypes";
 
-const initialState: AdvancedStatsState = {
+const initialState: IAdvancedStatsState = {
   imagesLoaded: false,
   sortingOptions: [
     {
@@ -125,7 +125,7 @@ export const advancedStatsReducer = createReducer(initialState, {
     }
     state.filteredImages = copyImages;
   },
-  [changeSorting.type]: (state, action: PayloadAction<SortByOption>) => {
+  [changeSorting.type]: (state, action: PayloadAction<ISortByOption>) => {
     state.sortingOptions.find(
       (sortingOption) => sortingOption.value
     )!.value = false;
@@ -155,16 +155,19 @@ export const advancedStatsReducer = createReducer(initialState, {
     state.modalOpen = false;
     state.selectedImage = undefined;
   },
-  [fetchImages.type]: (state, action: PayloadAction<ImagePreview[]>) => {
+  [fetchImages.type]: (state, action: PayloadAction<IImagePreview[]>) => {
     state.images = action.payload;
     state.filteredImages = action.payload;
     state.imagesLoaded = true;
   },
-  [fetchDetailsForImage.type]: (state, action: PayloadAction<ImageDetails>) => {
+  [fetchDetailsForImage.type]: (
+    state,
+    action: PayloadAction<IImageDetails>
+  ) => {
     state.selectedImageDetails = action.payload;
     state.imageDetailsLoaded = true;
   },
-  [fetchRankingsForImage.type]: (state, action: PayloadAction<Ranking[]>) => {
+  [fetchRankingsForImage.type]: (state, action: PayloadAction<IRanking[]>) => {
     state.rankings = action.payload;
     state.rankingsLoaded = true;
   },

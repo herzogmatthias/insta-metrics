@@ -20,13 +20,13 @@ import {
   Chip,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { BasicTabStats, Tag } from "../../../redux/types/userDetailsTypes";
+import { IBasicTabStats, ITag } from "../../../redux/types/userDetailsTypes";
 
 interface IProps {
   dataLoaded: boolean;
   tagsLoaded: boolean;
-  basicStats: BasicTabStats;
-  tags: Tag[];
+  basicStats: IBasicTabStats;
+  tags: ITag[];
 }
 
 const useStyles = makeStyles((theme) => ({

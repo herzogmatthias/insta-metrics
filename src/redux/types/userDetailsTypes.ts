@@ -5,33 +5,34 @@ export const FETCH_GENERAL_INFORMATION = "FETCH_GENERAL_INFORMATION";
 export const FETCH_GRAPH_DATA = "FETCH_GRAPH_DATA";
 export const REINIT_STATE = "REINIT_STATE";
 
-export interface ChartData {
+export interface IChartData {
   data: number;
   name: number;
 }
 
-export interface CarouselWrapper {
-  chart: ChartData[];
+export interface ICarouselWrapper {
+  chart: IChartData[];
   header: string;
 }
 
-export interface UserDetailsState {
+export interface IUserDetailsState {
   tab: number;
-  carouselData: CarouselWrapper[];
+  carouselData: ICarouselWrapper[];
   selectedChart: number;
-  basicStats: BasicTabStats | undefined;
-  tags: Tag[];
+  basicStats: IBasicTabStats | undefined;
+  tags: ITag[];
   graphLoaded: boolean;
   dataLoaded: boolean;
   tagsLoaded: boolean;
 }
-export interface Tag {
+export interface ITag {
   confidence: number;
   tag: { en: string };
 }
 
-export interface BasicTabStats {
+export interface IBasicTabStats {
   name: string;
+  isBot: boolean;
   userName: string;
   avatar: string;
   followers: number;

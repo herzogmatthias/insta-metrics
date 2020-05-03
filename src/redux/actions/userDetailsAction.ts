@@ -2,11 +2,11 @@ import { createAction } from "@reduxjs/toolkit";
 import {
   CHANGE_TAB,
   CHANGE_CHART,
-  Tag,
+  ITag,
   FETCH_TAGS,
-  BasicTabStats,
+  IBasicTabStats,
   FETCH_GENERAL_INFORMATION,
-  CarouselWrapper,
+  ICarouselWrapper,
   FETCH_GRAPH_DATA,
   REINIT_STATE,
 } from "../types/userDetailsTypes";
@@ -20,19 +20,18 @@ export const changeChart = createAction(
   CHANGE_CHART,
   withPayloadType<number>()
 );
-export const fetchTags = createAction(FETCH_TAGS, withPayloadType<Tag[]>());
+export const fetchTags = createAction(FETCH_TAGS, withPayloadType<ITag[]>());
 export const fetchGeneralInformation = createAction(
   FETCH_GENERAL_INFORMATION,
-  withPayloadType<BasicTabStats>()
+  withPayloadType<IBasicTabStats>()
 );
 export const fetchGraphData = createAction(
   FETCH_GRAPH_DATA,
-  withPayloadType<CarouselWrapper[]>()
+  withPayloadType<ICarouselWrapper[]>()
 );
 export const reinitState = createAction(REINIT_STATE);
 
 export function getTags(username: string) {
-  console.log("object");
   return (dispatch: any) => {
     if (localStorage.hasOwnProperty(username)) {
       const tags = TagService.getTagsForUsername(username);

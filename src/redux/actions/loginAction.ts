@@ -2,7 +2,7 @@ import { createAction } from "@reduxjs/toolkit";
 import {
   ON_PASSWORD_CHANGE,
   PASSWORD_IS_INVALID,
-  PasswordError
+  IPasswordError,
 } from "../types/loginTypes";
 import { withPayloadType } from "./genericActionPayloadType";
 import Axios from "axios";
@@ -16,20 +16,20 @@ export const onPasswordChange = createAction(
 
 export const passwordIsInvalid = createAction(
   PASSWORD_IS_INVALID,
-  withPayloadType<PasswordError>()
+  withPayloadType<IPasswordError>()
 );
 
 export function login(password: string, history: any) {
   return (dispatch: any) => {
     Axios.post(URI + "login", { password: password })
-      .then(value => {
+      .then((value) => {
         AuthService.setToken(value.data.token);
         history.push("dashboard");
       })
-      .catch(error => {
-        const usernameError: PasswordError = {
+      .catch((error) => {
+        const usernameError: IPasswordError = {
           hasError: error.response.data.error,
-          error: error.response.data.text
+          error: error.response.data.text,
         };
         dispatch({ type: PASSWORD_IS_INVALID, payload: usernameError });
       });

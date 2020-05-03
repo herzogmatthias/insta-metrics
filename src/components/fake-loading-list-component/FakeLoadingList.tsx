@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function FakeLoadingList(props: Props) {
   const classes = useStyles();
-  console.log(props);
   return (
     <div>
       {Array.apply(null, Array(props.length)).map((val, ind) => {

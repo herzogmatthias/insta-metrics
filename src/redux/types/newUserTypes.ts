@@ -6,7 +6,7 @@ export const USERNAME_HAS_NO_ERROR = "USERNAME_HAS_NO_ERROR";
 export const HANDLE_CHECK = "HANDLE_CHECK";
 export const CHECK_USERNAME = "CHECK_USERNAME";
 
-export interface newUserState {
+export interface INewUserState {
   error: string;
   username: string;
   open: boolean;
@@ -15,19 +15,19 @@ export interface newUserState {
   checkingUser: boolean;
 }
 
-interface openNewUserModal {
+interface IOpenNewUserModal {
   type: typeof OPEN_NEW_USER_MODAL;
   payload: boolean;
 }
 
-interface closeNewUserModal {
+interface ICloseNewUserModal {
   type: typeof CLOSE_NEW_USER_MODAL;
   payload: boolean;
 }
 
-export interface AddUserError {
+export interface IAddUserError {
   error: boolean;
   text: string;
 }
 
-export type NewUserActionTypes = openNewUserModal | closeNewUserModal;
+export type NewUserActionTypes = IOpenNewUserModal | ICloseNewUserModal;

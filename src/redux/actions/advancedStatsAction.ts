@@ -6,22 +6,21 @@ import {
   CHANGE_FROM_FILTER,
   CHANGE_TO_FILTER,
   FILTER_IMAGES,
-  SortByOption,
+  ISortByOption,
   CHANGE_SORTING,
   HANDLE_MODAL_OPEN,
   HANDLE_MODAL_CLOSE,
   FETCH_IMAGES,
-  ImagePreview,
+  IImagePreview,
   FETCH_DETAILS_FOR_IMAGE,
-  ImageDetails,
+  IImageDetails,
   FETCH_RANKINGS_FOR_IMAGE,
-  Ranking,
+  IRanking,
   REINIT_ADVANCED_STATE,
 } from "../types/advancedStatsTypes";
 import { withPayloadType } from "./genericActionPayloadType";
 import Axios from "axios";
 import { URI } from "../config";
-import { FETCH_GRAPH_DATA } from "../types/userDetailsTypes";
 
 export const selectImage = createAction(
   SELECT_IMAGE,
@@ -46,22 +45,22 @@ export const changeToFilter = createAction(
 export const filterImages = createAction(FILTER_IMAGES);
 export const changeSorting = createAction(
   CHANGE_SORTING,
-  withPayloadType<SortByOption>()
+  withPayloadType<ISortByOption>()
 );
 export const handleModalOpen = createAction(HANDLE_MODAL_OPEN);
 export const handleModalClose = createAction(HANDLE_MODAL_CLOSE);
 export const reinitAdvancedState = createAction(REINIT_ADVANCED_STATE);
 export const fetchRankingsForImage = createAction(
   FETCH_RANKINGS_FOR_IMAGE,
-  withPayloadType<Ranking[]>()
+  withPayloadType<IRanking[]>()
 );
 export const fetchDetailsForImage = createAction(
   FETCH_DETAILS_FOR_IMAGE,
-  withPayloadType<ImageDetails>()
+  withPayloadType<IImageDetails>()
 );
 export const fetchImages = createAction(
   FETCH_IMAGES,
-  withPayloadType<ImagePreview[]>()
+  withPayloadType<IImagePreview[]>()
 );
 
 export function getImages(username: string) {

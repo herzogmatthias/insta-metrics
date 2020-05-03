@@ -4,6 +4,7 @@ import { RootState } from "../../redux/reducer";
 import {
   getBasicInformation,
   selectUser,
+  delUser,
 } from "../../redux/actions/sidebarActions";
 import clsx from "clsx";
 import {
@@ -29,7 +30,6 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MenuIcon from "@material-ui/icons/Menu";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import { Skeleton } from "@material-ui/lab";
 import { openNewUserModal } from "../../redux/actions/newUserAction";
 import { RouteComponentProps } from "react-router-dom";
 import { FakeLoadingList } from "../fake-loading-list-component/FakeLoadingList";
@@ -37,6 +37,8 @@ import { tabRoutes } from "../user-details-component/tabRoutes";
 import { changeTab, reinitState } from "../../redux/actions/userDetailsAction";
 import { reinitAdvancedState } from "../../redux/actions/advancedStatsAction";
 import { reinitAdminState } from "../../redux/actions/adminActions";
+import { IBasicUserInformation } from "../../redux/types/sidebarTypes";
+import { ReactComponent as Logo } from "../../assets/logo-fill.svg";
 
 interface IDoubleNavigationProps extends RouteComponentProps<void> {}
 
@@ -120,6 +122,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
     },
+    headerFlex: {
+      display: "flex",
+      alignSelf: "center",
+    },
   })
 );
 
@@ -128,38 +134,57 @@ export function DoubleNavigation(props: Props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
+  const _handleDrawerOpen = () => {
     setOpen(true);
   };
-  const renderList = () => {
+  const _selectUser = (value: IBasicUserInformation) => {
+    props.selectUser(value.username);
+    const tab = !value.isBot && props.tab === 2 ? 0 : props.tab;
+    props.history.push({
+      pathname: props.match.url + "/" + value.username + "/" + tabRoutes[tab],
+      state: {
+        tab: tab,
+        username: value.username,
+      },
+    });
+    if (tab === 0) {
+      props.reinitBasicState();
+    } else if (tab === 1) {
+      props.reinitAdvancedState();
+    } else {
+      props.reinitAdminState();
+    }
+  };
+  const _deleteUser = (username: string) => {
+    props.deleteUser(username);
+    if (username === props.selectedUser?.username && props.users.length > 1) {
+      props.history.push({
+        pathname:
+          props.match.url +
+          "/" +
+          props.users.filter((u) => u.username !== username)[0].username +
+          "/basic",
+        state: {
+          tab: 0,
+          username: props.users.filter((u) => u.username !== username)[0]
+            .username,
+        },
+      });
+      props.selectUser(
+        props.users.filter((u) => u.username !== username)[0].username
+      );
+      props.changeTab(0);
+    } else if (props.users.length === 1) {
+      props.history.push(props.match.url);
+    }
+  };
+  const _renderList = () => {
     if (props.loaded) {
       return props.users.map((val, ind) => {
         return (
           <ListItem
             selected={val.username === props.selectedUser?.username}
-            onClick={() => {
-              props.selectUser(val.username);
-              console.log(props.location.state);
-              props.history.push({
-                pathname:
-                  props.match.url +
-                  "/" +
-                  val.username +
-                  "/" +
-                  tabRoutes[props.tab],
-                state: {
-                  tab: props.tab,
-                  username: val.username,
-                },
-              });
-              if (props.tab === 0) {
-                props.reinitBasicState();
-              } else if (props.tab === 1) {
-                props.reinitAdvancedState();
-              } else {
-                props.reinitAdminState();
-              }
-            }}
+            onClick={() => _selectUser(val)}
             button
             key={ind}
           >
@@ -173,7 +198,11 @@ export function DoubleNavigation(props: Props) {
             ></ListItemText>
             {open ? (
               <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="delete">
+                <IconButton
+                  onClick={() => _deleteUser(val.username)}
+                  edge="end"
+                  aria-label="delete"
+                >
                   <DeleteIcon />
                 </IconButton>
               </ListItemSecondaryAction>
@@ -185,7 +214,7 @@ export function DoubleNavigation(props: Props) {
       return <FakeLoadingList length={3}></FakeLoadingList>;
     }
   };
-  const handleDrawerClose = () => {
+  const _handleDrawerClose = () => {
     setOpen(false);
   };
   useEffect(() => {
@@ -206,7 +235,7 @@ export function DoubleNavigation(props: Props) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={_handleDrawerOpen}
             edge="start"
             className={clsx(classes.menuButton, {
               [classes.hide]: open,
@@ -214,9 +243,22 @@ export function DoubleNavigation(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.textColor} variant="h4" noWrap>
-            Insta-Metrics
-          </Typography>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography
+              className={clsx(classes.headerFlex, classes.textColor)}
+              variant="h4"
+              noWrap
+            >
+              Insta-Metrics
+            </Typography>
+            <Logo style={{ float: "right" }} width="40px" height="100%"></Logo>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -233,7 +275,7 @@ export function DoubleNavigation(props: Props) {
         }}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={_handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
@@ -242,7 +284,7 @@ export function DoubleNavigation(props: Props) {
           </IconButton>
         </div>
         <Divider />
-        <List disablePadding>{renderList()}</List>
+        <List disablePadding>{_renderList()}</List>
         <Divider></Divider>
         <List disablePadding>
           <ListItem button onClick={props.openModal}>
@@ -274,6 +316,7 @@ const mapDispatchToProps = {
   reinitBasicState: reinitState,
   reinitAdvancedState: reinitAdvancedState,
   reinitAdminState: reinitAdminState,
+  deleteUser: delUser,
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connect(mapStateToProps, mapDispatchToProps)(DoubleNavigation);

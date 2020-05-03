@@ -11,10 +11,10 @@ import {
 } from "recharts";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import CustomToolTip from "./CustomToolTip";
-import { ChartData } from "../../../redux/types/userDetailsTypes";
+import { IChartData } from "../../../redux/types/userDetailsTypes";
 
 interface Props {
-  data: ChartData[] | undefined;
+  data: IChartData[] | undefined;
   type: string | undefined;
   loaded: boolean;
 }
@@ -25,7 +25,7 @@ export default function BasicStatsChart(props: Props) {
   if (props.loaded) {
     return (
       <ResponsiveContainer width="99%" aspect={aspectForGraph ? 4 : 5}>
-        <ComposedChart onClick={(ev: any) => console.log(ev)} data={props.data}>
+        <ComposedChart data={props.data}>
           {showYAxis ? (
             <YAxis
               domain={["auto", "auto"]}

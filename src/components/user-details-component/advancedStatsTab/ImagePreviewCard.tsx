@@ -21,10 +21,10 @@ import CommentIcon from "@material-ui/icons/Comment";
 import BurstModeIcon from "@material-ui/icons/BurstMode";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import format from "date-fns/format";
-import { ImagePreview } from "../../../redux/types/advancedStatsTypes";
+import { IImagePreview } from "../../../redux/types/advancedStatsTypes";
 
 interface Props {
-  image: ImagePreview;
+  image: IImagePreview;
   noElevation: boolean;
   displayInformation: boolean;
   onSelectImage(image: string | undefined): void;

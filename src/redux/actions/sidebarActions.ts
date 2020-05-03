@@ -2,7 +2,7 @@ import { createAction } from "@reduxjs/toolkit";
 import {
   FETCH_BASIC_INFORMATION,
   USERNAME_IS_VALID,
-  BasicUserInformation,
+  IBasicUserInformation,
   SELECT_USER,
   DELETE_USER,
 } from "../types/sidebarTypes";
@@ -14,11 +14,11 @@ import { tabRoutes } from "../../components/user-details-component/tabRoutes";
 
 export const fetchBasicInformation = createAction(
   FETCH_BASIC_INFORMATION,
-  withPayloadType<BasicUserInformation[]>()
+  withPayloadType<IBasicUserInformation[]>()
 );
 export const usernameIsValid = createAction(
   USERNAME_IS_VALID,
-  withPayloadType<BasicUserInformation>()
+  withPayloadType<IBasicUserInformation>()
 );
 
 export const deleteUser = createAction(DELETE_USER, withPayloadType<string>());
@@ -35,15 +35,12 @@ export function getBasicInformation(match: any, history: any, location: any) {
           .find((v) => (v as PerformanceNavigationTiming).type === "reload") as
           | PerformanceNavigationTiming
           | undefined;
-        console.log(perf);
         if (perf && perf!.type === "reload") {
           const e = location.state as any;
-          console.log(e);
           if (e && e.username) {
             dispatch({ type: SELECT_USER, payload: e.username });
           }
-          if (e && e.tab != undefined) {
-            console.log(e.tab);
+          if (e && e.tab !== undefined) {
             dispatch({ type: CHANGE_TAB, payload: e.tab });
           }
           if (e) {

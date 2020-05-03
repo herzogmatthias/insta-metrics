@@ -5,7 +5,6 @@ import {
   makeStyles,
   useMediaQuery,
   Box,
-  ClickAwayListener,
   LinearProgress,
   Typography,
 } from "@material-ui/core";
@@ -134,12 +133,6 @@ function AdvancedStatsTab(props: Props) {
       return [];
     }
   };
-  useEffect(() => {
-    async function init() {
-      props.getImages(props.selectedUser!.username);
-    }
-    init();
-  }, []);
   useEffect(() => {
     async function init() {
       props.getImages(props.selectedUser!.username);

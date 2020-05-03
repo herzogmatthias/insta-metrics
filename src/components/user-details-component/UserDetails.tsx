@@ -18,9 +18,10 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import BasicTab from "./basicStatsTab/BasicTab";
 import AdvancedStatsTab from "./advancedStatsTab/AdvancedStatsTab";
 import AdminTab from "./adminTab/AdminTab";
-import { RouteComponentProps, Route } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { tabRoutes } from "./tabRoutes";
 import { selectUser } from "../../redux/actions/sidebarActions";
+import { ProtectedRoute } from "../../router/Router";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -70,7 +71,6 @@ function UserDetails(props: Props) {
       .find(
         (v) => (v as PerformanceNavigationTiming).type === "reload"
       ) as PerformanceNavigationTiming;
-    console.log(perf);
     if (!perf || perf.type !== "reload") {
       props.history.push({
         pathname: props.match.url + "/" + tabRoutes[props.tab],
@@ -110,36 +110,40 @@ function UserDetails(props: Props) {
             label="Advanced"
             icon={<ShowChartIcon></ShowChartIcon>}
           />
-          <Tab
-            classes={{
-              selected: classes.thirdTabColor,
-            }}
-            label="Admin Settings"
-            icon={<BuildIcon></BuildIcon>}
-          />
+          {props.selectedUser?.isBot ? (
+            <Tab
+              classes={{
+                selected: classes.thirdTabColor,
+              }}
+              label="Admin Settings"
+              icon={<BuildIcon></BuildIcon>}
+            />
+          ) : null}
         </Tabs>
       </Paper>
       <TabPanel value={props.tab} index={0}>
-        <Route
+        <ProtectedRoute
           exact
           path={props.match.url + "/basic"}
           component={BasicTab}
-        ></Route>
+        ></ProtectedRoute>
       </TabPanel>
       <TabPanel value={props.tab} index={1}>
-        <Route
+        <ProtectedRoute
           exact
           path={props.match.url + "/advanced"}
           component={AdvancedStatsTab}
-        ></Route>
+        ></ProtectedRoute>
       </TabPanel>
-      <TabPanel value={props.tab} index={2}>
-        <Route
-          exact
-          path={props.match.url + "/admin"}
-          component={AdminTab}
-        ></Route>
-      </TabPanel>
+      {props.selectedUser!.isBot ? (
+        <TabPanel value={props.tab} index={2}>
+          <ProtectedRoute
+            exact
+            path={props.match.url + "/admin"}
+            component={AdminTab}
+          ></ProtectedRoute>
+        </TabPanel>
+      ) : null}
     </div>
   );
 }

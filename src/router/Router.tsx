@@ -10,7 +10,7 @@ export default class Router extends React.PureComponent {
       <BrowserRouter>
         <Switch>
           <Route path="/login" component={Login}></Route>
-          <Route path="/dashboard" component={Home}></Route>
+          <ProtectedRoute path="/dashboard" component={Home}></ProtectedRoute>
           <Redirect strict from="/" to="login"></Redirect>
         </Switch>
       </BrowserRouter>

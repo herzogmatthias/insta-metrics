@@ -15,11 +15,11 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
-import { HashTag } from "../../../redux/types/advancedStatsTypes";
+import { IHashTag } from "../../../redux/types/advancedStatsTypes";
 import { FakeLoadingList } from "../../fake-loading-list-component/FakeLoadingList";
 
 interface Props {
-  hashTags: HashTag[] | undefined;
+  hashTags: IHashTag[] | undefined;
   loaded: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
@@ -46,7 +46,7 @@ const Hashtags = React.memo((props: Props) => {
         <ListSubheader className={classes.whiteBackground} component="div">
           HashTags in Caption
         </ListSubheader>
-        {props.loaded && props.hashTags?.length != 0 ? (
+        {props.loaded && props.hashTags?.length !== 0 ? (
           <>
             {props.hashTags!.map((val, ind) => {
               return (
@@ -60,7 +60,15 @@ const Hashtags = React.memo((props: Props) => {
                       secondary={val.posts + " posts"}
                     ></ListItemText>
                     <ListItemSecondaryAction>
-                      <IconButton edge="end" aria-label="search">
+                      <IconButton
+                        onClick={() =>
+                          window.open(
+                            `https://www.instagram.com/explore/tags/${val.name}`
+                          )
+                        }
+                        edge="end"
+                        aria-label="search"
+                      >
                         <SearchIcon />
                       </IconButton>
                     </ListItemSecondaryAction>

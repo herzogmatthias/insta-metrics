@@ -12,7 +12,7 @@ import { ConnectedProps, connect } from "react-redux";
 import CheckIcon from "@material-ui/icons/Check";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import { SortByOption } from "../../../redux/types/advancedStatsTypes";
+import { ISortByOption } from "../../../redux/types/advancedStatsTypes";
 import { changeSorting } from "../../../redux/actions/advancedStatsAction";
 
 type Props = ConnectedProps<typeof connector>;
@@ -77,7 +77,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
-      changeSorting: (sortingOption: SortByOption) =>
+      changeSorting: (sortingOption: ISortByOption) =>
         changeSorting(sortingOption),
     },
     dispatch

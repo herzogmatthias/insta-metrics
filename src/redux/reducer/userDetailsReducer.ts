@@ -1,9 +1,3 @@
-import {
-  UserDetailsState,
-  Tag,
-  BasicTabStats,
-  CarouselWrapper,
-} from "../types/userDetailsTypes";
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
   changeTab,
@@ -13,8 +7,14 @@ import {
   fetchGraphData,
   reinitState,
 } from "../actions/userDetailsAction";
+import {
+  IUserDetailsState,
+  ITag,
+  IBasicTabStats,
+  ICarouselWrapper,
+} from "../types/userDetailsTypes";
 
-const initialState: UserDetailsState = {
+const initialState: IUserDetailsState = {
   carouselData: [],
   tab: 0,
   selectedChart: 0,
@@ -32,18 +32,18 @@ export const userDetailsReducer = createReducer(initialState, {
   [changeChart.type]: (state, action: PayloadAction<number>) => {
     state.selectedChart = action.payload;
   },
-  [fetchTags.type]: (state, action: PayloadAction<Tag[]>) => {
+  [fetchTags.type]: (state, action: PayloadAction<ITag[]>) => {
     state.tags = action.payload;
     state.tagsLoaded = true;
   },
   [fetchGeneralInformation.type]: (
     state,
-    action: PayloadAction<BasicTabStats>
+    action: PayloadAction<IBasicTabStats>
   ) => {
     state.basicStats = action.payload;
     state.dataLoaded = true;
   },
-  [fetchGraphData.type]: (state, action: PayloadAction<CarouselWrapper[]>) => {
+  [fetchGraphData.type]: (state, action: PayloadAction<ICarouselWrapper[]>) => {
     state.carouselData = action.payload;
     state.graphLoaded = true;
   },

@@ -1,4 +1,4 @@
-import { BasicUserInformation } from "./sidebarTypes";
+import { IBasicUserInformation } from "./sidebarTypes";
 
 export const SELECT_IMAGE = "SELECT_IMAGE";
 export const CHANGE_ONLY_VIDEOS_FILTER = "CHANGE_ONLY_VIDEOS_FILTER";
@@ -14,18 +14,18 @@ export const FETCH_DETAILS_FOR_IMAGE = "FETCH_DETAILS_FOR_IMAGE";
 export const FETCH_RANKINGS_FOR_IMAGE = "FETCH_RANKINGS_FOR_IMAGE";
 export const REINIT_ADVANCED_STATE = "REINIT_ADVANCED_STATE";
 
-export interface AdvancedStatsState {
-  images: ImagePreview[];
+export interface IAdvancedStatsState {
+  images: IImagePreview[];
   selectedImage: string | undefined;
   filterOptions: FilterOptions;
-  filteredImages: ImagePreview[];
-  sortingOptions: SortByOption[];
-  rankings: Ranking[];
+  filteredImages: IImagePreview[];
+  sortingOptions: ISortByOption[];
+  rankings: IRanking[];
   modalOpen: boolean;
   imageDetailsLoaded: boolean;
   imagesLoaded: boolean;
   rankingsLoaded: boolean;
-  selectedImageDetails: ImageDetails | undefined;
+  selectedImageDetails: IImageDetails | undefined;
 }
 
 export interface FilterOptions {
@@ -35,46 +35,46 @@ export interface FilterOptions {
   toDate: Date | null;
 }
 
-export interface SortByOption {
+export interface ISortByOption {
   id: number;
   name: string;
   value: boolean;
   increase: boolean;
 }
-export interface HashTag {
+export interface IHashTag {
   name: string;
   posts: number;
 }
-export interface ImageDetails {
-  owner: BasicUserInformation;
+export interface IImageDetails {
+  owner: IBasicUserInformation;
   id: string;
-  hashTags: HashTag[];
+  hashTags: IHashTag[];
   timeStamp: number;
   likes: number;
   comments: number;
   caption: string;
-  previewComments: Comment[];
-  images: Image[];
+  previewComments: IComment[];
+  images: IImage[];
   er: number;
 }
 
-export interface Comment {
+export interface IComment {
   timeStamp: number;
-  owner: BasicUserInformation;
+  owner: IBasicUserInformation;
   text: string;
   likes: number;
 }
-export interface Ranking {
+export interface IRanking {
   type: string;
   percentage: number;
   rank: number;
 }
-export interface Image {
+export interface IImage {
   isVideo: boolean;
   display_url: string;
-  tagged_users: BasicUserInformation[];
+  tagged_users: IBasicUserInformation[];
 }
-export interface ImagePreview {
+export interface IImagePreview {
   id: string;
   likes: number;
   comments: number;
