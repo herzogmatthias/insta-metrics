@@ -1,5 +1,12 @@
 import React from "react";
-import { Grid, Typography, makeStyles, Fade, Paper } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  makeStyles,
+  Fade,
+  Paper,
+  useMediaQuery,
+} from "@material-ui/core";
 import numeral from "numeral";
 import clsx from "clsx";
 import { Skeleton } from "@material-ui/lab";
@@ -29,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BasicStatsCard(props: Props) {
   const classes = useStyles();
-
+  const media = useMediaQuery("max-width: 400px");
   return (
     <Fade in timeout={{ enter: props.fadeTimeOut }}>
-      <Paper elevation={3}>
+      <Paper elevation={media ? 0 : 3}>
         <Grid className={classes.flex} container spacing={0}>
           <Grid
             className={clsx(classes.cardPadding)}

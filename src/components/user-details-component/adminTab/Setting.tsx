@@ -90,7 +90,11 @@ export default function Setting(props: Props) {
                     />
                   </FormControl>
                 ) : (
-                  <Typography align="center" variant="subtitle1">
+                  <Typography
+                    align="center"
+                    style={{ wordBreak: "break-all" }}
+                    variant="subtitle1"
+                  >
                     {props.value}
                   </Typography>
                 )}

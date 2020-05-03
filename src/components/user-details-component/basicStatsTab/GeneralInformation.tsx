@@ -18,6 +18,7 @@ import {
   ListItem,
   ListItemAvatar,
   Chip,
+  useMediaQuery,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { IBasicTabStats, ITag } from "../../../redux/types/userDetailsTypes";
@@ -84,12 +85,12 @@ function GeneralInformation(props: IProps) {
   const checkFormat = (data: number) => {
     return data % 1000 === 0 || data % 1000 === data ? "0a" : "0.0a";
   };
-
+  const media = useMediaQuery("max-width: 400px");
   const classes = useStyles();
   return (
     <Grid className={classes.flex} container spacing={0}>
       <Grid style={{ flexGrow: 1 }} className={classes.cardMargin} item md={5}>
-        <Paper elevation={3}>
+        <Paper elevation={media ? 0 : 3}>
           <Grid container spacing={0}>
             <Grid
               className={clsx(classes.flex, classes.avatarGrow)}
@@ -160,7 +161,7 @@ function GeneralInformation(props: IProps) {
         </Paper>
       </Grid>
       <Grid style={{ flexGrow: 1 }} className={classes.cardMargin} item md={5}>
-        <Paper elevation={3}>
+        <Paper elevation={media ? 0 : 3}>
           <List>
             <ListItem divider>
               <ListItemAvatar>

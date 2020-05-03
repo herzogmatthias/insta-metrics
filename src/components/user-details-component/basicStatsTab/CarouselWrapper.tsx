@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { Paper, Typography, makeStyles } from "@material-ui/core";
+import {
+  Paper,
+  Typography,
+  makeStyles,
+  useMediaQuery,
+} from "@material-ui/core";
 import { RootState } from "../../../redux/reducer";
 import { bindActionCreators } from "redux";
 import { ConnectedProps, connect } from "react-redux";
@@ -62,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 function CarouselWrapper(props: Props) {
   const classes = useStyles();
+  const media = useMediaQuery("max-width: 400px");
   useEffect(() => {
     async function init() {
       props.getGraphData(props.selectedUser!.username);
@@ -69,7 +75,7 @@ function CarouselWrapper(props: Props) {
     init();
   }, [props.selectedUser]);
   return (
-    <Paper className={classes.cardMargin} elevation={3}>
+    <Paper className={classes.cardMargin} elevation={media ? 0 : 3}>
       <div className={classes.flex}>
         {props.graphLoaded ? (
           <>
