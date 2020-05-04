@@ -22,6 +22,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { tabRoutes } from "./tabRoutes";
 import { selectUser } from "../../redux/actions/sidebarActions";
 import { ProtectedRoute } from "../../router/Router";
+import ErrorDialog from "../error-dialog-component/ErrorDialog";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -151,6 +152,7 @@ function UserDetails(props: Props) {
 const mapStateToProps = (state: RootState) => ({
   tab: state.userDetails.tab,
   selectedUser: state.sidebar.selectedUser,
+  hasError: state.userDetails.hasError,
 });
 
 const mapDispatchToProps = (dispatch: any) =>

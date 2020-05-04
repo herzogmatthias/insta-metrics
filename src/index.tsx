@@ -28,6 +28,12 @@ Axios.interceptors.request.use(
   function (config) {
     if (config.url?.includes(REPOST_URI)) {
       config.headers.authorization = process.env.REACT_APP_REPOST_AUTH_KEY;
+    } else if (config.url?.includes("api.heroku.com")) {
+      config.headers = {
+        Authorization: `Bearer ${process.env.REACT_APP_HEROKU_API_KEY}`,
+        Accept: "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+      };
     } else {
       if (AuthService.getToken()) {
         config.headers.Authorization = `Bearer ${AuthService.getToken()}`;

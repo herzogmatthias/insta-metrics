@@ -7,8 +7,12 @@ import { RouteComponentProps } from "react-router-dom";
 import { ProtectedRoute } from "../../router/Router";
 import UserDetails from "../../components/user-details-component/UserDetails";
 import { CssBaseline, CircularProgress, makeStyles } from "@material-ui/core";
-import { selectUser } from "../../redux/actions/sidebarActions";
-import { changeTab } from "../../redux/actions/userDetailsAction";
+import {
+  selectUser,
+  getBasicInformation,
+} from "../../redux/actions/sidebarActions";
+import { changeTab, restart } from "../../redux/actions/userDetailsAction";
+import ErrorDialog from "../../components/error-dialog-component/ErrorDialog";
 
 type Props = ConnectedProps<typeof connector> & RouteComponentProps<void>;
 
@@ -17,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
   },
   content: {
@@ -31,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
 
 function Home(props: Props) {
   const classes = useStyles();
+  const _getBasicInformation = () => {
+    props.getBasicInformation(props.match, props.history, props.location);
+  };
   React.useEffect(() => {}, []);
   window.onpopstate = (e: PopStateEvent) => {
     if (e.state.state.username) {
@@ -41,13 +47,15 @@ function Home(props: Props) {
     }
   };
   const _renderDetails = () => {
-    if (props.loaded) {
+    if (props.loaded && !props.hasError) {
       return (
         <ProtectedRoute
           path={`${props.match.url}/${props.selectedUser?.username}`}
           component={UserDetails}
         ></ProtectedRoute>
       );
+    } else if (props.hasError && !props.loaded) {
+      return null;
     } else {
       return <CircularProgress />;
     }
@@ -61,6 +69,13 @@ function Home(props: Props) {
       <main className={classes.content}>
         <div className={classes.toolbar}>{_renderDetails()}</div>
       </main>
+      {props.hasError ? (
+        <ErrorDialog
+          restart={props.restart}
+          getBasicInformation={_getBasicInformation}
+          hasError={props.hasError}
+        ></ErrorDialog>
+      ) : null}
     </div>
   );
 }
@@ -68,12 +83,16 @@ const mapState = (state: RootState) => {
   return {
     loaded: state.sidebar.loaded,
     users: state.sidebar.users,
+    hasError: state.userDetails.hasError,
     selectedUser: state.sidebar.selectedUser,
   };
 };
 const mapDispatch = {
   changeTab: (t: number) => changeTab(t),
   selectUser: (username: string) => selectUser(username),
+  getBasicInformation: (match: any, history: any, location: any) =>
+    getBasicInformation(match, history, location),
+  restart: () => restart(),
 };
 
 const connector = connect(mapState, mapDispatch);

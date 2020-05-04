@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 function CarouselWrapper(props: Props) {
   const classes = useStyles();
-  const media = useMediaQuery("max-width: 400px");
+  const media = useMediaQuery("(max-width: 400px)");
   useEffect(() => {
     async function init() {
       props.getGraphData(props.selectedUser!.username);
@@ -77,7 +77,7 @@ function CarouselWrapper(props: Props) {
   return (
     <Paper className={classes.cardMargin} elevation={media ? 0 : 3}>
       <div className={classes.flex}>
-        {props.graphLoaded ? (
+        {props.graphLoaded && props.carouselData ? (
           <>
             {props.carouselData.map((val, ind) => {
               return (

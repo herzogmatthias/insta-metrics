@@ -9,6 +9,8 @@ import {
   ICarouselWrapper,
   FETCH_GRAPH_DATA,
   REINIT_STATE,
+  CATCHED_ERROR,
+  RESTART,
 } from "../types/userDetailsTypes";
 import { withPayloadType } from "./genericActionPayloadType";
 import Axios from "axios";
@@ -29,7 +31,9 @@ export const fetchGraphData = createAction(
   FETCH_GRAPH_DATA,
   withPayloadType<ICarouselWrapper[]>()
 );
+export const catchedError = createAction(CATCHED_ERROR);
 export const reinitState = createAction(REINIT_STATE);
+export const restart = createAction(RESTART);
 
 export function getTags(username: string) {
   return (dispatch: any) => {
@@ -55,8 +59,12 @@ export function getGeneralInformation(username: string) {
 
 export function getGraphData(username: string) {
   return (dispatch: any) => {
-    Axios.get(`${URI}user/graph-data/${username}`).then((result) => {
-      dispatch({ type: FETCH_GRAPH_DATA, payload: result.data });
-    });
+    Axios.get(`${URI}user/graph-data/${username}`)
+      .then((result) => {
+        dispatch({ type: FETCH_GRAPH_DATA, payload: result.data });
+      })
+      .catch((err) => {
+        dispatch({ type: CATCHED_ERROR, payload: undefined });
+      });
   };
 }

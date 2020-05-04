@@ -4,6 +4,7 @@ import {
   usernameIsValid,
   selectUser,
   deleteUser,
+  stopLoading,
 } from "../actions/sidebarActions";
 import { IBasicUserInformation, ISidebarState } from "../types/sidebarTypes";
 
@@ -44,5 +45,8 @@ export const sidebarReducer = createReducer(initialState, {
       state.selectedUser = undefined;
     }
     state.users.splice(index, 1);
+  },
+  [stopLoading.type]: (state, action) => {
+    state.loaded = false;
   },
 });

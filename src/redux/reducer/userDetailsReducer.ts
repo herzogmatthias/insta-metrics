@@ -6,6 +6,8 @@ import {
   fetchGeneralInformation,
   fetchGraphData,
   reinitState,
+  catchedError,
+  restart,
 } from "../actions/userDetailsAction";
 import {
   IUserDetailsState,
@@ -23,6 +25,7 @@ const initialState: IUserDetailsState = {
   dataLoaded: false,
   graphLoaded: false,
   tagsLoaded: false,
+  hasError: false,
 };
 
 export const userDetailsReducer = createReducer(initialState, {
@@ -49,5 +52,11 @@ export const userDetailsReducer = createReducer(initialState, {
   },
   [reinitState.type]: (state, action) => {
     return initialState;
+  },
+  [catchedError.type]: (state, action) => {
+    state.hasError = true;
+  },
+  [restart.type]: (state, action) => {
+    state.hasError = false;
   },
 });

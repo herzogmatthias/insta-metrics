@@ -4,6 +4,8 @@ export const FETCH_TAGS = "FETCH_TAGS";
 export const FETCH_GENERAL_INFORMATION = "FETCH_GENERAL_INFORMATION";
 export const FETCH_GRAPH_DATA = "FETCH_GRAPH_DATA";
 export const REINIT_STATE = "REINIT_STATE";
+export const CATCHED_ERROR = "CATCHED_ERROR";
+export const RESTART = "RESTART";
 
 export interface IChartData {
   data: number;
@@ -17,6 +19,7 @@ export interface ICarouselWrapper {
 
 export interface IUserDetailsState {
   tab: number;
+  hasError: boolean;
   carouselData: ICarouselWrapper[];
   selectedChart: number;
   basicStats: IBasicTabStats | undefined;

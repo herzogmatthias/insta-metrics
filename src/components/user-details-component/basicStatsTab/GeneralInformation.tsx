@@ -79,13 +79,16 @@ const useStyles = makeStyles((theme) => ({
       marginRight: 0,
     },
   },
+  captionWhiteSpace: {
+    whiteSpace: "pre-wrap",
+  },
 }));
 
 function GeneralInformation(props: IProps) {
   const checkFormat = (data: number) => {
     return data % 1000 === 0 || data % 1000 === data ? "0a" : "0.0a";
   };
-  const media = useMediaQuery("max-width: 400px");
+  const media = useMediaQuery("(max-width: 400px)");
   const classes = useStyles();
   return (
     <Grid className={classes.flex} container spacing={0}>
@@ -129,7 +132,10 @@ function GeneralInformation(props: IProps) {
                       >
                         @{props.basicStats.userName}
                       </Typography>
-                      <Typography variant="body2">
+                      <Typography
+                        className={classes.captionWhiteSpace}
+                        variant="body2"
+                      >
                         {props.basicStats.description}
                       </Typography>
                     </>

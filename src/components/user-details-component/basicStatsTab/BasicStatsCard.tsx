@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BasicStatsCard(props: Props) {
   const classes = useStyles();
-  const media = useMediaQuery("max-width: 400px");
+  const media = useMediaQuery("(max-width: 400px)");
   return (
     <Fade in timeout={{ enter: props.fadeTimeOut }}>
       <Paper elevation={media ? 0 : 3}>
