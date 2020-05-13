@@ -104,7 +104,7 @@ export function reloadDMsJob(igName: string) {
 }
 export function getDms(name: string, dispatch: any) {
   Axios.get(`${REPOST_URI}bot/${name}/chat`).then((val) => {
-    dispatch({ type: FETCH_LOGS, payload: val.data });
+    dispatch({ type: FETCH_DMS, payload: val.data });
   });
 }
 
