@@ -19,7 +19,7 @@
     "axios": "^0.19.2",
     "date-fns": "^2.11.1",
     "dotenv": "^8.2.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "numeral": "^2.0.6",
     "randomcolor": "^0.5.4",
     "react": "^16.12.0",
